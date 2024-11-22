@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.torrezpillcokevin.nuna.ui.asistente.HomeFragment"
+        android:label="Asistente"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_areaeducativa"
+        android:name="com.torrezpillcokevin.nuna.ui.areaEducativa.AreaEducativaFragment"
+        android:label="Area Educativa"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_mapa"
+        android:name="com.torrezpillcokevin.nuna.ui.mapa.MapaFragment"
+        android:label="Mapa"
+        tools:layout="@layout/fragment_mapa" />
+
+    <fragment
+        android:id="@+id/nav_recomend"
+        android:name="com.torrezpillcokevin.nuna.ui.recomendacion.RecomendacionFragment"
+        android:label="Recomendacion"
+        tools:layout="@layout/fragment_recomendacion" />
+
+    <fragment
+        android:id="@+id/nav_opciones"
+        android:name="com.torrezpillcokevin.nuna.ui.opciones.OpcionesFragment"
+        android:label="Opciones"
+        tools:layout="@layout/fragment_opciones" />
+
+    <fragment
+        android:id="@+id/nav_chatbot"
+        android:name="com.torrezpillcokevin.nuna.ui.chatbot.ChatBotFragment"
+        android:label="Chatbot"
+        tools:layout="@layout/fragment_chat_bot" />
+</navigation>

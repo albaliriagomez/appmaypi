@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configuración de contacto SMS/LLAMADA NORMAL"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center" />
+
+    <EditText
+        android:id="@+id/numeroCelular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número de celular"
+        android:inputType="phone"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configuración de contacto TELEGRAM"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center" />
+
+    <EditText
+        android:id="@+id/idChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Id Chat Telegram"
+        android:inputType="phone"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/Token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Token Telegram"
+        android:inputType="phone"
+        android:layout_marginTop="10dp" />
+
+
+
+    <Button
+        android:id="@+id/GuardarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.Material3.Button.TonalButton"/>
+
+</LinearLayout>

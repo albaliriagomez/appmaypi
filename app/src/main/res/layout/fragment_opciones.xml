@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.opciones.OpcionesFragment">
+
+    <!-- Contenedor para los iconos -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/phoneIcono"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/call_24px"
+            android:contentDescription="Icono 1"
+            android:background="?attr/selectableItemBackground"
+            android:padding="24dp" />
+
+        <ImageButton
+            android:id="@+id/camaraIcono"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/photo_camera_24px"
+            android:contentDescription="Icono 2"
+            android:background="?attr/selectableItemBackground"
+            android:padding="24dp" />
+
+        <ImageButton
+            android:id="@+id/microphoneIcono"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/mic_24px"
+            android:contentDescription="Icono 3"
+            android:background="?attr/selectableItemBackground"
+            android:padding="24dp" />
+
+        <ImageButton
+            android:id="@+id/messageIcono"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/sms_24px"
+            android:contentDescription="Icono 4"
+            android:background="?attr/selectableItemBackground"
+            android:padding="24dp" />
+    </LinearLayout>
+
+    <!-- Botón en el centro -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/redButton"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:drawableTop="@drawable/power_settings_new_24px"
+            android:drawableTint="@android:color/white"
+            android:padding="16dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:backgroundTint="@color/md_theme_onSurfaceVariant"
+            />
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/configurarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configurar Contacto"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp" />
+</LinearLayout>

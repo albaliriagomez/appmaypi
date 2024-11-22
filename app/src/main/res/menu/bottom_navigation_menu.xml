@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_button1"
+        android:title="Botón 1"
+        android:icon="@drawable/ic_android_black_24dp" />
+    <item
+        android:id="@+id/nav_button2"
+        android:title="Botón 2"
+        android:icon="@drawable/ic_android_black_24dp" />
+    <item
+        android:id="@+id/nav_button3"
+        android:title="Botón 3"
+        android:icon="@drawable/ic_android_black_24dp" />
+    <item
+        android:id="@+id/nav_button4"
+        android:title="Botón 4"
+        android:icon="@drawable/ic_android_black_24dp" />
+    <item
+        android:id="@+id/nav_button5"
+        android:title="Botón 5"
+        android:icon="@drawable/ic_menu_camera" />
+</menu>
