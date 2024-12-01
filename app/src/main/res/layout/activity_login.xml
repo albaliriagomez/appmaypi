@@ -8,45 +8,116 @@
     tools:context=".LoginActivity">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:layout_marginTop="40dp">
+        android:padding="16dp">
 
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_logo" />
 
-        <EditText
-            android:id="@+id/correo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Correo Electronico" />
-
-        <EditText
-            android:id="@+id/contrasena"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Constraseña"
-            android:inputType="textPassword" />
-
-
-        <CheckBox
-            android:id="@+id/rememberMe"
+        <!-- Título -->
+        <TextView
+            android:id="@+id/titleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Remember me" />
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="Inicio de Sesión"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/signInButton"
+        <!-- Link para registrarse -->
+        <TextView
+            android:id="@+id/registerLinkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="¿No tiene una cuenta? Regístrese"
+            android:textColor="#2196F3"
+            android:textSize="14sp" />
+
+        <!-- Campo de correo electrónico -->
+        <EditText
+            android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Iniciar Sesion" />
+            android:hint="Correo Electrónico*"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2196F3" />
 
-        <Button
-            android:id="@+id/signUpButton"
+        <!-- Campo de contraseña con ícono para mostrar/ocultar -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registrarse" />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Contraseña*"
+                android:inputType="textPassword"
+                android:backgroundTint="#2196F3" />
+
+            <ImageView
+                android:id="@+id/togglePasswordVisibility"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_visibility_off"
+                android:contentDescription="Toggle Password Visibility" />
+        </LinearLayout>
+
+        <!-- Recordar contraseña -->
+        <CheckBox
+            android:id="@+id/rememberPasswordCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Recordar Contraseña"
+            android:textColor="#000000" />
+
+        <!-- ¿Olvidó la contraseña? -->
+        <TextView
+            android:id="@+id/forgotPasswordTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:text="¿Olvidó la contraseña?"
+            android:textColor="#2196F3" />
+
+        <!-- Botón de inicio sesión -->
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#2196F3"
+            android:text="Inicia Sesión"
+            android:textColor="#FFFFFF" />
+
+        <!-- Footer -->
+        <TextView
+            android:id="@+id/footerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="Cocha somos progreso"
+            android:textColor="#FFA000"
+            android:textSize="14sp" />
     </LinearLayout>
 
 
