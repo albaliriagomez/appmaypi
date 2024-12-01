@@ -2,9 +2,12 @@ package com.torrezpillcokevin.nuna
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,42 +18,63 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
+
+    private var isPasswordVisible = false // Variable para la visibilidad de la contraseña
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_login)
 
-        val buttonSignIn = findViewById<Button>(R.id.signInButton)
-        val buttonSignUp = findViewById<Button>(R.id.signUpButton)
-        //inputs
-        val correoEditText = findViewById<EditText>(R.id.correo)
-        val contasenaEditText = findViewById<EditText>(R.id.contrasena)
+        val emailEditText: EditText = findViewById(R.id.emailEditText)
+        val passwordEditText: EditText = findViewById(R.id.passwordEditText)
+        val togglePasswordVisibility: ImageView = findViewById(R.id.togglePasswordVisibility)
+        val loginButton: Button = findViewById(R.id.loginButton)
+        val registerLinkTextView: TextView = findViewById(R.id.registerLinkTextView)
 
-        // Configurar el comportamiento del botón "Iniciar Sesion"
-        buttonSignIn.setOnClickListener {
-            val corre = correoEditText.text.toString()
-            val contra = contasenaEditText.text.toString()
+        // Usuario y contraseña por defecto
+        val defaultEmail = "erika@gmail.com"
+        val defaultPassword = "123456"
 
-            // Valida los campos (opcionalmente)
-            if (corre.isEmpty() || contra.isEmpty()) {
-                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+        // Acción para alternar visibilidad de la contraseña
+        togglePasswordVisibility.setOnClickListener {
+            if (isPasswordVisible) {
+                // Enmascarar contraseña
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off)
+            } else {
+                // Mostrar contraseña
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT
+                togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off)
             }
-            // Crear el objeto User y enviarlo a través de la API
-            val Login = login(email = corre, password = contra)
-
-            // Llamar a la función 
-            inicioSesion(Login)           
-
+            // Mueve el cursor al final del texto
+            passwordEditText.setSelection(passwordEditText.text.length)
+            isPasswordVisible = !isPasswordVisible
         }
 
-        // Configurar el comportamiento del botón "Registrarse"
-        buttonSignUp.setOnClickListener {
-            // Enviar el perfil a RegistroActivity al seleccionar "Sign Up"
+        // Acción del botón de inicio de sesión
+        loginButton.setOnClickListener {
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+            } else if (email == defaultEmail && password == defaultPassword) {
+                Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                // Aquí puedes redirigir al usuario a otra actividad
+                // startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Acción del enlace "¿No tienes cuenta? Regístrese"
+        registerLinkTextView.setOnClickListener {
+            // Redirige a la pantalla de registro
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
     }
+
 
     // Función para iniciar sesion
     private fun inicioSesion(login: login) {
