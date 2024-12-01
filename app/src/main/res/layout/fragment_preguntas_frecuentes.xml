@@ -1,13 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guia.PreguntasFrecuentesFragment">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    tools:context=".ui.preguntasfrecuentes.PreguntasFrecuentesFragment">
 
+    <!-- Título -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preguntas Frecuentes"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="8dp"
+        android:gravity="start"/>
 
-</FrameLayout>
+    <!-- Subtítulo -->
+    <TextView
+        android:id="@+id/subtitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aquí podrás encontrar las respuestas a tus dudas."
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginBottom="16dp"
+        android:gravity="start"/>
+
+    <!-- Títulos de las preguntas -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tituloPregunta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="¿Cómo funciona la app?"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="start"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
+                android:onClick="onPreguntaClick"/>
+
+            <!-- Respuesta (inicialmente oculta) -->
+            <TextView
+                android:id="@+id/respuesta1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="La app funciona de manera sencilla, solo necesitas registrarte."
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:visibility="gone"
+                android:padding="8dp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <!-- Agrega más CardViews para otras preguntas -->
+</LinearLayout>

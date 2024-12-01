@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.torrezpillcokevin.nuna.ui.inicio.HomeFragment"
-        android:label="Asistente"
+        android:label="Inicio"
         tools:layout="@layout/fragment_home" />
 
     <fragment
@@ -40,4 +40,24 @@
         android:name="com.torrezpillcokevin.nuna.ui.chatbot.ChatBotFragment"
         android:label="Chatbot"
         tools:layout="@layout/fragment_chat_bot" />
+
+    <fragment
+        android:id="@+id/nav_guia"
+        android:name="com.torrezpillcokevin.nuna.ui.guia.GuiaFragment"
+        android:label="Guia"
+        tools:layout="@layout/fragment_guia" />
+
+    <fragment
+        android:id="@+id/nav_soporte"
+        android:name="com.torrezpillcokevin.nuna.ui.soporte.SoporteFragment"
+        android:label="Soporte"
+        tools:layout="@layout/fragment_soporte" />
+
+    <fragment
+        android:id="@+id/nav_preguntasfrecuentes"
+        android:name="com.torrezpillcokevin.nuna.ui.preguntasfrecuentes.PreguntasFrecuentesFragment"
+        android:label="Preguntas Frecuentes"
+        tools:layout="@layout/fragment_preguntas_frecuentes" />
+
+
 </navigation>
