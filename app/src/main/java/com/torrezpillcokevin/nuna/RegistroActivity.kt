@@ -14,81 +14,73 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+import android.text.InputType
+import android.widget.*
+
+
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 
 class RegistroActivity : AppCompatActivity() {
 
+    private var isPasswordVisible = false // Variable para la visibilidad de la contraseña
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_registro)
 
-        // Referencias a los campos y el botón
-        val nombreEditText = findViewById<EditText>(R.id.nombre)
-        val apellidoEditText = findViewById<EditText>(R.id.apellido)
-        val correoEditText = findViewById<EditText>(R.id.correo)
-        val contrasenaEditText = findViewById<EditText>(R.id.contrasena)
-        val btnRegistrar = findViewById<Button>(R.id.btnRegistrar)
+        // Referencias a las vistas
+        val nameEditText: EditText = findViewById(R.id.nameEditText)
+        val emailEditText: EditText = findViewById(R.id.emailEditText)
+        val passwordEditText: EditText = findViewById(R.id.passwordEditText)
+        val repeatPasswordEditText: EditText = findViewById(R.id.repeatPasswordEditText)
+        val registerButton: Button = findViewById(R.id.registerButton)
+        val togglePasswordVisibility: ImageView = findViewById(R.id.togglePasswordVisibility)
+        val loginLinkTextView: TextView = findViewById(R.id.loginLinkTextView)
 
-        // Acción al presionar el botón de registro
-        btnRegistrar.setOnClickListener {
-            val nombre = nombreEditText.text.toString()
-            val apellido = apellidoEditText.text.toString()
-            val correo = correoEditText.text.toString()
-            val contrasena = contrasenaEditText.text.toString()
-
-            // Valida los campos (opcionalmente)
-            if (nombre.isEmpty() || apellido.isEmpty() || correo.isEmpty() || contrasena.isEmpty()) {
-                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+        // Acción para alternar visibilidad de la contraseña
+        togglePasswordVisibility.setOnClickListener {
+            if (isPasswordVisible) {
+                // Enmascarar contraseña
+                passwordEditText.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                repeatPasswordEditText.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off)
+            } else {
+                // Mostrar contraseña
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT
+                repeatPasswordEditText.inputType = InputType.TYPE_CLASS_TEXT
+                togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off)
             }
-
-            // Crear el objeto User y enviarlo a través de la API
-            val newUser = User(
-                name = nombre+" "+ apellido,
-                password = contrasena,
-                email = correo,
-                avatar = "avatar_url", // Ajusta esto según tus requisitos
-                status = "activo",
-                role = "usuario",
-
-            )
-
-            // Llamar a la función de registro
-            registerUser(newUser)
+            // Mueve el cursor al final del texto
+            passwordEditText.setSelection(passwordEditText.text.length)
+            isPasswordVisible = !isPasswordVisible
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
+        // Acción del botón de registro
+        registerButton.setOnClickListener {
+            val name = nameEditText.text.toString()
+            val email = emailEditText.text.toString()
+            val password = passwordEditText.text.toString()
+            val repeatPassword = repeatPasswordEditText.text.toString()
 
-    // Función para registrar un usuario
-    private fun registerUser(user: User) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                // Usa RetrofitInstance para acceder a ApiService
-                val response = RetrofitInstance.api.postUsers(user)
-                if (response.isSuccessful) {
-                    runOnUiThread {
-                        Toast.makeText(this@RegistroActivity, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show()
-                        // Intent para navegar a la nueva actividad
-                        val intent = Intent(this@RegistroActivity,LoginActivity::class.java)
-                        startActivity(intent)
-                        finish() // Opcional: Llama a finish() si no quieres volver a esta actividad
-                    }
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(this@RegistroActivity, "Error al registrar usuario: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                runOnUiThread {
-                    Toast.makeText(this@RegistroActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
+                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (password != repeatPassword) {
+                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                // Opcional: Puedes redirigir al usuario al Login después del registro
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }
+        }
+
+        // Acción del enlace "¿Ya tienes cuenta? Inicia sesión"
+        loginLinkTextView.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }
