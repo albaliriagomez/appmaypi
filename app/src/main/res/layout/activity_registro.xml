@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:backgroundTint="#2196F3"
-            android:text="Inicia Sesión"
+            android:text="Registrarse"
             android:textColor="#FFFFFF" />
 
         <!-- Footer -->

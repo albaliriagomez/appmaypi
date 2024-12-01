@@ -32,8 +32,8 @@ class LoginActivity : AppCompatActivity() {
         val registerLinkTextView: TextView = findViewById(R.id.registerLinkTextView)
 
         // Usuario y contraseña por defecto
-        val defaultEmail = "erika@gmail.com"
-        val defaultPassword = "123456"
+        val defaultEmail = "123"
+        val defaultPassword = "123"
 
         // Acción para alternar visibilidad de la contraseña
         togglePasswordVisibility.setOnClickListener {
@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
             } else if (email == defaultEmail && password == defaultPassword) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                 // Aquí puedes redirigir al usuario a otra actividad
-                // startActivity(Intent(this, MainActivity::class.java))
+                 startActivity(Intent(this, MainActivity2::class.java))
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }

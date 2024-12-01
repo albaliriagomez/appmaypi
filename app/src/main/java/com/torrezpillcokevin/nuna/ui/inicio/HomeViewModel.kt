@@ -1,4 +1,4 @@
-package com.torrezpillcokevin.nuna.ui.asistente
+package com.torrezpillcokevin.nuna.ui.inicio
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

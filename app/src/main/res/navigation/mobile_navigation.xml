@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.torrezpillcokevin.nuna.ui.asistente.HomeFragment"
+        android:name="com.torrezpillcokevin.nuna.ui.inicio.HomeFragment"
         android:label="Asistente"
         tools:layout="@layout/fragment_home" />
 
