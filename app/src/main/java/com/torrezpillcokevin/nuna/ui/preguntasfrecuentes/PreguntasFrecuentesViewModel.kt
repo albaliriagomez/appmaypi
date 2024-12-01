@@ -1,4 +1,4 @@
-package com.torrezpillcokevin.nuna.ui.guia
+package com.torrezpillcokevin.nuna.ui.preguntasfrecuentes
 
 import androidx.lifecycle.ViewModel
 

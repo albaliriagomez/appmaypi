@@ -4,10 +4,27 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Asistente" />
+            android:title="Inicio" />
+
+        <item
+            android:id="@+id/nav_preguntasfrecuentes"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Preguntas Frecuentes" />
+
+        <item
+            android:id="@+id/nav_guia"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Guias" />
+
+        <item
+            android:id="@+id/nav_soporte"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Soporte" />
+
         <item
             android:id="@+id/nav_areaeducativa"
             android:icon="@drawable/ic_menu_gallery"

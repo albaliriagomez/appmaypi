@@ -70,7 +70,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0") // para manejar operaciones asíncronas,
 
 
-
+    implementation("androidx.cardview:cardview:1.0.0")
 
 
 }
