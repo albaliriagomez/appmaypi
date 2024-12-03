@@ -56,6 +56,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.guia.GuiaViewModel" />
+
+
         <meta-data
             android:name="com.mapbox.maps.token"
             android:value="sk.eyJ1IjoiY2F0cmFzdHJvIiwiYSI6ImNtMnR4YnhqdjA0NHgybG9iMW5jZnl5bzQifQ.nOFX3MNUIR1ApOSpojm1ZQ" />
