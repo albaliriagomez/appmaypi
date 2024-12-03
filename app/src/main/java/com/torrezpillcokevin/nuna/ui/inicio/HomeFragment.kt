@@ -1,151 +1,174 @@
 package com.torrezpillcokevin.nuna.ui.inicio
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
+import android.media.MediaRecorder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.speech.tts.TextToSpeech
 import android.speech.tts.Voice
+import android.telephony.SmsManager
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-
 import com.google.gson.Gson
 import com.torrezpillcokevin.nuna.R
-
-
+import java.io.File
 import java.io.IOException
-
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
-data class Asistente(
-    val mensaje: String,
-    val width: String,
-    val height: String, // Corregido de "heignt" a "height"
-    val base64: String
-)
-
 class HomeFragment : Fragment(), TextToSpeech.OnInitListener {
-    private lateinit var imageView: ImageView
-    private lateinit var textToSpeech: TextToSpeech // Agregar TextToSpeech
 
-    val texto = "Hola, bienvenido. ¿En qué te puedo ayudar hoy?"
+    private lateinit var camaraIcono: ImageView
+    private lateinit var messageIcono: ImageView
+    private lateinit var microphoneIcono: ImageView
+    private lateinit var phoneIcono: ImageView
+    private lateinit var redButton: ImageView
+    private lateinit var textToSpeech: TextToSpeech
+
+    private val predefinedNumber = "59176446793"
+    private val messageText = "¡Ayuda! Emergencia detectada."
+    private lateinit var photoUri: Uri
+    private var mediaRecorder: MediaRecorder? = null
+    private var audioFilePath: String? = null
+    private var isRecording = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        imageView = view.findViewById(R.id.image_view)
 
-        try {
-            val json = loadJSONFromAsset(requireContext(), "robotfondoblanco.json")
-            json?.let {
-                val asistente = Gson().fromJson(it, Asistente::class.java)
-                asistente.base64?.let { base64 ->
-                    setImageFromBase64(base64, imageView)
-                    startEyeAnimation(imageView)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("HomeFragment", "Error al cargar el JSON o la imagen", e)
+        camaraIcono = view.findViewById(R.id.camaraIcono)
+        messageIcono = view.findViewById(R.id.messageIcono)
+        microphoneIcono = view.findViewById(R.id.microphoneIcono)
+        phoneIcono = view.findViewById(R.id.phoneIcono)
+        redButton = view.findViewById(R.id.redButton)
+
+        camaraIcono.setOnClickListener { abrirCamara() }
+        messageIcono.setOnClickListener { enviarSMS(predefinedNumber, messageText) }
+        microphoneIcono.setOnClickListener { grabarAudio() }
+        phoneIcono.setOnClickListener { realizarLlamada() }
+
+        redButton.setOnClickListener {
+            abrirCamara()
+            enviarSMS(predefinedNumber, messageText)
+            grabarAudio()
+            realizarLlamada()
+            Toast.makeText(requireContext(), "Todas las acciones ejecutadas", Toast.LENGTH_SHORT).show()
         }
+
+        textToSpeech = TextToSpeech(requireContext(), this)
 
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // Inicializar TextToSpeech
-        textToSpeech = TextToSpeech(requireContext(), this)
-    }
-
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            // Configurar el idioma a español
-            val result = textToSpeech.setLanguage(Locale("es", "ES"))
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("HomeFragment", "El idioma no es soportado")
-            } else {
-                // Obtener la lista de voces disponibles
-                val voices = textToSpeech.voices
-                var selectedVoice: Voice? = null
-
-                for (voice in voices) {
-                    Log.d("HomeFragment", "Voz disponible: ${voice.name}, ${voice.locale}")
-
-                    // Asegúrate de que la voz es en español y buscar una que típicamente sea masculina
-                    if (voice.locale == Locale("es", "ES") && voice.name.contains("Male", ignoreCase = true)) {
-                        selectedVoice = voice
-                        break
-                    }
-                }
-
-                // Si se encontró una voz masculina, establecerla
-                if (selectedVoice != null) {
-                    textToSpeech.voice = selectedVoice
-                    Log.d("HomeFragment", "Voz seleccionada: ${selectedVoice.name}")
-                } else {
-                    Log.e("HomeFragment", "No se encontró una voz masculina en español.")
-                }
-
-                // Hablar el texto de bienvenida
-                speak(texto)
-            }
+            textToSpeech.language = Locale("es", "ES")
         } else {
-            Log.e("HomeFragment", "Inicialización de TextToSpeech fallida")
+            Log.e("HomeFragment", "TextToSpeech no se inicializó correctamente")
         }
     }
 
-    private fun speak(text: String) {
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+    private fun abrirCamara() {
+        val photoFile = try {
+            createImageFile()
+        } catch (e: IOException) {
+            Toast.makeText(requireContext(), "Error al crear el archivo de imagen", Toast.LENGTH_SHORT).show()
+            null
+        }
+
+        photoFile?.also {
+            photoUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it)
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            startActivity(intent)
+        }
+    }
+
+    private fun enviarSMS(numero: String, mensaje: String) {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(numero, null, mensaje, null, null)
+            Toast.makeText(requireContext(), "Mensaje enviado", Toast.LENGTH_SHORT).show()
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.SEND_SMS), 1)
+        }
+    }
+
+    private fun grabarAudio() {
+        if (isRecording) {
+            detenerGrabacion()
+        } else {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                iniciarGrabacion()
+            } else {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.RECORD_AUDIO), 2)
+            }
+        }
+    }
+
+    private fun iniciarGrabacion() {
+        audioFilePath = createTempFile("temp_audio", ".3gp", requireContext().cacheDir).absolutePath
+        mediaRecorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setOutputFile(audioFilePath)
+            prepare()
+            start()
+        }
+        isRecording = true
+        Toast.makeText(requireContext(), "Grabación iniciada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun detenerGrabacion() {
+        mediaRecorder?.apply {
+            stop()
+            release()
+        }
+        mediaRecorder = null
+        isRecording = false
+        Toast.makeText(requireContext(), "Grabación finalizada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun realizarLlamada() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$predefinedNumber"))
+            startActivity(intent)
+        } else {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CALL_PHONE), 3)
+        }
+    }
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir = requireContext().getExternalFilesDir(null)
+        return File.createTempFile("IMG_$timeStamp", ".jpg", storageDir)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Liberar TextToSpeech al cerrar el fragmento
-        if (::textToSpeech.isInitialized) {
-            textToSpeech.stop()
-            textToSpeech.shutdown()
-        }
-    }
-
-    private fun loadJSONFromAsset(context: Context, fileName: String): String? {
-        return try {
-            val inputStream = context.assets.open(fileName)
-            val size = inputStream.available()
-            val buffer = ByteArray(size)
-            inputStream.read(buffer)
-            inputStream.close()
-            String(buffer, Charsets.UTF_8)
-        } catch (e: IOException) {
-            Log.e("HomeFragment", "Error al leer el archivo JSON", e)
-            null
-        }
-    }
-
-    private fun setImageFromBase64(base64: String, imageView: ImageView) {
-        try {
-            val base64String = base64.substringAfter(",") // Elimina el prefijo si está presente
-            val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
-            val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-            imageView.setImageBitmap(bitmap)
-        } catch (e: IllegalArgumentException) {
-            Log.e("HomeFragment", "Error al decodificar la imagen en Base64", e)
-        }
-    }
-
-    private fun startEyeAnimation(imageView: ImageView) {
-        val eyeAnimation = ObjectAnimator.ofFloat(imageView, "translationY", -10f, 10f)
-        eyeAnimation.duration = 500
-        eyeAnimation.repeatCount = ValueAnimator.INFINITE
-        eyeAnimation.repeatMode = ValueAnimator.REVERSE
-        eyeAnimation.start()
+        textToSpeech.shutdown()
     }
 }

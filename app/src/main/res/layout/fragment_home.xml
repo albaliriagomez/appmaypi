@@ -1,21 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ui.inicio.HomeFragment">
 
+    <!-- Logo -->
     <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/logoImageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Logo"
+        android:src="@drawable/ic_logo" />
 
+    <!-- Botones de íconos -->
+    <LinearLayout
+        android:id="@+id/iconButtonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            android:id="@+id/phoneIcono"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="Phone Icon"
+            android:src="@drawable/telefono_icono" />
 
+        <ImageView
+            android:id="@+id/camaraIcono"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="Camera Icon"
+            android:src="@drawable/cam_icono" />
+
+        <ImageView
+            android:id="@+id/microphoneIcono"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="Microphone Icon"
+            android:src="@drawable/mic_icono" />
+
+        <ImageView
+            android:id="@+id/messageIcono"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="Message Icon"
+            android:src="@drawable/mensj_icono" />
+    </LinearLayout>
+
+    <!-- Texto de instrucción -->
+    <TextView
+        android:id="@+id/instructionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/iconButtonsLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="En caso de emergencia presiona el Botón"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Botón rojo central -->
+    <ImageView
+        android:id="@+id/redButton"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/instructionText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Red Button"
+        android:src="@drawable/rojo_boton" />
+
+    <!-- Descripción del botón rojo -->
+    <TextView
+        android:id="@+id/redButtonDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/redButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Al presionar el botón se enviará un mensaje a tus contactos de emergencia con tu ubicación, se sacará una foto, se grabará un audio de 15 seg y se llamará a tu contacto de emergencia."
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textStyle="bold" />
 </androidx.constraintlayout.widget.ConstraintLayout>
