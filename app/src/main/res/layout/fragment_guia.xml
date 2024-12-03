@@ -5,9 +5,195 @@
     android:layout_height="match_parent"
     tools:context=".ui.guia.GuiaFragment">
 
-    <TextView
+    <!-- Pantalla de lista de guías -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="pantalla guia" />
+        android:padding="16dp"
+        android:background="#F8FAFC">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Botón de retroceso -->
+            <TextView
+                android:id="@+id/backToHelpCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="← Volver al Centro de Ayuda"
+                android:textColor="#4F46E5"
+                android:textSize="14sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Título principal -->
+            <TextView
+                android:id="@+id/guidesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guías y Recursos"
+                android:textColor="#1E293B"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Sección "Getting Started" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Getting Started"
+                android:textColor="#475569"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/whatIsThisApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What is this app?"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/startUsingApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start using the app"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/signingInToDashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Signing in to the dashboard"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/navigatingWithinApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Navigating within the app"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Sección "Projects" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Projects"
+                android:textColor="#475569"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/creatingAProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Creating a project"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/renamingAProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Renaming a project"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/displayingAProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Displaying a project"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/deletingAProject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deleting a project"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/viewAllProjectsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ver Todo →"
+                android:background="#F8FAFC"
+                android:textColor="#4F46E5"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Sección "Settings" -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="#475569"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/generalSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="General settings"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/projectSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Project settings"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/mediaSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Media settings"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/domainSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Domain settings"
+                android:textColor="#4F46E5"
+                android:textSize="16sp"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/viewAllSettingsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ver Todo →"
+                android:background="#F8FAFC"
+                android:textColor="#4F46E5" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
