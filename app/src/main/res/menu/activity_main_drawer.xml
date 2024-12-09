@@ -25,6 +25,21 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="Soporte" />
 
+        <item
+            android:id="@+id/nav_reportar"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Reportar" />
+
+        <item
+            android:id="@+id/nav_contactoEmergencia"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Contacto Emergencia" />
+
+        <item
+            android:id="@+id/nav_codigoRastreo"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Codigo Rastreo" />
+
 
 
 

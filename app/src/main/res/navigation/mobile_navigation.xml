@@ -59,5 +59,23 @@
         android:label="Preguntas Frecuentes"
         tools:layout="@layout/fragment_preguntas_frecuentes" />
 
+    <fragment
+        android:id="@+id/nav_reportar"
+        android:name="com.torrezpillcokevin.nuna.ui.reportar.ReportarFragment"
+        android:label="Reportar"
+        tools:layout="@layout/fragment_reportar" />
+
+    <fragment
+        android:id="@+id/nav_contactoEmergencia"
+        android:name="com.torrezpillcokevin.nuna.ui.contactosEmergencia.ContactoEmergenciaFragment"
+        android:label="ContactoEmergencia"
+        tools:layout="@layout/fragment_contacto_emergencia" />
+
+    <fragment
+        android:id="@+id/nav_codigoRastreo"
+        android:name="com.torrezpillcokevin.nuna.ui.codigoRastreo.CodigoRastreoFragment"
+        android:label="CodigoRastreo"
+        tools:layout="@layout/fragment_codigo_rastreo" />
+
 
 </navigation>
