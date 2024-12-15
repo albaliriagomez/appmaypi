@@ -12,7 +12,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
-    <string name="mapbox_access_token">sk.eyJ1IjoiY2F0cmFzdHJvIiwiYSI6ImNtMnR4YnhqdjA0NHgybG9iMW5jZnl5bzQifQ.nOFX3MNUIR1ApOSpojm1ZQ</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiYWxiYWxpcmlhIiwiYSI6ImNtNG5laXpmMzA3YjcybnB4d21yZDM1aDEifQ.OLrEIq1mFGE83eMOeDIfzA</string>
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
