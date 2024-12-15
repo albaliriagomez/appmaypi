@@ -1,31 +1,43 @@
 package com.torrezpillcokevin.nuna.ui.reportar
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.mapbox.maps.MapView
+import com.mapbox.maps.Style
 import com.torrezpillcokevin.nuna.R
 
 class ReportarFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ReportarFragment()
-    }
-
-    private val viewModel: ReportarViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private lateinit var mapView: MapView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_reportar, container, false)
+        val view = inflater.inflate(R.layout.fragment_reportar, container, false)
+
+        // Configurar Mapbox
+        mapView = view.findViewById(R.id.mapContainer)
+        mapView.getMapboxMap().loadStyleUri(
+            Style.MAPBOX_STREETS
+        ) {
+            // Callback después de cargar el estilo
+        }
+
+        // Configurar botones (opcional)
+        val sendButton: View = view.findViewById(R.id.sendButton)
+        sendButton.setOnClickListener {
+            // Acción del botón enviar
+        }
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mapView.onDestroy() // Asegúrate de liberar recursos al destruir la vista
     }
 }
