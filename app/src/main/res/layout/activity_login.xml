@@ -41,7 +41,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:text="¿No tiene una cuenta? Regístrese"
-            android:textColor="#2196F3"
+            android:textColor="#FFC107"
             android:textSize="14sp" />
 
         <!-- Campo de correo electrónico -->
@@ -52,7 +52,7 @@
             android:hint="Correo Electrónico*"
             android:inputType="textEmailAddress"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#2196F3" />
+            android:backgroundTint="#FFC107" />
 
         <!-- Campo de contraseña con ícono para mostrar/ocultar -->
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:hint="Contraseña*"
                 android:inputType="textPassword"
-                android:backgroundTint="#2196F3" />
+                android:backgroundTint="#FFC107" />
 
             <ImageView
                 android:id="@+id/togglePasswordVisibility"
@@ -96,7 +96,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:text="¿Olvidó la contraseña?"
-            android:textColor="#2196F3" />
+            android:textColor="#FFC107" />
 
         <!-- Botón de inicio sesión -->
         <Button
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="#FFC107"
             android:text="Inicia Sesión"
             android:textColor="#FFFFFF" />
 
