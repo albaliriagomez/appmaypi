@@ -41,7 +41,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:text="¿YA TIENES UNA CUENTA? INICIA SESIÓN"
-            android:textColor="#2196F3"
+            android:textColor="#FFC107"
             android:textSize="14sp" />
 
         <!-- Campos del formulario -->
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:hint="Nombre*"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#2196F3" />
+            android:backgroundTint="#FFC107" />
 
         <EditText
             android:id="@+id/phoneEditText"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:hint="Número de Celular*"
             android:inputType="phone"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="#FFC107"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:hint="Correo Electrónico*"
             android:inputType="textEmailAddress"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="#FFC107"
             android:layout_marginTop="8dp" />
 
         <!-- Campo de contraseña con ícono para mostrar/ocultar -->
@@ -85,7 +85,7 @@
                 android:layout_weight="1"
                 android:hint="Contraseña*"
                 android:inputType="textPassword"
-                android:backgroundTint="#2196F3" />
+                android:backgroundTint="#FFC107" />
 
             <ImageView
                 android:id="@+id/togglePasswordVisibility"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:hint="Repita la Contraseña*"
             android:inputType="textPassword"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="#FFC107"
             android:layout_marginTop="8dp" />
 
 
@@ -125,7 +125,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:text="¿Olvidó la contraseña?"
-            android:textColor="#2196F3" />
+            android:textColor="#FFC107" />
 
         <!-- Botón de inicio sesión -->
         <Button
@@ -133,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#2196F3"
+            android:backgroundTint="#FFC107"
             android:text="Registrarse"
             android:textColor="#FFFFFF" />
 

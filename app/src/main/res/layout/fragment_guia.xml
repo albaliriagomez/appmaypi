@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ver Todo →"
-                android:background="#F8FAFC"
+                android:background="#FFC107"
                 android:textColor="#4F46E5"
                 android:layout_marginBottom="16dp" />
 
@@ -190,7 +190,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ver Todo →"
-                android:background="#F8FAFC"
+                android:background="#FFC107"
                 android:textColor="#4F46E5" />
 
         </LinearLayout>

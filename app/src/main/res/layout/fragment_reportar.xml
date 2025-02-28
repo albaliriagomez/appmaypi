@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#D1B3FF"
+                android:background="#FFC107"
                 android:text="DESAPARECIDO"
                 android:textSize="26sp"
                 android:textColor="#FFFFFF"
@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cargar Imagen"
-                    android:backgroundTint="#800080"
+                    android:backgroundTint="#FFC107"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 
@@ -216,7 +216,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
                     android:text="Enviar"
-                    android:backgroundTint="#800080"
+                    android:backgroundTint="#FFC107"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
         </LinearLayout>
