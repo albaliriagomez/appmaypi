@@ -25,7 +25,9 @@
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:gravity="center"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Subtítulo -->
             <TextView
@@ -36,7 +38,9 @@
                 android:textColor="#34495E"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Descripción -->
             <TextView
@@ -46,7 +50,9 @@
                 android:text="Tu solicitud será procesada y nuestro equipo de soporte se pondrá en contacto contigo en 24 horas."
                 android:textColor="#757575"
                 android:textSize="14sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo de Nombre -->
             <TextView
@@ -55,7 +61,9 @@
                 android:text="Nombre*"
                 android:textColor="#34495E"
                 android:textSize="14sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/nameEditText"
@@ -64,7 +72,9 @@
                 android:hint="Ingresa tu nombre"
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo de Teléfono -->
             <TextView
@@ -73,7 +83,9 @@
                 android:text="Teléfono*"
                 android:textColor="#34495E"
                 android:textSize="14sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/phoneEditText"
@@ -83,7 +95,9 @@
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="phone"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo de Correo Electrónico -->
             <TextView
@@ -92,7 +106,9 @@
                 android:text="Correo electrónico*"
                 android:textColor="#34495E"
                 android:textSize="14sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/emailEditText"
@@ -102,7 +118,9 @@
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="textEmailAddress"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo de Asunto -->
             <TextView
@@ -111,7 +129,9 @@
                 android:text="Asunto*"
                 android:textColor="#34495E"
                 android:textSize="14sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/subjectEditText"
@@ -120,7 +140,9 @@
                 android:hint="Ingresa el asunto"
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo de Mensaje -->
             <TextView
@@ -129,7 +151,9 @@
                 android:text="Mensaje*"
                 android:textColor="#34495E"
                 android:textSize="14sp"
-                android:layout_marginBottom="4dp" />
+                android:layout_marginBottom="4dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/messageEditText"
@@ -139,7 +163,9 @@
                 android:padding="12dp"
                 android:background="@drawable/rounded_edittext"
                 android:gravity="top"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Botones -->
             <LinearLayout
@@ -156,7 +182,9 @@
                     android:text="Limpiar"
                     android:backgroundTint="#34495E"
                     android:textColor="#FFFFFF"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/poppins_regular"/>
+
 
                 <Button
                     android:id="@+id/sendButton"
@@ -164,7 +192,9 @@
                     android:layout_height="wrap_content"
                     android:text="Enviar"
                     android:backgroundTint="#95A5A6"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/poppins_regular"/>
+
             </LinearLayout>
 
         </LinearLayout>

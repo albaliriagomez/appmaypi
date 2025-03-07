@@ -11,7 +11,9 @@
         android:text="Configuración de contacto SMS/LLAMADA NORMAL"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <EditText
         android:id="@+id/numeroCelular"
@@ -19,7 +21,9 @@
         android:layout_height="wrap_content"
         android:hint="Número de celular"
         android:inputType="phone"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -27,7 +31,9 @@
         android:text="Configuración de contacto TELEGRAM"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <EditText
         android:id="@+id/idChat"
@@ -35,7 +41,9 @@
         android:layout_height="wrap_content"
         android:hint="Id Chat Telegram"
         android:inputType="phone"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <EditText
         android:id="@+id/Token"
@@ -43,7 +51,9 @@
         android:layout_height="wrap_content"
         android:hint="Token Telegram"
         android:inputType="phone"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/poppins_regular"/>
+
 
 
 
@@ -53,6 +63,8 @@
         android:layout_height="wrap_content"
         android:text="Guardar"
         android:layout_marginTop="16dp"
-        style="@style/Widget.Material3.Button.TonalButton"/>
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:fontFamily="@font/poppins_regular"/>
+
 
 </LinearLayout>

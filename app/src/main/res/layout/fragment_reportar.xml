@@ -26,7 +26,9 @@
                 android:textSize="26sp"
                 android:textColor="#FFFFFF"
                 android:gravity="center"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Información y foto -->
             <LinearLayout
@@ -57,7 +59,9 @@
                         android:layout_height="wrap_content"
                         android:text="Nathaniel L. Heady"
                         android:textStyle="bold"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:fontFamily="@font/poppins_regular"/>
+
 
                     <TextView
                         android:id="@+id/textDetails"
@@ -65,7 +69,9 @@
                         android:layout_height="wrap_content"
                         android:text="Edad: 36 | Altura: 1.83 cm | Peso: 77 kg\nCabello: Rubio"
                         android:layout_marginTop="4dp"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
+
 
                     <TextView
                         android:id="@+id/lastLocation"
@@ -73,7 +79,9 @@
                         android:layout_height="wrap_content"
                         android:text="Última Ubicación:\n4593 High Meadow Lane Hanover, MD 21076"
                         android:layout_marginTop="8dp"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"/>
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -86,7 +94,9 @@
                 android:padding="8dp"
                 android:textSize="14sp"
                 android:background="#FFFFFF"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campos del formulario -->
             <TextView
@@ -95,7 +105,9 @@
                 android:text="REPORTAR INFORMACIÓN DEL DESAPARECIDO"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/nameField"
@@ -104,7 +116,9 @@
                 android:hint="Nombre (opcional)"
                 android:background="@drawable/edit_text_background"
                 android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/emailField"
@@ -113,7 +127,9 @@
                 android:hint="Email (opcional)"
                 android:background="@drawable/edit_text_background"
                 android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <EditText
                 android:id="@+id/phoneField"
@@ -122,14 +138,18 @@
                 android:hint="Teléfono (opcional)"
                 android:background="@drawable/edit_text_background"
                 android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <CheckBox
                 android:id="@+id/consentCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Consentimiento para Contactar"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
 
             <!-- Campo de Fecha y Hora -->
@@ -140,7 +160,9 @@
                 android:hint="Fecha y Hora del Avistamiento"
                 android:background="@drawable/edit_text_background"
                 android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo de Ubicación -->
             <EditText
@@ -150,14 +172,18 @@
                 android:hint="Ubicación del Avistamiento"
                 android:background="@drawable/edit_text_background"
                 android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Mapa -->
             <com.mapbox.maps.MapView
                 android:id="@+id/mapContainer"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo Descripción -->
             <EditText
@@ -167,7 +193,9 @@
                 android:hint="Descripción de la persona o acción observada"
                 android:background="@drawable/edit_text_background"
                 android:padding="12dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Campo para Subir Imagen -->
             <LinearLayout
@@ -181,7 +209,9 @@
                     android:layout_height="wrap_content"
                     android:text="Imagen del Suceso (Opcional)"
                     android:textSize="16sp"
-                    android:layout_marginBottom="4dp" />
+                    android:layout_marginBottom="4dp"
+                    android:fontFamily="@font/poppins_regular"/>
+
 
                 <Button
                     android:id="@+id/uploadImageButton"
@@ -189,7 +219,9 @@
                     android:layout_height="wrap_content"
                     android:text="Cargar Imagen"
                     android:backgroundTint="#95A5A6"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/poppins_regular"/>
+
             </LinearLayout>
 
             <!-- Botones -->
@@ -207,7 +239,9 @@
                     android:layout_marginEnd="4dp"
                     android:text="Limpiar"
                     android:backgroundTint="#34495E"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/poppins_regular"/>
+
 
                 <Button
                     android:id="@+id/sendButton"
@@ -217,7 +251,9 @@
                     android:layout_marginStart="4dp"
                     android:text="Enviar"
                     android:backgroundTint="#95A5A6"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/poppins_regular"/>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -24,7 +24,9 @@
                 android:text="← Back to Getting Started"
                 android:textColor="#FFC107"
                 android:textSize="14sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Título principal -->
             <TextView
@@ -35,7 +37,9 @@
                 android:textColor="#1E293B"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Texto introductorio -->
             <TextView
@@ -45,7 +49,9 @@
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
                 android:textColor="#64748B"
                 android:textSize="16sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Encabezado Nivel 2 -->
             <TextView
@@ -56,7 +62,9 @@
                 android:textColor="#1E293B"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Párrafo -->
             <TextView
@@ -67,7 +75,9 @@
                 android:textColor="#475569"
                 android:textSize="16sp"
                 android:lineSpacingExtra="4dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/paragraph2"
@@ -77,7 +87,9 @@
                 android:textColor="#475569"
                 android:textSize="16sp"
                 android:lineSpacingExtra="4dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Texto destacado -->
             <TextView
@@ -88,7 +100,9 @@
                 android:textColor="#F59E0B"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Encabezado Nivel 3 -->
             <TextView
@@ -99,7 +113,9 @@
                 android:textColor="#1E293B"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Imagen -->
             <ImageView
@@ -119,7 +135,9 @@
                 android:textColor="#1E293B"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
