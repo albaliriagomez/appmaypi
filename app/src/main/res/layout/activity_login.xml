@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="Inicio de Sesión"
-            android:textColor="#000000"
+            android:textColor="#34495E"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:text="¿No tiene una cuenta? Regístrese"
-            android:textColor="#FFC107"
+            android:textColor="#34495E"
             android:textSize="14sp" />
 
         <!-- Campo de correo electrónico -->
@@ -52,7 +52,7 @@
             android:hint="Correo Electrónico*"
             android:inputType="textEmailAddress"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#FFC107" />
+            android:backgroundTint="#34495E" />
 
         <!-- Campo de contraseña con ícono para mostrar/ocultar -->
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:hint="Contraseña*"
                 android:inputType="textPassword"
-                android:backgroundTint="#FFC107" />
+                android:backgroundTint="#34495E" />
 
             <ImageView
                 android:id="@+id/togglePasswordVisibility"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Recordar Contraseña"
-            android:textColor="#000000" />
+            android:textColor="#34495E" />
 
         <!-- ¿Olvidó la contraseña? -->
         <TextView
@@ -96,7 +96,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:text="¿Olvidó la contraseña?"
-            android:textColor="#FFC107" />
+            android:textColor="#34495E" />
 
         <!-- Botón de inicio sesión -->
         <Button
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#F9E79F"
             android:text="Inicia Sesión"
             android:textColor="#FFFFFF" />
 
@@ -116,7 +116,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="Cocha somos progreso"
-            android:textColor="#FFA000"
+            android:textColor="#34495E"
             android:textSize="14sp" />
     </LinearLayout>
 

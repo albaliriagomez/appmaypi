@@ -29,7 +29,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="Registrese"
-            android:textColor="#000000"
+            android:textColor="#34495E"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:text="¿YA TIENES UNA CUENTA? INICIA SESIÓN"
-            android:textColor="#FFC107"
+            android:textColor="#34495E"
             android:textSize="14sp" />
 
         <!-- Campos del formulario -->
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:hint="Nombre*"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#FFC107" />
+            android:backgroundTint="#34495E" />
 
         <EditText
             android:id="@+id/phoneEditText"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:hint="Número de Celular*"
             android:inputType="phone"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#34495E"
             android:layout_marginTop="8dp" />
 
         <EditText
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:hint="Correo Electrónico*"
             android:inputType="textEmailAddress"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#34495E"
             android:layout_marginTop="8dp" />
 
         <!-- Campo de contraseña con ícono para mostrar/ocultar -->
@@ -85,7 +85,7 @@
                 android:layout_weight="1"
                 android:hint="Contraseña*"
                 android:inputType="textPassword"
-                android:backgroundTint="#FFC107" />
+                android:backgroundTint="#34495E" />
 
             <ImageView
                 android:id="@+id/togglePasswordVisibility"
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:hint="Repita la Contraseña*"
             android:inputType="textPassword"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#34495E"
             android:layout_marginTop="8dp" />
 
 
@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Recordar Contraseña"
-            android:textColor="#000000" />
+            android:textColor="#34495E" />
 
         <!-- ¿Olvidó contraseña? -->
         <TextView
@@ -125,7 +125,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
             android:text="¿Olvidó la contraseña?"
-            android:textColor="#FFC107" />
+            android:textColor="#34495E" />
 
         <!-- Botón de inicio sesión -->
         <Button
@@ -133,7 +133,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#F9E79F"
             android:text="Registrarse"
             android:textColor="#FFFFFF" />
 
@@ -145,7 +145,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="Cocha somos progreso"
-            android:textColor="#FFA000"
+            android:textColor="#34495E"
             android:textSize="14sp" />
     </LinearLayout>
 </ScrollView>
