@@ -81,7 +81,9 @@
         android:text="Agrega tu Contacto de Emergencia para notificarle"
         android:layout_marginTop="16dp"
         android:textColor="#34495E"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,7 +99,9 @@
             android:layout_weight="1"
             android:hint="Nombre"
             android:background="#E0E0E0"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular"/>
+
 
         <EditText
             android:id="@+id/phoneEditText"
@@ -107,7 +111,9 @@
             android:hint="Teléfono"
             android:background="#E0E0E0"
             android:padding="8dp"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:fontFamily="@font/poppins_regular"/>
+
 
         <EditText
             android:id="@+id/lineEditText"
@@ -116,7 +122,9 @@
             android:layout_weight="1"
             android:hint="Línea Telefónica"
             android:background="#E0E0E0"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:fontFamily="@font/poppins_regular"/>
+
     </LinearLayout>
 
     <Button
@@ -126,7 +134,9 @@
         android:text="Agregar Contacto"
         android:backgroundTint="#F9E79F"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <!-- Lista de contactos -->
     <ListView
@@ -151,7 +161,9 @@
             android:layout_weight="1"
             android:text="Ingresar"
             android:backgroundTint="#34495E"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/poppins_regular"/>
+
 
         <Button
             android:id="@+id/registerButton"
@@ -160,7 +172,9 @@
             android:layout_weight="1"
             android:text="Registrarse"
             android:backgroundTint="#95A5A6"
-            android:textColor="#FFFFFF" />
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/poppins_regular"/>
+
     </LinearLayout>
 
 

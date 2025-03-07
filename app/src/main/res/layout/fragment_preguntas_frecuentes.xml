@@ -19,7 +19,9 @@
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:layout_marginBottom="8dp"
-        android:gravity="start"/>
+        android:gravity="start"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <!-- Subtítulo -->
     <TextView
@@ -30,7 +32,9 @@
         android:textSize="16sp"
         android:textColor="@android:color/darker_gray"
         android:layout_marginBottom="16dp"
-        android:gravity="start"/>
+        android:gravity="start"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <!-- Títulos de las preguntas -->
     <androidx.cardview.widget.CardView
@@ -57,7 +61,9 @@
                 android:gravity="start"
                 android:background="?android:attr/selectableItemBackground"
                 android:padding="8dp"
-                android:onClick="onPreguntaClick"/>
+                android:onClick="onPreguntaClick"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Respuesta (inicialmente oculta) -->
             <TextView

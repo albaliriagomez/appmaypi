@@ -25,7 +25,9 @@
                 android:text="← Volver al Centro de Ayuda"
                 android:textColor="#4F46E5"
                 android:textSize="14sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Título principal -->
             <TextView
@@ -36,7 +38,9 @@
                 android:textColor="#1E293B"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Sección "Getting Started" -->
             <TextView
@@ -46,7 +50,9 @@
                 android:textColor="#475569"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/whatIsThisApp"
@@ -55,7 +61,9 @@
                 android:text="What is this app?"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/startUsingApp"
@@ -64,7 +72,9 @@
                 android:text="Start using the app"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/signingInToDashboard"
@@ -73,7 +83,9 @@
                 android:text="Signing in to the dashboard"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/navigatingWithinApp"
@@ -82,7 +94,9 @@
                 android:text="Navigating within the app"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Sección "Projects" -->
             <TextView
@@ -92,7 +106,9 @@
                 android:textColor="#475569"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/creatingAProject"
@@ -101,7 +117,9 @@
                 android:text="Creating a project"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/renamingAProject"
@@ -110,7 +128,9 @@
                 android:text="Renaming a project"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/displayingAProject"
@@ -119,7 +139,9 @@
                 android:text="Displaying a project"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/deletingAProject"
@@ -128,7 +150,9 @@
                 android:text="Deleting a project"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <Button
                 android:id="@+id/viewAllProjectsButton"
@@ -137,7 +161,9 @@
                 android:text="Ver Todo →"
                 android:background="#FFC107"
                 android:textColor="#4F46E5"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <!-- Sección "Settings" -->
             <TextView
@@ -147,7 +173,9 @@
                 android:textColor="#475569"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/generalSettings"
@@ -156,7 +184,9 @@
                 android:text="General settings"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/projectSettings"
@@ -165,7 +195,9 @@
                 android:text="Project settings"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/mediaSettings"
@@ -174,7 +206,9 @@
                 android:text="Media settings"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <TextView
                 android:id="@+id/domainSettings"
@@ -183,7 +217,9 @@
                 android:text="Domain settings"
                 android:textColor="#4F46E5"
                 android:textSize="16sp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/poppins_regular"/>
+
 
             <Button
                 android:id="@+id/viewAllSettingsButton"
@@ -191,7 +227,9 @@
                 android:layout_height="wrap_content"
                 android:text="Ver Todo →"
                 android:background="#FFC107"
-                android:textColor="#4F46E5" />
+                android:textColor="#4F46E5"
+                android:fontFamily="@font/poppins_regular"/>
+
 
         </LinearLayout>
     </ScrollView>

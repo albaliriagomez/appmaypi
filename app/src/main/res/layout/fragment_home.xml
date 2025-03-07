@@ -74,7 +74,9 @@
         android:text="En caso de emergencia presiona el Botón"
         android:textColor="#34495E"
         android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins_regular"/>
+
 
     <!-- Botón rojo central -->
     <ImageView
@@ -103,5 +105,7 @@
         android:textColor="#34495E"
         android:textSize="14sp"
         android:gravity="center"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:fontFamily="@font/poppins_regular"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
