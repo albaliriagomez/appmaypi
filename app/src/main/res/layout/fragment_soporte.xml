@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Contactar soporte"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textStyle="bold"
                 android:textSize="24sp"
                 android:gravity="center"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Enviar tu solicitud"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="4dp" />
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Nombre*"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Teléfono*"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Correo electrónico*"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Asunto*"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mensaje*"
-                android:textColor="#212121"
+                android:textColor="#34495E"
                 android:textSize="14sp"
                 android:layout_marginBottom="4dp" />
 
@@ -154,8 +154,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Limpiar"
-                    android:backgroundTint="#E0E0E0"
-                    android:textColor="#000000"
+                    android:backgroundTint="#34495E"
+                    android:textColor="#FFFFFF"
                     android:layout_marginEnd="8dp" />
 
                 <Button
@@ -163,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Enviar"
-                    android:backgroundTint="#FFC107"
+                    android:backgroundTint="#95A5A6"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 

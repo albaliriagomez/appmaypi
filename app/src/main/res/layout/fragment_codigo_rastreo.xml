@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CÓDIGO DE RASTREO"
-            android:textColor="#000000"
+            android:textColor="#34495E"
             android:textStyle="bold"
             android:textSize="20sp"
             android:gravity="center"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CODIGOPERSONA54525"
-            android:textColor="#000000"
+            android:textColor="#34495E"
             android:textStyle="bold"
             android:textSize="16sp"
             android:gravity="center"
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Agregar Código"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#F9E79F"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="16dp" />
 
@@ -92,14 +92,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="1"
-            android:background="#FFC107"
+            android:background="#F9E79F"
             android:elevation="2dp">
 
             <!-- Encabezados -->
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFC107">
+                android:background="#F9E79F">
 
                 <TextView
                     android:layout_width="0dp"

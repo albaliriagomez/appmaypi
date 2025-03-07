@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFC107"
+                android:background="#F9E79F"
                 android:text="DESAPARECIDO"
                 android:textSize="26sp"
                 android:textColor="#FFFFFF"
@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cargar Imagen"
-                    android:backgroundTint="#FFC107"
+                    android:backgroundTint="#95A5A6"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
 
@@ -206,7 +206,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="4dp"
                     android:text="Limpiar"
-                    android:backgroundTint="#B3B3B3"
+                    android:backgroundTint="#34495E"
                     android:textColor="#FFFFFF" />
 
                 <Button
@@ -216,7 +216,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="4dp"
                     android:text="Enviar"
-                    android:backgroundTint="#FFC107"
+                    android:backgroundTint="#95A5A6"
                     android:textColor="#FFFFFF" />
             </LinearLayout>
         </LinearLayout>
