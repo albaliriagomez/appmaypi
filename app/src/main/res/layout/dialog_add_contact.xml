@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar Contacto"
+        android:text="Agregar Contacto"
         android:textSize="25sp"
         android:textStyle="bold"
         android:textColor="#333333"
@@ -67,10 +67,10 @@
             android:layout_marginRight="8dp"/>
 
         <Button
-            android:id="@+id/btnEdit"
+            android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Editar"
+            android:text="Guardar"
             android:textColor="#FFFFFF"
             android:backgroundTint="#34495E"
             android:padding="10dp"/>

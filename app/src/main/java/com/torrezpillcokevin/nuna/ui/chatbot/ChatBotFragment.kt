@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
@@ -30,8 +32,9 @@ class ChatBotFragment : Fragment() {
 
     private lateinit var scrollView: ScrollView
     private lateinit var messagesContainer: LinearLayout
-    private lateinit var inputMessage: TextInputEditText
-    private lateinit var buttonSend: MaterialButton
+    private lateinit var inputMessage: EditText
+    private lateinit var buttonSend: ImageView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
