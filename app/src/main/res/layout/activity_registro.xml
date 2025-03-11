@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:fillViewport="true"
+    android:background="#F8F9FA"
     tools:context=".RegistroActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp"
+        android:animateLayoutChanges="true">
 
         <!-- Logo -->
         <ImageView
@@ -19,7 +21,8 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_logo" />
+            android:src="@drawable/ic_logo"
+            android:contentDescription="Logo" />
 
         <!-- Título -->
         <TextView
@@ -28,12 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="Registrese"
-            android:textColor="#34495E"
-            android:textSize="20sp"
+            android:text="Regístrese"
+            android:textColor="#222222"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Link para iniciar sesión -->
         <TextView
@@ -42,11 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="¿YA TIENES UNA CUENTA? INICIA SESIÓN"
-            android:textColor="#34495E"
+            android:text="¿Ya tienes una cuenta? Inicia sesión"
+            android:textColor="#007AFF"
             android:textSize="14sp"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Campos del formulario -->
         <EditText
@@ -55,9 +56,9 @@
             android:layout_height="wrap_content"
             android:hint="Nombre*"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#34495E"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
+            android:fontFamily="@font/poppins_regular" />
 
         <EditText
             android:id="@+id/phoneEditText"
@@ -65,10 +66,10 @@
             android:layout_height="wrap_content"
             android:hint="Número de Celular*"
             android:inputType="phone"
-            android:backgroundTint="#34495E"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <EditText
             android:id="@+id/emailEditText"
@@ -76,12 +77,12 @@
             android:layout_height="wrap_content"
             android:hint="Correo Electrónico*"
             android:inputType="textEmailAddress"
-            android:backgroundTint="#34495E"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins_regular"/>
+            android:fontFamily="@font/poppins_regular" />
 
-
-        <!-- Campo de contraseña con ícono para mostrar/ocultar -->
+        <!-- Campo de contraseña con botón para mostrar/ocultar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,10 +95,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Contraseña*"
-                android:inputType="textPassword"
-                android:backgroundTint="#34495E"
-                android:fontFamily="@font/poppins_regular"/>
-
+                android:inputType="textPassword|textVisiblePassword"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:fontFamily="@font/poppins_regular" />
 
             <ImageView
                 android:id="@+id/togglePasswordVisibility"
@@ -106,7 +107,6 @@
                 android:padding="8dp"
                 android:src="@drawable/ic_visibility_off"
                 android:contentDescription="Toggle Password Visibility" />
-
         </LinearLayout>
 
         <EditText
@@ -114,48 +114,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Repita la Contraseña*"
-            android:inputType="textPassword"
-            android:backgroundTint="#34495E"
+            android:inputType="textPassword|textVisiblePassword"
+            android:background="@drawable/edit_text_background"
+            android:padding="12dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins_regular"/>
+            android:fontFamily="@font/poppins_regular" />
 
 
 
-
-        <!-- Recordar contraseña -->
-        <CheckBox
-            android:id="@+id/rememberPasswordCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Recordar Contraseña"
-            android:textColor="#34495E"
-            android:fontFamily="@font/poppins_regular"/>
-
-
-        <!-- ¿Olvidó contraseña? -->
-        <TextView
-            android:id="@+id/forgotPasswordTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:text="¿Olvidó la contraseña?"
-            android:textColor="#34495E"
-            android:fontFamily="@font/poppins_regular"/>
-
-
-        <!-- Botón de inicio sesión -->
+        <!-- Botón de registro -->
         <Button
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#F9E79F"
+            android:backgroundTint="#FFB300"
             android:text="Registrarse"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:padding="14dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Footer -->
         <TextView
@@ -165,7 +143,8 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:text="Cocha somos progreso"
-            android:textColor="#34495E"
-            android:textSize="14sp" />
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:fontFamily="@font/poppins_regular" />
     </LinearLayout>
 </ScrollView>

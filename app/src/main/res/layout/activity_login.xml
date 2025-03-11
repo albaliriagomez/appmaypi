@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <!-- Logo -->
         <ImageView
@@ -28,11 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="Inicio de Sesión"
             android:textColor="#34495E"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins_regular"/>
+            android:textStyle="bold" />
 
 
         <!-- Link para registrarse -->
@@ -42,10 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="¿No tiene una cuenta? Regístrese"
             android:textColor="#34495E"
-            android:textSize="14sp"
-            android:fontFamily="@font/poppins_regular"/>
+            android:textSize="14sp" />
 
 
         <!-- Campo de correo electrónico -->
@@ -53,11 +55,11 @@
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo Electrónico*"
-            android:inputType="textEmailAddress"
             android:layout_marginTop="16dp"
             android:backgroundTint="#34495E"
-            android:fontFamily="@font/poppins_regular"/>
+            android:fontFamily="@font/poppins_regular"
+            android:hint="Correo Electrónico*"
+            android:inputType="textEmailAddress" />
 
 
         <!-- Campo de contraseña con ícono para mostrar/ocultar -->
@@ -72,19 +74,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Contraseña*"
-                android:inputType="textPassword"
                 android:backgroundTint="#34495E"
-                android:fontFamily="@font/poppins_regular"/>
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Contraseña*"
+                android:inputType="textPassword" />
 
 
             <ImageView
                 android:id="@+id/togglePasswordVisibility"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:contentDescription="Toggle Password Visibility"
                 android:padding="8dp"
-                android:src="@drawable/ic_visibility_off"
-                android:contentDescription="Toggle Password Visibility" />
+                android:src="@drawable/ic_visibility_off" />
         </LinearLayout>
 
         <!-- Recordar contraseña -->
@@ -93,9 +95,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="Recordar Contraseña"
-            android:textColor="#34495E"
-            android:fontFamily="@font/poppins_regular"/>
+            android:textColor="#34495E" />
 
         <!-- ¿Olvidó la contraseña? -->
         <TextView
@@ -104,9 +106,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="¿Olvidó la contraseña?"
-            android:textColor="#34495E"
-            android:fontFamily="@font/poppins_regular"/>
+            android:textColor="#34495E" />
 
 
         <!-- Botón de inicio sesión -->
@@ -115,10 +117,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#F9E79F"
+            android:backgroundTint="#FFC107"
+            android:fontFamily="@font/poppins_regular"
             android:text="Inicia Sesión"
-            android:textColor="#FFFFFF"
-            android:fontFamily="@font/poppins_regular"/>
+            android:textColor="#FFFFFF" />
 
 
         <!-- Footer -->

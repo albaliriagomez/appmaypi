@@ -2,11 +2,14 @@ package com.torrezpillcokevin.nuna
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -25,7 +28,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.os.Handler // Agrega esta línea al inicio de tu archivo
-
 import android.widget.*
 
 // Estructura de datos para Contactos
@@ -41,8 +43,6 @@ class MainActivity : AppCompatActivity() {
     private var audioFilePath: String? = null
     private var isRecording = false
     private var isProcessing = false
-
-
 
     private lateinit var camaraIcono: ImageView
     private lateinit var messageIcono: ImageView
@@ -157,15 +157,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
-
         // Inicialización de vistas
-        nameEditText = findViewById(R.id.nameEditText)
-        phoneEditText = findViewById(R.id.phoneEditText)
-        lineEditText = findViewById(R.id.lineEditText)
         addContactButton = findViewById(R.id.addContactButton)
         contactListView = findViewById(R.id.contactListView)
 
@@ -175,24 +167,7 @@ class MainActivity : AppCompatActivity() {
 
         // Acción para agregar un contacto
         addContactButton.setOnClickListener {
-            val name = nameEditText.text.toString()
-            val phone = phoneEditText.text.toString()
-            val line = lineEditText.text.toString()
-
-            if (name.isNotEmpty() && phone.isNotEmpty() && line.isNotEmpty()) {
-                // Crear un contacto y agregarlo a la lista
-                val contact = Contact(name, phone, line)
-                contactList.add(contact)
-
-                // Actualizar la lista visible
-                adapter.add("${contact.name} | ${contact.phone} | ${contact.line}")
-                adapter.notifyDataSetChanged()
-
-                // Limpiar los campos del formulario
-                clearFields()
-            } else {
-                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
-            }
+            showAddContactDialog()
 
         }
 
@@ -407,10 +382,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-
     // Método para limpiar los campos del formulario
     private fun clearFields() {
         nameEditText.text.clear()
@@ -420,49 +391,148 @@ class MainActivity : AppCompatActivity() {
 
     // Mostrar un diálogo para editar o eliminar un contacto
     private fun showEditDeleteDialog(contact: Contact, position: Int) {
-        val dialog = android.app.AlertDialog.Builder(this)
-        dialog.setTitle("Opciones de Contacto")
-        dialog.setMessage("Selecciona una opción para: ${contact.name}")
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_delete, null)
+        builder.setView(dialogView)
 
-        dialog.setPositiveButton("Editar") { _, _ ->
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // Hace que el fondo sea más elegante
+
+        val contactName = dialogView.findViewById<TextView>(R.id.tvContactName)
+        val btnEdit = dialogView.findViewById<ImageView>(R.id.btnEdit)
+        val btnDelete = dialogView.findViewById<ImageView>(R.id.btnDelete)
+        val btnCancel = dialogView.findViewById<ImageView>(R.id.btnCancel)
+
+        contactName.text = "Opciones para: ${contact.name}" // Muestra el nombre del contacto
+
+        btnEdit.setOnClickListener {
             showEditDialog(contact, position)
+            dialog.dismiss()
         }
 
-        dialog.setNegativeButton("Eliminar") { _, _ ->
-            // Eliminar el contacto de la lista
-            contactList.removeAt(position)
-            adapter.remove(adapter.getItem(position))
-            adapter.notifyDataSetChanged()
+        btnDelete.setOnClickListener {
+            contactList.removeAt(position) // Elimina el contacto de la lista de datos
+            adapter.clear() // Limpia el adaptador
+            adapter.addAll(contactList.map { "${it.name} | ${it.phone} | ${it.line}" }) // Vuelve a agregar todos los elementos
+            adapter.notifyDataSetChanged() // Notifica los cambios
             Toast.makeText(this, "Contacto eliminado", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
         }
 
-        dialog.setNeutralButton("Cancelar", null)
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
         dialog.show()
     }
 
+
     // Mostrar un diálogo para editar un contacto existente
     private fun showEditDialog(contact: Contact, position: Int) {
-        val editDialog = android.app.AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_contact, null)
+        val dialog = AlertDialog.Builder(this).setView(dialogView).create()
+
         val editName = dialogView.findViewById<EditText>(R.id.nameEditText)
         val editPhone = dialogView.findViewById<EditText>(R.id.phoneEditText)
-        val editLine = dialogView.findViewById<EditText>(R.id.lineEditText)
+        val lineSpinner = dialogView.findViewById<Spinner>(R.id.lineSpinner)
+        val btnEdit = dialogView.findViewById<Button>(R.id.btnEdit)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
 
-        // Prellenar los campos con la información del contacto
+        // Prellenar los campos con la información actual del contacto
         editName.setText(contact.name)
         editPhone.setText(contact.phone)
-        editLine.setText(contact.line)
 
-        editDialog.setTitle("Editar Contacto")
-        editDialog.setView(dialogView)
-        editDialog.setPositiveButton("Guardar") { _, _ ->
-            contactList[position] = Contact(editName.text.toString(), editPhone.text.toString(), editLine.text.toString())
-            adapter.insert("${editName.text} | ${editPhone.text} | ${editLine.text}", position)
-            adapter.notifyDataSetChanged()
+        // Configurar Spinner con opciones (Entel, Tigo, Viva)
+        val lines = listOf("Seleccione línea", "Entel", "Tigo", "Viva")
+        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, lines)
+        lineSpinner.adapter = spinnerAdapter
+
+        // Seleccionar la línea actual del contacto en el Spinner
+        val selectedIndex = lines.indexOf(contact.line)
+        if (selectedIndex >= 0) {
+            lineSpinner.setSelection(selectedIndex)
         }
-        editDialog.setNegativeButton("Cancelar", null)
-        editDialog.show()
+
+        // Acción del botón Guardar
+        btnEdit.setOnClickListener {
+            val selectedLine = lineSpinner.selectedItem.toString()
+            if (selectedLine != "Seleccione línea") {
+                // Actualizar contacto en la lista
+                contactList[position] = Contact(
+                    editName.text.toString(),
+                    editPhone.text.toString(),
+                    selectedLine
+                )
+
+                // Se notifica al adaptador sobre el cambio
+                adapter.clear()
+                adapter.addAll(contactList.map { "${it.name} | ${it.phone} | ${it.line}" })
+                adapter.notifyDataSetChanged()
+
+                Toast.makeText(this, "Contacto actualizado", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Debe seleccionar una línea válida", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Acción del botón Cancelar
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
+
+
+
+    private fun showAddContactDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_contact, null)
+
+        val nameEditText = dialogView.findViewById<EditText>(R.id.nameEditText)
+        val phoneEditText = dialogView.findViewById<EditText>(R.id.phoneEditText)
+        val lineSpinner = dialogView.findViewById<Spinner>(R.id.lineSpinner)
+        val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+
+        // Lista con la opción inicial "Seleccione línea"
+        val operators = arrayOf("Seleccione línea", "Entel", "Tigo", "Viva")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, operators)
+        lineSpinner.adapter = adapter
+
+        val dialog = android.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        btnSave.setOnClickListener {
+            val name = nameEditText.text.toString()
+            val phone = phoneEditText.text.toString()
+            val line = lineSpinner.selectedItem.toString()
+
+            if (name.isNotEmpty() && phone.isNotEmpty() && line != "Seleccione línea") {
+                addContact(Contact(name, phone, line))
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Por favor, completa todos los campos y selecciona una línea", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+
+    // Función para añadir un contacto a la lista
+    private fun addContact(contact: Contact) {
+        contactList.add(contact)
+        adapter.add("${contact.name} | ${contact.phone} | ${contact.line}")
+        adapter.notifyDataSetChanged()
+    }
+
 
 
 }
