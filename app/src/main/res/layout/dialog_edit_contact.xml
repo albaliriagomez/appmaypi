@@ -5,19 +5,18 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/dialog_background"
-    android:padding="20dp"
-    android:elevation="8dp">
+    >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar Contacto"
+        android:text="EDITAR CONTACTO"
         android:textSize="25sp"
         android:textStyle="bold"
         android:textColor="#333333"
         android:gravity="center"
         android:layout_gravity="center"
-        android:paddingBottom="40dp"
+        android:paddingBottom="20dp"
         android:fontFamily="@font/poppins_regular"/>
 
     <EditText
