@@ -1,143 +1,146 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFF"
     android:padding="16dp">
 
-    <!-- Logo -->
-
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_logo" />
-
-    <!-- ImageView para mostrar la foto capturada -->
-    <ImageView
-        android:id="@+id/imageViewCaptura"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:contentDescription="Foto Capturada"
-        android:scaleType="centerCrop" />
-
-
-    <!-- Botones de íconos -->
     <LinearLayout
-
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:layout_above="@+id/bottomButtonsLayout">
 
+        <!-- Logo -->
         <ImageView
-            android:id="@+id/phoneIcono"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/telefono_icono" />
+            android:id="@+id/logoImageView"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_logo" />
 
-        <ImageView
-            android:id="@+id/camaraIcono"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/cam_icono" />
+        <!-- Botones de íconos -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:gravity="center">
 
-        <ImageView
-            android:id="@+id/microphoneIcono"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/mic_icono" />
+            <ImageView
+                android:id="@+id/phoneIcono"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/telefono_icono" />
 
+            <ImageView
+                android:id="@+id/camaraIcono"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/cam_icono" />
+
+            <ImageView
+                android:id="@+id/microphoneIcono"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/mic_icono" />
+
+            <ImageView
+                android:id="@+id/messageIcono"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/mensj_icono" />
+        </LinearLayout>
+
+        <!-- Botón rojo central -->
         <ImageView
-            android:id="@+id/messageIcono"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/mensj_icono" />
+            android:id="@+id/redButton"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/rojo_boton" />
+
+        <!-- Formulario para agregar contactos -->
+        <TextView
+            android:id="@+id/addContactLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agrega tu Contacto de Emergencia"
+            android:layout_marginTop="5dp"
+            android:textColor="#34495E"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/addContactButton"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="Agregar Contacto"
+            android:backgroundTint="#FFC107"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/poppins_regular"/>
+
+        <!-- Lista de contactos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:scrollbars="vertical" />
     </LinearLayout>
 
-    <!-- Botón rojo central -->
-    <ImageView
-        android:id="@+id/redButton"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/rojo_boton" />
-
-    <!-- Formulario para agregar contactos -->
-    <TextView
-        android:id="@+id/addContactLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Agrega tu Contacto de Emergencia para notificarle"
-        android:layout_marginTop="16dp"
-        android:textColor="#34495E"
-        android:textSize="14sp"
-        android:fontFamily="@font/poppins_regular"/>
-
-
-    <Button
-        android:id="@+id/addContactButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Agregar Contacto"
-        android:backgroundTint="#FFC107"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/poppins_regular"/>
-
-
-    <!-- Lista de contactos -->
-    <ListView
-        android:id="@+id/contactListView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp" />
-
-    <!-- Botones de Ingresar y Registrarse -->
+    <!-- Botones en la parte inferior -->
     <LinearLayout
+        android:id="@+id/bottomButtonsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="8dp">
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp">
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Ingresar"
             android:backgroundTint="#34495E"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginEnd="8dp"/>
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Registrarse"
             android:backgroundTint="#95A5A6"
             android:textColor="#FFFFFF"
-            android:fontFamily="@font/poppins_regular"/>
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginEnd="8dp"/>
 
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_button_bg"
+            android:padding="10dp"
+            android:src="@drawable/manage_accounts_24px"
+            android:contentDescription="Configuración"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="8dp"/>
     </LinearLayout>
 
-
-
-
-
-</LinearLayout>
-
-
+</RelativeLayout>
 

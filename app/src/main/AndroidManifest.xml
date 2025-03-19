@@ -59,11 +59,19 @@
 
         <activity android:name=".ui.guia.GuiaViewModel" />
 
-
         <meta-data
             android:name="com.mapbox.maps.token"
             android:value="pk.eyJ1IjoiYWxiYWxpcmlhIiwiYSI6ImNtNG5laXpmMzA3YjcybnB4d21yZDM1aDEifQ.OLrEIq1mFGE83eMOeDIfzA" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.torrezpillcokevin.nuna.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
