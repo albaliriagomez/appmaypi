@@ -54,9 +54,7 @@ class ChatBotFragment : Fragment() {
 
 
         // Mensajes iniciales de bienvenida
-        val initialMessages = listOf("Hola", "¿Cómo estás?", "Bienvenido al chatbot")
-        initialMessages.forEach { message -> addMessageToContainer(message, isUserMessage = false) }
-        scrollToBottom()
+
 
         // Configuración del botón de enviar mensaje
         buttonSend.setOnClickListener {

@@ -71,7 +71,7 @@
             android:padding="16dp"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:backgroundTint="@color/md_theme_onSurfaceVariant"
+
             />
 
 

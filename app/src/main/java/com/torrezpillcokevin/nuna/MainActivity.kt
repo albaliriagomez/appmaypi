@@ -1,6 +1,7 @@
 package com.torrezpillcokevin.nuna
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues
@@ -33,9 +34,11 @@ import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.torrezpillcokevin.nuna.clases.BackgroundButtonService
 import com.torrezpillcokevin.nuna.clases.ContactAdapter
 import com.torrezpillcokevin.nuna.dbSqlite.DatabaseHelper
 import com.torrezpillcokevin.nuna.models.Contact
@@ -55,8 +58,6 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_SEND_SMS = 101
     private var photoUri: Uri? = null
     private lateinit var addContactButton: Button
-
-
 
     //base de datos sqlite
     private lateinit var dbHelper: DatabaseHelper
@@ -165,6 +166,8 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
+
+
 
     }
 
@@ -472,6 +475,7 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     fun showEmergencyConfigDialog(context: Context) {
         val contacts = dbHelper.getAllContacts()
 
@@ -488,60 +492,107 @@ class MainActivity : AppCompatActivity() {
         val listViewContacts = dialogView.findViewById<ListView>(R.id.lvContacts)
         val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val switchBackgroundService = dialogView.findViewById<Switch>(R.id.switchBackgroundService)
 
         val contactNames = contacts.map { "${it.name} (${it.phone})" }
 
-        // Adaptador Spinner
         val callAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, contactNames)
         spinnerCallContact.adapter = callAdapter
 
-        // Adaptador ListView
         val smsAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, contactNames)
         listViewContacts.adapter = smsAdapter
         listViewContacts.choiceMode = ListView.CHOICE_MODE_MULTIPLE
 
-        // Obtener preferencias compartidas
         val sharedPreferences = context.getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
         val savedCallContact = sharedPreferences.getString("emergency_call_phone", null)
         val savedSMSContacts = sharedPreferences.getStringSet("emergency_sms_phones", emptySet())
+        val isServiceEnabled = sharedPreferences.getBoolean("background_service_enabled", false)
 
-        // Preseleccionar contacto de llamada guardado
+        switchBackgroundService.isChecked = isServiceEnabled
+
         savedCallContact?.let { phone ->
             contacts.indexOfFirst { it.phone == phone }
                 .takeIf { it >= 0 }
                 ?.let { spinnerCallContact.setSelection(it) }
         }
 
-        // Preseleccionar contactos de SMS guardados
         savedSMSContacts?.forEach { savedPhone ->
             contacts.indexOfFirst { it.phone == savedPhone }
                 .takeIf { it >= 0 }
                 ?.let { listViewContacts.setItemChecked(it, true) }
         }
 
-        btnSave.setOnClickListener {
-            if (contacts.isNotEmpty()) {
-                val selectedCallContact = contacts[spinnerCallContact.selectedItemPosition]
-                val selectedSMSContacts = mutableSetOf<String>()
-
-                for (i in 0 until listViewContacts.count) {
-                    if (listViewContacts.isItemChecked(i)) {
-                        selectedSMSContacts.add(contacts[i].phone)
-                    }
-                }
-
-                sharedPreferences.edit().apply {
-                    putString("emergency_call_phone", selectedCallContact.phone)
-                    putStringSet("emergency_sms_phones", selectedSMSContacts)
-                    apply()
-                }
-
-                Toast.makeText(context, "Configuración guardada", Toast.LENGTH_SHORT).show()
-                bottomSheetDialog.dismiss()
+        switchBackgroundService.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                showPermissionDialog(context, switchBackgroundService)
+            } else {
+                stopBackgroundService(context)
             }
+        }
+
+        btnSave.setOnClickListener {
+            val selectedCallContact = contacts[spinnerCallContact.selectedItemPosition]
+            val selectedSMSContacts = mutableSetOf<String>()
+
+            for (i in 0 until listViewContacts.count) {
+                if (listViewContacts.isItemChecked(i)) {
+                    selectedSMSContacts.add(contacts[i].phone)
+                }
+            }
+
+            val editor = sharedPreferences.edit()
+
+            // Guardar solo si hubo cambios
+            if (savedCallContact != selectedCallContact.phone) {
+                editor.putString("emergency_call_phone", selectedCallContact.phone)
+            }
+            if (savedSMSContacts != selectedSMSContacts) {
+                editor.putStringSet("emergency_sms_phones", selectedSMSContacts)
+            }
+            if (isServiceEnabled != switchBackgroundService.isChecked) {
+                editor.putBoolean("background_service_enabled", switchBackgroundService.isChecked)
+            }
+
+            editor.apply()
+
+            Toast.makeText(context, "Configuración guardada", Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.dismiss()
         }
 
         btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
         bottomSheetDialog.show()
     }
+
+
+
+    private fun showPermissionDialog(context: Context, switchService: Switch) {
+        AlertDialog.Builder(context)
+            .setTitle("Permiso necesario")
+            .setMessage("¿Quieres permitir la ejecución en segundo plano?")
+            .setPositiveButton("Sí") { _, _ ->
+                switchService.isChecked = true
+                startBackgroundService(context)
+            }
+            .setNegativeButton("No") { _, _ ->
+                switchService.isChecked = false
+            }
+            .setCancelable(false)
+            .show()
+    }
+
+
+    private fun startBackgroundService(context: Context) {
+        val intent = Intent(context, BackgroundButtonService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
+    }
+
+    private fun stopBackgroundService(context: Context) {
+        val intent = Intent(context, BackgroundButtonService::class.java)
+        context.stopService(intent)
+    }
+
 }
