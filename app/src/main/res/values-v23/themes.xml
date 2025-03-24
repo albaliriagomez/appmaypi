@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Tema por defecto (con DayNight) -->
     <style name="Theme.Nuna.NoActionBar" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent
-        </item> <!-- Barra de estado transparente -->
-        <item name="android:windowLightStatusBar">true</item> <!-- Iconos oscuros -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Iconos oscuros en modo claro -->
     </style>
+
+    <!-- Tema para modo claro -->
+    <style name="Theme.Nuna.Light" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/md_theme_outline</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Íconos oscuros -->
+    </style>
+
+    <!-- Tema para modo oscuro -->
+    <style name="Theme.Nuna.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:statusBarColor">@color/black</item> <!-- Barra negra en modo oscuro -->
+        <item name="android:windowLightStatusBar">false</item> <!-- Íconos blancos -->
+    </style>
+
 </resources>

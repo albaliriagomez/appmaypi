@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <LinearLayout
         android:id="@+id/mainLayout"
@@ -31,37 +31,37 @@
 
             <ImageView
                 android:id="@+id/phoneIcono"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/telefono_icono" />
 
             <ImageView
                 android:id="@+id/camaraIcono"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/cam_icono" />
 
             <ImageView
                 android:id="@+id/microphoneIcono"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/mic_icono" />
 
             <ImageView
                 android:id="@+id/messageIcono"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="30dp"
                 android:src="@drawable/mensj_icono" />
         </LinearLayout>
 
         <!-- Botón rojo central -->
         <ImageView
             android:id="@+id/redButton"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:src="@drawable/rojo_boton" />
@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:text="Agregar Contacto"
-            android:backgroundTint="#FFC107"
+            android:backgroundTint="#A9CCE3"
             android:textColor="#FFFFFF"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_regular"/>
