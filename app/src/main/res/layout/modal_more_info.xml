@@ -3,36 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/modal_background"
-    android:padding="16dp">
+    android:padding="20dp"
+    android:background="@android:color/white">
 
-    <!-- Botón para cerrar el modal -->
+    <!-- Botón de Cerrar (X) -->
     <ImageView
-        android:id="@+id/closeModal"
+        android:id="@+id/btnClose"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_gravity="end"
         android:src="@drawable/ic_close"
-        android:contentDescription="Cerrar"
-        android:padding="8dp"/>
+        android:layout_gravity="end"
+        android:padding="4dp" />
 
-    <!-- Título de la guía -->
+    <!-- Título del Modal -->
     <TextView
-        android:id="@+id/modalTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Título de la Guía"
+        android:text="Más Información"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#1E293B"
-        android:layout_marginBottom="8dp"/>
+        android:gravity="center"
+        android:paddingBottom="8dp" />
 
-    <!-- Contenido de la guía -->
+    <!-- Contenido del Modal -->
     <TextView
-        android:id="@+id/modalContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aquí va el contenido de la guía..."
+        android:text="Aquí puedes encontrar más información sobre cómo usar la aplicación y sus funciones."
         android:textSize="16sp"
-        android:textColor="#475569"/>
+        android:textColor="#334155"
+        android:gravity="center"
+        android:paddingBottom="12dp" />
+
 </LinearLayout>

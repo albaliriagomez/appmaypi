@@ -1,237 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.guia.GuiaFragment">
+    android:padding="16dp"
+    android:background="#F8FAFC">
 
-    <!-- Pantalla de lista de guías -->
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:background="#F8FAFC">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp">
 
-        <LinearLayout
+        <!-- Título -->
+        <TextView
+            android:id="@+id/guideTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Guía de Emergencia"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B"
+            android:gravity="center"
+            android:paddingBottom="16dp" />
 
-            <!-- Botón de retroceso -->
-            <TextView
-                android:id="@+id/backToHelpCenter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="← Volver al Centro de Ayuda"
-                android:textColor="#4F46E5"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <!-- Sección: Primeros Pasos -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Primeros Pasos"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp" />
 
+        <TextView
+            android:id="@+id/whatIsThisApp"
+            style="@style/GuideItem"
+            android:text="¿Cómo funciona esta app?" />
 
-            <!-- Título principal -->
-            <TextView
-                android:id="@+id/guidesTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Guías y Recursos"
-                android:textColor="#1E293B"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/emergencyActions"
+            style="@style/GuideItem"
+            android:text="¿Qué hacer en caso de emergencia?" />
 
+        <TextView
+            android:id="@+id/setupContacts"
+            style="@style/GuideItem"
+            android:text="¿Cómo configurar mis contactos de emergencia?" />
 
-            <!-- Sección "Getting Started" -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Getting Started"
-                android:textColor="#475569"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <!-- Sección: Funciones de Seguridad -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Funciones de Seguridad"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp" />
 
+        <TextView
+            android:id="@+id/activateSOS"
+            style="@style/GuideItem"
+            android:text="Activar el modo SOS" />
 
-            <TextView
-                android:id="@+id/whatIsThisApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="What is this app?"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/shareLocation"
+            style="@style/GuideItem"
+            android:text="Compartir mi ubicación en tiempo real" />
 
+        <TextView
+            android:id="@+id/sendAlert"
+            style="@style/GuideItem"
+            android:text="Enviar una alerta a mis contactos" />
 
-            <TextView
-                android:id="@+id/startUsingApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start using the app"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/panicButton"
+            style="@style/GuideItem"
+            android:text="Usar el botón de pánico" />
 
+        <!-- Sección: Consejos y Prevención -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consejos y Prevención"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp" />
 
-            <TextView
-                android:id="@+id/signingInToDashboard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Signing in to the dashboard"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/missingPerson"
+            style="@style/GuideItem"
+            android:text="Cómo actuar si alguien desaparece" />
 
+        <TextView
+            android:id="@+id/streetSafety"
+            style="@style/GuideItem"
+            android:text="Medidas de seguridad en la calle" />
 
-            <TextView
-                android:id="@+id/navigatingWithinApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Navigating within the app"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/dangerActions"
+            style="@style/GuideItem"
+            android:text="Qué hacer si me siento en peligro" />
 
+        <!-- Sección: Configuración y Soporte -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Configuración y Soporte"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#334155"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp" />
 
-            <!-- Sección "Projects" -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Projects"
-                android:textColor="#475569"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/configureAlerts"
+            style="@style/GuideItem"
+            android:text="Configurar alertas y notificaciones" />
 
+        <TextView
+            android:id="@+id/manageContacts"
+            style="@style/GuideItem"
+            android:text="Administrar contactos de confianza" />
 
-            <TextView
-                android:id="@+id/creatingAProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Creating a project"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <TextView
+            android:id="@+id/contactSupport"
+            style="@style/GuideItem"
+            android:text="Contactar soporte" />
 
+        <!-- Botón para más información -->
+        <Button
+            android:id="@+id/moreInfoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Más Información"
+            android:textAllCaps="false"
+            android:backgroundTint="#1E40AF"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="16dp"
+            android:padding="12dp" />
 
-            <TextView
-                android:id="@+id/renamingAProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Renaming a project"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <TextView
-                android:id="@+id/displayingAProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Displaying a project"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <TextView
-                android:id="@+id/deletingAProject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Deleting a project"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <Button
-                android:id="@+id/viewAllProjectsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver Todo →"
-                android:background="#FFC107"
-                android:textColor="#4F46E5"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Sección "Settings" -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textColor="#475569"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <TextView
-                android:id="@+id/generalSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="General settings"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <TextView
-                android:id="@+id/projectSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Project settings"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <TextView
-                android:id="@+id/mediaSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Media settings"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <TextView
-                android:id="@+id/domainSettings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Domain settings"
-                android:textColor="#4F46E5"
-                android:textSize="16sp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <Button
-                android:id="@+id/viewAllSettingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver Todo →"
-                android:background="#FFC107"
-                android:textColor="#4F46E5"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-        </LinearLayout>
-    </ScrollView>
-
-</FrameLayout>
+    </LinearLayout>
+</ScrollView>
