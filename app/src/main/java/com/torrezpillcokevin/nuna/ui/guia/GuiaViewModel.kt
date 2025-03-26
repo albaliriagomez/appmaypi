@@ -1,29 +1,32 @@
 package com.torrezpillcokevin.nuna.ui.guia
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.torrezpillcokevin.nuna.R
 
-class GuiaViewModel : AppCompatActivity() {
+class GuiaModalFragment(private val title: String, private val content: String) : BottomSheetDialogFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_guiaviewmodel)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val view = inflater.inflate(R.layout.fragment_guiaviewmodel, container, false)
 
-        // Configuración del botón de retroceso
-        val backToGettingStarted = findViewById<TextView>(R.id.backToGettingStarted)
-        backToGettingStarted.setOnClickListener {
-            finish()
-        }
+        // Configurar título y contenido
+        val modalTitle = view.findViewById<TextView>(R.id.modalTitle)
+        val modalContent = view.findViewById<TextView>(R.id.modalContent)
+        modalTitle.text = title
+        modalContent.text = content
 
-        // Mostrar el título y contenido de la guía seleccionada
-        val title = intent.getStringExtra("TITLE") ?: "Guía"
-        val titleTextView = findViewById<TextView>(R.id.whatIsThisAppTitle)
-        titleTextView.text = title
+        // Botón para cerrar el modal
+        val closeModal = view.findViewById<ImageView>(R.id.closeModal)
+        closeModal.setOnClickListener { dismiss() }
 
-        // Contenido dinámico según el título
-        val contentTextView = findViewById<TextView>(R.id.introText)
-        contentTextView.text = "Este es el contenido para la guía titulada: $title"
+        return view
     }
 }
