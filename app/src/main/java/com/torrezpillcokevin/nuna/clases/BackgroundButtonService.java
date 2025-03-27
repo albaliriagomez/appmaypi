@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
@@ -20,6 +21,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import com.torrezpillcokevin.nuna.MainActivity;
+import com.torrezpillcokevin.nuna.R;
 
 public class BackgroundButtonService extends Service {
     private static final String TAG = "BackgroundService";
@@ -86,12 +90,20 @@ public class BackgroundButtonService extends Service {
             }
             Log.d(TAG, "Canal de notificación creado");
         }
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
 
         Notification notification = new NotificationCompat.Builder(this, channelId)
-                .setContentTitle("Servicio en segundo plano")
-                .setContentText("Detectando botones de hardware")
-                .setSmallIcon(android.R.drawable.ic_media_play)
-                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setContentTitle("Maypi está protegiéndote")
+                .setContentText("Presiona para acceder a la app o solicitar ayuda.")
+                .setSmallIcon(R.drawable.ic_person)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Maypi está activo y listo para ayudarte en caso de emergencia."))
                 .build();
 
         startForeground(1, notification);

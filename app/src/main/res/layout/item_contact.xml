@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="12dp"
-    android:background="@drawable/card_bg"
+    android:background="#F2F2F2"
     android:gravity="center_vertical">
 
     <!-- Contenedor de la información -->
@@ -21,7 +22,7 @@
             android:text="Nombre"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:textColor="#2E4053" />
 
         <TextView
             android:id="@+id/tvPhone"
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="Teléfono"
             android:textSize="16sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#808000" />
 
         <TextView
             android:id="@+id/tvLine"
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="Línea"
             android:textSize="14sp"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="#FFC107" />
     </LinearLayout>
 
     <!-- Botón Editar -->
@@ -45,16 +46,23 @@
         android:id="@+id/btnEdit"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="?attr/selectableItemBackground"
-        android:src="@android:drawable/ic_menu_edit"
-        android:contentDescription="Editar" />
+        android:background="@drawable/rounded_button_bg"
+        android:src="@drawable/edit"
+        android:contentDescription="Editar"
+        android:scaleType="centerInside"
+        android:layout_marginEnd="8dp"
+        app:tint="#FFFFFF" />
 
     <!-- Botón Eliminar -->
     <ImageButton
         android:id="@+id/btnDelete"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="?attr/selectableItemBackground"
-        android:src="@android:drawable/ic_menu_delete"
-        android:contentDescription="Eliminar" />
+        android:background="@drawable/rounded_button_bg"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="Elimnar"
+        android:scaleType="centerInside"
+        android:layout_marginEnd="8dp"
+        app:tint="#FFFFFF" />
+
 </LinearLayout>

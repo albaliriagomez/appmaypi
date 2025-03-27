@@ -34,6 +34,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +67,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_main)
 
         //SQLite
@@ -365,6 +367,8 @@ class MainActivity : AppCompatActivity() {
             .setView(dialogView)
             .create()
 
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         btnSave.setOnClickListener {
             val name = nameEditText.text.toString()
             val phone = phoneEditText.text.toString()
@@ -424,6 +428,7 @@ class MainActivity : AppCompatActivity() {
         val dialog = android.app.AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         btnSave.setOnClickListener {
             val newName = nameEditText.text.toString()
@@ -452,6 +457,8 @@ class MainActivity : AppCompatActivity() {
             .setView(dialogView)
             .setCancelable(false)
             .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
         val btnDelete = dialogView.findViewById<Button>(R.id.btnDelete)
@@ -487,6 +494,7 @@ class MainActivity : AppCompatActivity() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.bottomsheet_emergency, null)
         val bottomSheetDialog = BottomSheetDialog(context)
         bottomSheetDialog.setContentView(dialogView)
+
 
         val spinnerCallContact = dialogView.findViewById<Spinner>(R.id.spinnerCallContact)
         val listViewContacts = dialogView.findViewById<ListView>(R.id.lvContacts)

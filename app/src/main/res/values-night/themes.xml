@@ -1,32 +1,31 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Nuna" parent="Theme.Material3.Dark.NoActionBar">
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
 
-        <item name="colorSurfaceVariant">@color/md_theme_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/md_theme_onSurfaceVariant</item>
-        <item name="colorOutline">@color/md_theme_outline</item>
-        <item name="colorOutlineVariant">@color/md_theme_outlineVariant</item>
-        <item name="colorSurfaceInverse">@color/md_theme_inverseSurface</item>
-        <item name="colorOnSurfaceInverse">@color/md_theme_inverseOnSurface</item>
-        <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
-        <item name="colorPrimaryFixed">@color/md_theme_primaryFixed</item>
-        <item name="colorOnPrimaryFixed">@color/md_theme_onPrimaryFixed</item>
-        <item name="colorPrimaryFixedDim">@color/md_theme_primaryFixedDim</item>
-        <item name="colorOnPrimaryFixedVariant">@color/md_theme_onPrimaryFixedVariant</item>
-        <item name="colorSecondaryFixed">@color/md_theme_secondaryFixed</item>
-        <item name="colorOnSecondaryFixed">@color/md_theme_onSecondaryFixed</item>
-        <item name="colorSecondaryFixedDim">@color/md_theme_secondaryFixedDim</item>
-        <item name="colorOnSecondaryFixedVariant">@color/md_theme_onSecondaryFixedVariant</item>
-        <item name="colorTertiaryFixed">@color/md_theme_tertiaryFixed</item>
-        <item name="colorOnTertiaryFixed">@color/md_theme_onTertiaryFixed</item>
-        <item name="colorTertiaryFixedDim">@color/md_theme_tertiaryFixedDim</item>
-        <item name="colorOnTertiaryFixedVariant">@color/md_theme_onTertiaryFixedVariant</item>
-        <item name="colorSurfaceDim">@color/md_theme_surfaceDim</item>
-        <item name="colorSurfaceBright">@color/md_theme_surfaceBright</item>
-        <item name="colorSurfaceContainerLowest">@color/md_theme_surfaceContainerLowest</item>
-        <item name="colorSurfaceContainerLow">@color/md_theme_surfaceContainerLow</item>
-        <item name="colorSurfaceContainer">@color/md_theme_surfaceContainer</item>
-        <item name="colorSurfaceContainerHigh">@color/md_theme_surfaceContainerHigh</item>
-        <item name="colorSurfaceContainerHighest">@color/md_theme_surfaceContainerHighest</item>
-    </style>
+    <color name="charcoal">#1B262C</color>
+    <color name="white_smoke">#2C3E50</color>
+    <color name="amber">#FFB300</color>
+    <color name="olive">#6B8E23</color>
+
+    <color name="md_theme_surfaceVariant">#1E1E1E</color>
+    <color name="md_theme_onSurfaceVariant">#B0BEC5</color>
+    <color name="md_theme_outline">#90A4AE</color>
+    <color name="md_theme_outlineVariant">#37474F</color>
+    <color name="md_theme_scrim">#000000</color>
+    <color name="md_theme_inverseSurface">#37474F</color>
+    <color name="md_theme_inverseOnSurface">#ECEFF1</color>
+    <color name="md_theme_inversePrimary">#80CBC4</color>
+    <color name="md_theme_primaryFixed">#004D40</color>
+    <color name="md_theme_onPrimaryFixed">#B2DFDB</color>
+    <color name="md_theme_secondaryFixed">#455A64</color>
+    <color name="md_theme_onSecondaryFixed">#CFD8DC</color>
+    <color name="md_theme_tertiaryFixed">#5C6BC0</color>
+    <color name="md_theme_onTertiaryFixed">#E8EAF6</color>
+    <color name="md_theme_surfaceDim">#121212</color>
+    <color name="md_theme_surfaceBright">#1E1E1E</color>
+    <color name="md_theme_surfaceContainerLowest">#121212</color>
+    <color name="md_theme_surfaceContainerLow">#1E1E1E</color>
+    <color name="md_theme_surfaceContainer">#242424</color>
+    <color name="md_theme_surfaceContainerHigh">#2C2C2C</color>
+    <color name="md_theme_surfaceContainerHighest">#323232</color>
 </resources>

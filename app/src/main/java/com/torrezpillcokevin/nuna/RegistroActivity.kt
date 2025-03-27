@@ -1,5 +1,6 @@
 package com.torrezpillcokevin.nuna
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 
 import android.text.InputType
 import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 
 
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
@@ -24,11 +26,27 @@ class RegistroActivity : AppCompatActivity() {
 
     private var isPasswordVisible = false // Variable para la visibilidad de la contraseña
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_registro)
 
-        // Referencias a las vistas
+        //atrasButtonView
+        val backButton: ImageButton = findViewById(R.id.backButton2)
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                // Configura flags para evitar acumulación de actividades
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+
+        }
+
+
+
+            // Referencias a las vistas
         val nameEditText: EditText = findViewById(R.id.nameEditText)
         val emailEditText: EditText = findViewById(R.id.emailEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
@@ -81,6 +99,7 @@ class RegistroActivity : AppCompatActivity() {
         loginLinkTextView.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left) // Animaciones personalizadas
         }
     }
 }

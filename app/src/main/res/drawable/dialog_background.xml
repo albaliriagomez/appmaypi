@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
 
-    <corners android:radius="30dp"/>
-    <solid android:color="@android:color/white"/>
-    <padding
-        android:left="16dp"
-        android:top="16dp"
-        android:right="16dp"
-        android:bottom="16dp"/>
+    <!-- Fondo adaptable al tema -->
+    <solid android:color="@color/white_smoke" />
+
+    <!-- Esquinas redondeadas -->
+    <corners android:radius="16dp" />
+
+    <!-- Borde sutil -->
+
 
 </shape>

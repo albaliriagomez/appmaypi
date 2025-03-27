@@ -1,16 +1,19 @@
 package com.torrezpillcokevin.nuna
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import com.torrezpillcokevin.nuna.data.login
 import kotlinx.coroutines.CoroutineScope
@@ -21,9 +24,22 @@ class LoginActivity : AppCompatActivity() {
 
     private var isPasswordVisible = false // Variable para la visibilidad de la contraseña
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_login)
+        //atras
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                // Configura flags para evitar acumulación de actividades
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+
+        }
 
         val emailEditText: EditText = findViewById(R.id.emailEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
@@ -69,9 +85,9 @@ class LoginActivity : AppCompatActivity() {
 
         // Acción del enlace "¿No tienes cuenta? Regístrese"
         registerLinkTextView.setOnClickListener {
-            // Redirige a la pantalla de registro
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left) // Animaciones personalizadas
         }
     }
 
