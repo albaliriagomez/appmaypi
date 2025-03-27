@@ -47,6 +47,11 @@
             android:title="ChatBot" />
 
         <item
+            android:id="@+id/nav_muro"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Muro de desaparecidos" />
+
+        <item
             android:id="@+id/nav_cerrarsesion"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Cerrar Sesion" />

@@ -13,7 +13,7 @@ object RetrofitInstance {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://backend-unihacks.onrender.com/") // Asegúrate de que esta IP sea la correcta https://backend-unihacks.onrender.com/
+        .baseUrl("http://192.168.54.16:8000/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

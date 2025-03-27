@@ -14,8 +14,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.torrezpillcokevin.nuna.data.ApiService
+import com.torrezpillcokevin.nuna.data.Login
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
-import com.torrezpillcokevin.nuna.data.login
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,12 +24,16 @@ import kotlinx.coroutines.launch
 class LoginActivity : AppCompatActivity() {
 
     private var isPasswordVisible = false // Variable para la visibilidad de la contraseña
+    private lateinit var apiService: ApiService // Importa tu servicio de Retrofit
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_login)
+
+        apiService = RetrofitInstance.api
+
         //atras
         val backButton: ImageButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -51,6 +56,8 @@ class LoginActivity : AppCompatActivity() {
         val defaultEmail = "123"
         val defaultPassword = "123"
 
+
+
         // Acción para alternar visibilidad de la contraseña
         togglePasswordVisibility.setOnClickListener {
             if (isPasswordVisible) {
@@ -67,7 +74,21 @@ class LoginActivity : AppCompatActivity() {
             isPasswordVisible = !isPasswordVisible
         }
 
+
         // Acción del botón de inicio de sesión
+       /* loginButton.setOnClickListener {
+            val username = emailEditText.text.toString()  // Usamos 'username'
+            val password = passwordEditText.text.toString()
+
+            Log.d("LOGIN_DATA", "Username: $username, Password: $password")  // Agregar log aquí
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
+            } else {
+                val loginData = Login(username, password)  // Usamos 'username' aquí
+                inicioSesion(loginData)
+            }
+        }*/
         loginButton.setOnClickListener {
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
@@ -77,11 +98,15 @@ class LoginActivity : AppCompatActivity() {
             } else if (email == defaultEmail && password == defaultPassword) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                 // Aquí puedes redirigir al usuario a otra actividad
-                 startActivity(Intent(this, MainActivity2::class.java))
+                startActivity(Intent(this, MainActivity2::class.java))
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
         }
+
+
+
+
 
         // Acción del enlace "¿No tienes cuenta? Regístrese"
         registerLinkTextView.setOnClickListener {
@@ -93,37 +118,45 @@ class LoginActivity : AppCompatActivity() {
 
 
     // Función para iniciar sesion
-    private fun inicioSesion(login: login) {
+    private fun inicioSesion(login: Login) {
         CoroutineScope(Dispatchers.IO).launch {
+            Log.d("LOGIN_REQUEST", "Enviando solicitud de login: ${login.username}, ${login.password}")  // Log de datos enviados
+
             try {
                 val response = RetrofitInstance.api.postLogin(login)
 
+                Log.d("API_RESPONSE", "Código de estado de la respuesta: ${response.code()}")  // Log del código de estado HTTP
+
                 if (response.isSuccessful) {
-                    val userData = response.body()
+                    val authResponse = response.body()
 
-                    // Imprimir todos los datos recibidos en el log
-                    Log.d("API_RESPONSE LOGIN", "Nombre: ${userData?.name}")
-                    Log.d("API_RESPONSE LOGIN", "Correo: ${userData?.email}")
-                    Log.d("API_RESPONSE LOGIN", "Avatar: ${userData?.avatar}")
-                    Log.d("API_RESPONSE LOGIN", "Estado: ${userData?.status}")
-                    Log.d("API_RESPONSE LOGIN", "Rol: ${userData?.role}")
+                    if (authResponse != null) {
+                        Log.d("API_RESPONSE LOGIN", "Token recibido: ${authResponse.access_token}")  // Log del token
 
-                    runOnUiThread {
-                        Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                        val sharedPreferences = getSharedPreferences("APP_PREFS", MODE_PRIVATE)
+                        sharedPreferences.edit().putString("JWT_TOKEN", authResponse.access_token).apply()
 
-                        val intent = Intent(this@LoginActivity, MainActivity2::class.java)
-                        startActivity(intent)
-                        finish() // Opcional: llama a finish() si no quieres volver a esta actividad
+                        runOnUiThread {
+                            Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@LoginActivity, MainActivity2::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this@LoginActivity, "Error: respuesta nula", Toast.LENGTH_SHORT).show()
+                        }
+                        Log.e("API_RESPONSE", "Respuesta nula del servidor.")
                     }
                 } else {
-                    Log.e("API_RESPONSE", "Error en la solicitud: ${response.errorBody()?.string()}")
+                    Log.e("API_RESPONSE", "Error en la solicitud: ${response.errorBody()?.string()}")  // Log de error si la respuesta no es exitosa
 
                     runOnUiThread {
                         Toast.makeText(this@LoginActivity, "Error al iniciar sesión: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
-                Log.e("API_RESPONSE", "Excepción: ${e.message}")
+                Log.e("API_RESPONSE", "Excepción: ${e.message}")  // Log de la excepción
 
                 runOnUiThread {
                     Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -131,5 +164,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 
 }
