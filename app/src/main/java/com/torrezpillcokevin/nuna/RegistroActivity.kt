@@ -6,25 +6,26 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.torrezpillcokevin.nuna.data.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 import android.text.InputType
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
+import com.torrezpillcokevin.nuna.data.ApiService
 
 
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
+import kotlinx.coroutines.withContext
 
 class RegistroActivity : AppCompatActivity() {
 
     private var isPasswordVisible = false // Variable para la visibilidad de la contraseña
+    private lateinit var apiService: ApiService // Importa tu servicio de Retrofit
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +45,15 @@ class RegistroActivity : AppCompatActivity() {
 
         }
 
-
+        // Inicializa Retrofit (asumiendo que ya tienes una instancia creada en otro lugar)
+        apiService = RetrofitInstance.api // Asegúrate de que esta referencia es correcta
 
             // Referencias a las vistas
         val nameEditText: EditText = findViewById(R.id.nameEditText)
+        val numberphone:EditText=findViewById(R.id.phoneEditText)
         val emailEditText: EditText = findViewById(R.id.emailEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
+
         val repeatPasswordEditText: EditText = findViewById(R.id.repeatPasswordEditText)
         val registerButton: Button = findViewById(R.id.registerButton)
         val togglePasswordVisibility: ImageView = findViewById(R.id.togglePasswordVisibility)
@@ -78,20 +82,18 @@ class RegistroActivity : AppCompatActivity() {
         // Acción del botón de registro
         registerButton.setOnClickListener {
             val name = nameEditText.text.toString()
+            val phone = numberphone.text.toString()
             val email = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
             val repeatPassword = repeatPasswordEditText.text.toString()
 
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
+            if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT)
                     .show()
             } else if (password != repeatPassword) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                // Opcional: Puedes redirigir al usuario al Login después del registro
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                registerUser(name, phone, email, password)
             }
         }
 
@@ -102,4 +104,40 @@ class RegistroActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left) // Animaciones personalizadas
         }
     }
+
+    // Método para registrar usuario usando la instancia de Retrofit ya creada
+    private fun registerUser(name: String, phone: String, email: String, password: String) {
+        // Asegúrate de agregar un valor para "avatar" y "role"
+        val user = User(
+            name = name,
+            password = password,
+            email = email,
+            avatar = "", // O algún valor predeterminado si es requerido
+            status = "active",
+            role = "user", // Cambia esto según el rol adecuado
+            numero = phone.toInt() // Convertir teléfono a número
+        )
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = apiService.postUsers(user)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(applicationContext, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(applicationContext, LoginActivity::class.java))
+                    } else {
+                        // Imprime el error para ver más detalles
+                        val errorResponse = response.errorBody()?.string() ?: "Error desconocido"
+                        //Log.e("Register", "Error: $errorResponse")
+                        Toast.makeText(applicationContext, "Error en el registro: $errorResponse", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(applicationContext, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
 }
