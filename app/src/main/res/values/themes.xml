@@ -1,11 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme para modo claro -->
     <style name="Base.Theme.Nuna" parent="Theme.Material3.Light.NoActionBar">
         <!-- Color de la barra de estado -->
         <item name="android:statusBarColor">@color/amber</item>
-        <!-- Para hacer los íconos de la barra oscuros (si el fondo es claro) -->
+        <!-- Íconos oscuros si el fondo es claro -->
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <!-- Colores principales -->
+        <item name="colorPrimary">@color/md_theme_primaryFixed</item>
+        <item name="colorOnPrimary">@color/md_theme_onPrimaryFixed</item>
+        <item name="colorSurface">@color/md_theme_surfaceContainer</item>
+        <item name="colorOnSurface">@color/md_theme_onSurfaceVariant</item>
     </style>
 
     <style name="Theme.Nuna" parent="Base.Theme.Nuna" />
+
+
 </resources>

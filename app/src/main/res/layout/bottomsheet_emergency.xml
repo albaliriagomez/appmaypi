@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet_top_rounded"
     android:padding="20dp"
     android:orientation="vertical">
 
@@ -12,17 +13,15 @@
         android:layout_height="wrap_content"
         android:text="Configurar Contactos de Emergencia"
         android:textSize="18sp"
-        android:textColor="@color/black"
+        android:textColor="@color/charcoal"
         android:gravity="center"
         android:textStyle="bold"
         android:paddingBottom="10dp"/>
 
-    <!-- Sección para el Switch con un padding adecuado -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="8dp"
         android:minHeight="48dp"
         android:gravity="center_vertical">
 
@@ -34,6 +33,7 @@
             android:text="Servicio en segundo plano"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/charcoal"
             android:paddingStart="8dp"/>
 
         <Switch
@@ -42,10 +42,10 @@
             android:layout_height="48dp"
             android:minHeight="48dp"
             android:minWidth="48dp"
-            android:padding="8dp"/>
+            android:thumbTint="@color/amber"
+            android:trackTint="@color/olive"/>
     </LinearLayout>
 
-    <!-- Spinner con padding y accesibilidad mejorada -->
     <TextView
         android:id="@+id/tvCall"
         android:layout_width="wrap_content"
@@ -53,19 +53,20 @@
         android:text="📞 Seleccionar Contacto para la Llamada"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/charcoal"
         android:paddingTop="10dp"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
+        android:background="@drawable/bg_spinner"
         android:padding="8dp">
 
         <Spinner
             android:id="@+id/spinnerCallContact"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_spinner"/>
+            android:layout_height="wrap_content"/>
     </FrameLayout>
 
     <TextView
@@ -75,13 +76,14 @@
         android:text="✉️ Seleccionar Contactos para los SMS"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:textColor="@color/charcoal"
         android:paddingTop="10dp"/>
 
     <ListView
         android:id="@+id/lvContacts"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:divider="@android:color/darker_gray"
+        android:divider="@color/charcoal"
         android:dividerHeight="1dp"/>
 
     <Button
@@ -89,8 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Guardar"
-        android:backgroundTint="#34495E"
-        android:textColor="@android:color/white"
+        android:backgroundTint="@color/charcoal"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginTop="10dp"/>
 
@@ -99,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cancelar"
-        android:backgroundTint="#95A5A6"
-        android:textColor="@android:color/white"
+        android:backgroundTint="@color/olive"
+        android:textColor="@color/white"
         android:layout_marginTop="5dp"/>
 </LinearLayout>

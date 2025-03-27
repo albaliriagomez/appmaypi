@@ -40,6 +40,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="30dp"
+                android:backgroundTint="#2E4053"
                 android:src="@drawable/cam_icono" />
 
             <ImageView
@@ -47,6 +48,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="30dp"
+                android:backgroundTint="#2E4053"
                 android:src="@drawable/mic_icono" />
 
             <ImageView
@@ -54,6 +56,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="30dp"
+                android:backgroundTint="#2E4053"
                 android:src="@drawable/mensj_icono" />
         </LinearLayout>
 
@@ -73,7 +76,7 @@
             android:layout_height="wrap_content"
             android:text="Agrega tu Contacto de Emergencia"
             android:layout_marginTop="5dp"
-            android:textColor="#34495E"
+            android:textColor="#2E4053"
             android:textSize="14sp"
             android:fontFamily="@font/poppins_regular"
             android:layout_gravity="center_horizontal"/>
@@ -83,10 +86,13 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:text="Agregar Contacto"
-            android:backgroundTint="#A9CCE3"
+            android:backgroundTint="#FFC107"
             android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:elevation="4dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_regular"/>
+
 
         <!-- Lista de contactos -->
         <androidx.recyclerview.widget.RecyclerView
@@ -114,7 +120,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Ingresar"
-            android:backgroundTint="#34495E"
+            android:backgroundTint="#2E4053"
             android:textColor="#FFFFFF"
             android:fontFamily="@font/poppins_regular"
             android:layout_marginEnd="8dp"/>
@@ -125,7 +131,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Registrarse"
-            android:backgroundTint="#95A5A6"
+            android:backgroundTint="#808000"
             android:textColor="#FFFFFF"
             android:fontFamily="@font/poppins_regular"
             android:layout_marginEnd="8dp"/>
@@ -141,6 +147,4 @@
             android:scaleType="centerInside"
             android:layout_marginEnd="8dp"/>
     </LinearLayout>
-
 </RelativeLayout>
-
