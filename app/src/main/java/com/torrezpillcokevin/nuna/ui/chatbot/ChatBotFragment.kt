@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.ai.client.generativeai.BuildConfig
@@ -35,6 +36,12 @@ class ChatBotFragment : Fragment() {
     private lateinit var inputMessage: EditText
     private lateinit var buttonSend: ImageView
 
+    // Vistas a ocultar
+    private lateinit var initialImage: ImageView  // Imagen inicial
+    private lateinit var initialCard: CardView  // Tarjeta o CardView inicial
+    private lateinit var secondCard: CardView  // Segunda tarjeta
+    private lateinit var thirdCard: CardView  // Tercera tarjeta
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,15 +58,25 @@ class ChatBotFragment : Fragment() {
         buttonSend = view.findViewById(R.id.buttonSend)
         scrollView = view.findViewById(R.id.scrollView)
 
-
-
-        // Mensajes iniciales de bienvenida
-
+        // Imagen y tarjetas iniciales
+        initialImage = view.findViewById(R.id.imageSearchGuide)
+        initialCard = view.findViewById(R.id.cardSearchGuide)
+        secondCard = view.findViewById(R.id.cardEmotionalSupport)
+        thirdCard = view.findViewById(R.id.cardSecond)
 
         // Configuración del botón de enviar mensaje
         buttonSend.setOnClickListener {
             val messageText = inputMessage.text.toString().trim()
             if (messageText.isNotEmpty()) {
+                // Limpiar el contenedor de mensajes antes de agregar uno nuevo
+               // clearMessagesContainer()
+
+                // Hacer invisibles las imágenes o tarjetas iniciales
+                initialImage.visibility = View.GONE
+                initialCard.visibility = View.GONE
+                secondCard.visibility = View.GONE  // Ocultar segunda tarjeta
+                thirdCard.visibility = View.GONE  // Ocultar tercera tarjeta
+
                 addMessageToContainer(messageText, isUserMessage = true)
                 inputMessage.text?.clear()
                 scrollToBottom()
@@ -84,6 +101,10 @@ class ChatBotFragment : Fragment() {
         view.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
             view.viewTreeObserver.removeOnGlobalLayoutListener(listener)
         }
+    }
+
+    private fun clearMessagesContainer() {
+        messagesContainer.removeAllViews()
     }
 
     private fun addMessageToContainer(message: String, isUserMessage: Boolean) {
@@ -114,7 +135,7 @@ class ChatBotFragment : Fragment() {
         // Inicializa el modelo generativo Gemini
         val generativeModel = GenerativeModel(
             modelName = "gemini-1.5-flash",
-            apiKey = "AIzaSyDINzXEomjfYMneyAry7ZNDi6c233AXDmg"
+            apiKey = "AIzaSyAN1t0IA7WLrCf8Tgx_dKJOKxrM6ttjZ8I"
         )
 
         lifecycleScope.launch(Dispatchers.IO) {

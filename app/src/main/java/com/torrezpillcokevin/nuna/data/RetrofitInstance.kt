@@ -6,14 +6,15 @@ import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 object RetrofitInstance {
+
     private val client = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
+        .connectTimeout(20, TimeUnit.SECONDS)
         .readTimeout(10, TimeUnit.SECONDS)
         .writeTimeout(10, TimeUnit.SECONDS)
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.54.16:8000/")
+        .baseUrl("http://192.168.1.6:8000/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
