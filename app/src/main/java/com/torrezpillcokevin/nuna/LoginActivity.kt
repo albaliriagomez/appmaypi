@@ -14,12 +14,14 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.gson.Gson
 import com.torrezpillcokevin.nuna.data.ApiService
 import com.torrezpillcokevin.nuna.data.Login
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
@@ -46,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        val emailEditText: EditText = findViewById(R.id.emailEditText)
+        val usernameEditText: EditText = findViewById(R.id.usernameEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
         val togglePasswordVisibility: ImageView = findViewById(R.id.togglePasswordVisibility)
         val loginButton: Button = findViewById(R.id.loginButton)
@@ -76,21 +78,20 @@ class LoginActivity : AppCompatActivity() {
 
 
         // Acción del botón de inicio de sesión
-       /* loginButton.setOnClickListener {
-            val username = emailEditText.text.toString()  // Usamos 'username'
+        /*loginButton.setOnClickListener {
+            val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
-
-            Log.d("LOGIN_DATA", "Username: $username, Password: $password")  // Agregar log aquí
 
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
             } else {
-                val loginData = Login(username, password)  // Usamos 'username' aquí
+                val loginData = Login(username, password)
                 inicioSesion(loginData)
             }
         }*/
+
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString()
+            val email = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
 
             if (email.isEmpty() || password.isEmpty()) {
@@ -105,9 +106,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
 
-
-
-
         // Acción del enlace "¿No tienes cuenta? Regístrese"
         registerLinkTextView.setOnClickListener {
             val intent = Intent(this, RegistroActivity::class.java)
@@ -120,50 +118,70 @@ class LoginActivity : AppCompatActivity() {
     // Función para iniciar sesion
     private fun inicioSesion(login: Login) {
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d("LOGIN_REQUEST", "Enviando solicitud de login: ${login.username}, ${login.password}")  // Log de datos enviados
+            //Log.d("LOGIN_REQUEST", "Username: ${login.username}, Password: ${login.password}")  // Verifica los datos enviados
+            //Log.d("LOGIN_REQUEST", "URL: ${RetrofitInstance.api}")  // Endpoint usado
+           // Log.d("LOGIN_REQUEST", "Content-Type: application/x-www-form-urlencoded")  // Tipo de contenido correcto
 
             try {
-                val response = RetrofitInstance.api.postLogin(login)
+                // Enviar la solicitud POST con Retrofit, ya no es necesario el JSON
+                val response = RetrofitInstance.api.postLogin(login.username, login.password)
 
-                Log.d("API_RESPONSE", "Código de estado de la respuesta: ${response.code()}")  // Log del código de estado HTTP
+                Log.d("API_RESPONSE", "Código de estado de la respuesta: ${response.code()}")
 
                 if (response.isSuccessful) {
                     val authResponse = response.body()
 
                     if (authResponse != null) {
-                        Log.d("API_RESPONSE LOGIN", "Token recibido: ${authResponse.access_token}")  // Log del token
+                        Log.d("API_RESPONSE LOGIN", "Token recibido: ${authResponse.access_token}")
+                        Log.d("API_RESPONSE LOGIN", "User ID: ${authResponse.user_id}")
+                        Log.d("API_RESPONSE LOGIN", "Email: ${authResponse.email}")
 
+                       // Accede a SharedPreferences
                         val sharedPreferences = getSharedPreferences("APP_PREFS", MODE_PRIVATE)
-                        sharedPreferences.edit().putString("JWT_TOKEN", authResponse.access_token).apply()
 
-                        runOnUiThread {
+                      // Guardar los datos de forma persistente
+                        sharedPreferences.edit().apply {
+                            putString("JWT_TOKEN", authResponse.access_token) // Guardar el token
+                            putInt("USER_ID", authResponse.user_id) // Guardar el user_id
+                            putString("EMAIL", authResponse.email) // Guardar el email
+                            apply() // Se aplica los cambios de forma asíncrona
+                        }
+
+                        withContext(Dispatchers.Main) {
                             Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this@LoginActivity, MainActivity2::class.java)
                             startActivity(intent)
                             finish()
                         }
                     } else {
-                        runOnUiThread {
+                        Log.e("API_RESPONSE", "Respuesta nula del servidor.")
+                        withContext(Dispatchers.Main) {
                             Toast.makeText(this@LoginActivity, "Error: respuesta nula", Toast.LENGTH_SHORT).show()
                         }
-                        Log.e("API_RESPONSE", "Respuesta nula del servidor.")
                     }
                 } else {
-                    Log.e("API_RESPONSE", "Error en la solicitud: ${response.errorBody()?.string()}")  // Log de error si la respuesta no es exitosa
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = errorBody ?: "Error desconocido"
 
-                    runOnUiThread {
-                        Toast.makeText(this@LoginActivity, "Error al iniciar sesión: ${response.errorBody()?.string()}", Toast.LENGTH_SHORT).show()
+                    Log.e("API_RESPONSE", "Error en la solicitud: $errorMessage")
+                    Log.e("API_RESPONSE", "Headers: ${response.headers()}")
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@LoginActivity, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
-                Log.e("API_RESPONSE", "Excepción: ${e.message}")  // Log de la excepción
+                Log.e("API_RESPONSE", "Excepción: ${e.message}")
 
-                runOnUiThread {
+                withContext(Dispatchers.Main) {
                     Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
+
+
+
 
 
 }

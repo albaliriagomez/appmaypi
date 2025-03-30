@@ -13,8 +13,8 @@ data class User(
 )
 //LOGIN
 data class Login(
-    val username: String, // Cambiar 'email' por 'username' si el servidor espera 'username'
-    val password: String
+    val username: String,
+    val password: String,
 )
 
 
@@ -22,7 +22,6 @@ data class Login(
 data class AuthResponse(
     val access_token: String,
     val token_type: String,  // Ejemplo: "bearer"
-    val expires_in: Int? = null,  // Tiempo de expiración del token, si es relevante
     val user_id: Int,  // Agregar el user_id que devuelve la API
     val email: String  // Agregar el email que devuelve la API
 )
