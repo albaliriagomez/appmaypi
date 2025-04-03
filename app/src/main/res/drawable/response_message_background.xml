@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#EEEEEE" /> <!-- Color de fondo del mensaje de respuesta -->
+    <solid android:color="#662E4053" /> <!-- Color de fondo del mensaje de respuesta -->
     <corners android:radius="16dp" />
     <padding android:left="12dp" android:top="8dp" android:right="12dp" android:bottom="8dp" />
 </shape>

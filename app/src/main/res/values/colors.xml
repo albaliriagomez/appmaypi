@@ -13,6 +13,12 @@
     <color name="gainsboro">#DCDCDC</color> <!-- Gris claro para bordes o separadores -->
     <color name="jet_black">#212121</color> <!-- Negro profundo (textos o fondo oscuro) -->
 
+
+    <color name="charcoal_translucent">#662E4053</color>
+
+
+
+
     <color name="primary_color">#2C3E50</color>
     <color name="primary_dark">#1A2A3A</color>
     <color name="secondary_color">#95A5A6</color>
