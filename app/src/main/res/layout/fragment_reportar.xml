@@ -1,260 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F4FAF8"
     tools:context=".ui.reportar.ReportarFragment">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:fillViewport="true">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F7F7F7">
+            android:orientation="vertical"
+            android:background="@drawable/card_background"
+            android:elevation="4dp">
 
-            <!-- Título -->
-            <TextView
+            <!-- Encabezado con sombra -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#F9E79F"
-                android:text="DESAPARECIDO"
-                android:textSize="26sp"
-                android:textColor="#FFFFFF"
-                android:gravity="center"
-                android:padding="8dp"
-                android:fontFamily="@font/poppins_regular"/>
+                app:cardBackgroundColor="@color/charcoal"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tittle_missing_person"
+                    android:textSize="20sp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:paddingVertical="16dp"
+                    android:fontFamily="@font/poppins_regular"/>
+            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Información y foto -->
+            <!-- Contenido principal con padding consistente -->
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:weightSum="3">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_person"
-                    android:scaleType="centerCrop"
-                    android:layout_marginEnd="8dp" />
-
+                <!-- Sección de información personal -->
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2">
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@drawable/usu"
+                        android:scaleType="centerCrop"
+                        android:layout_marginEnd="16dp"
+                        android:contentDescription="@string/content_description_missing_person"
+                        android:background="@drawable/image_border"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/textName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Nathaniel L. Heady"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="@color/text_primary"
+                            android:fontFamily="@font/poppins_regular"/>
+
+                        <TextView
+                            android:id="@+id/textDetails"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/person_details_placeholder"
+                            android:layout_marginTop="8dp"
+                            android:textSize="14sp"
+                            android:textColor="@color/text_secondary"
+                            android:lineSpacingExtra="4dp"
+                            android:fontFamily="@font/poppins_regular"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Descripción -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardElevation="2dp">
 
                     <TextView
-                        android:id="@+id/textName"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/descriptiondesaparecidoField"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nathaniel L. Heady"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
+                        android:text="@string/last_seen_placeholder"
+                        android:padding="16dp"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary"
+                        android:lineSpacingExtra="4dp"
+                        android:fontFamily="@font/poppins_regular"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Formulario de reporte -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/date_time_hint"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dateField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:focusable="false"
+                        android:clickable="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/description_hint"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:minLines="4"
+                        android:gravity="top"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Mapa con título -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/map_section_title"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/poppins_regular"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+
+                    <com.mapbox.maps.MapView
+                        android:id="@+id/mapContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Botón para seleccionar imagen -->
+                <Button
+                    android:id="@+id/selectImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Seleccionar imagen"
+                    android:backgroundTint="#34495E"
+                    android:textColor="#FFFFFF"
+                    android:textAllCaps="false"
+                    android:drawablePadding="8dp"
+                    android:gravity="center|start"/>
+
+
+                <!-- Botones de acción -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2">
+
+                    <Button
+                        android:id="@+id/clearButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp"
+                        android:text="Cancelar"
+                        android:backgroundTint="#34495E"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="@font/poppins_regular"/>
 
 
-                    <TextView
-                        android:id="@+id/textDetails"
-                        android:layout_width="wrap_content"
+                    <Button
+                        android:id="@+id/sendButton"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Edad: 36 | Altura: 1.83 cm | Peso: 77 kg\nCabello: Rubio"
-                        android:layout_marginTop="4dp"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/poppins_regular"/>
-
-
-                    <TextView
-                        android:id="@+id/lastLocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Última Ubicación:\n4593 High Meadow Lane Hanover, MD 21076"
-                        android:layout_marginTop="8dp"
-                        android:textSize="14sp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp"
+                        android:text="Enviar"
+                        android:backgroundTint="#95A5A6"
+                        android:textColor="#FFFFFF"
                         android:fontFamily="@font/poppins_regular"/>
 
                 </LinearLayout>
             </LinearLayout>
-
-            <!-- Descripción -->
-            <TextView
-                android:id="@+id/descriptionField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fue visto por última vez el 24 de noviembre de 2023..."
-                android:padding="8dp"
-                android:textSize="14sp"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Campos del formulario -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="REPORTAR INFORMACIÓN DEL DESAPARECIDO"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:padding="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
-                android:id="@+id/nameField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre (opcional)"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
-                android:id="@+id/emailField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email (opcional)"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
-                android:id="@+id/phoneField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Teléfono (opcional)"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <CheckBox
-                android:id="@+id/consentCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Consentimiento para Contactar"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-
-            <!-- Campo de Fecha y Hora -->
-            <EditText
-                android:id="@+id/dateField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Fecha y Hora del Avistamiento"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Campo de Ubicación -->
-            <EditText
-                android:id="@+id/locationField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ubicación del Avistamiento"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Mapa -->
-            <com.mapbox.maps.MapView
-                android:id="@+id/mapContainer"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Campo Descripción -->
-            <EditText
-                android:id="@+id/observationDescriptionField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Descripción de la persona o acción observada"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Campo para Subir Imagen -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Imagen del Suceso (Opcional)"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins_regular"/>
-
-
-                <Button
-                    android:id="@+id/uploadImageButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cargar Imagen"
-                    android:backgroundTint="#95A5A6"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="@font/poppins_regular"/>
-
-            </LinearLayout>
-
-            <!-- Botones -->
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2">
-
-                <Button
-                    android:id="@+id/clearButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="4dp"
-                    android:text="Limpiar"
-                    android:backgroundTint="#34495E"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="@font/poppins_regular"/>
-
-
-                <Button
-                    android:id="@+id/sendButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="4dp"
-                    android:text="Enviar"
-                    android:backgroundTint="#95A5A6"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="@font/poppins_regular"/>
-
-            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>

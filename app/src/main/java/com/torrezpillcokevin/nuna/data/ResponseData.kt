@@ -11,12 +11,21 @@ data class User(
         val numero:Int,
 
 )
+data class Report(
+    val nombre: String,
+    val email: String,
+    val telefono: Int,
+    val fecha_avistamiento: String,
+    val ubicacion_avistamiento: String,
+    val descripcion: String,
+    val imagen: String
+)
+
 //LOGIN
 data class Login(
     val username: String,
     val password: String,
 )
-
 
 // Clase que representa la respuesta del login (con JWT)
 data class AuthResponse(
@@ -25,7 +34,6 @@ data class AuthResponse(
     val user_id: Int,  // Agregar el user_id que devuelve la API
     val email: String  // Agregar el email que devuelve la API
 )
-
 
 // Clase que representa la respuesta de la API
 data class ApiResponse(

@@ -4,10 +4,22 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="charcoal">#2E4053</color>
-    <color name="white_smoke">#F2F2F2</color>
     <color name="amber">#FFC107</color>
     <color name="olive">#808000</color>
+    <color name="charcoal">#2E4053</color> <!-- Azul grisáceo oscuro -->
+    <color name="white_smoke">#F2F2F2</color> <!-- Blanco humo (fondo claro) -->
+    <color name="dark_slate_gray">#34495E</color> <!-- Azul grisáceo oscuro (reforzando el estilo) -->
+    <color name="steel_blue">#4682B4</color> <!-- Azul acero (acentos) -->
+    <color name="gainsboro">#DCDCDC</color> <!-- Gris claro para bordes o separadores -->
+    <color name="jet_black">#212121</color> <!-- Negro profundo (textos o fondo oscuro) -->
+
+    <color name="primary_color">#2C3E50</color>
+    <color name="primary_dark">#1A2A3A</color>
+    <color name="secondary_color">#95A5A6</color>
+    <color name="background_gray_light">#F5F5F5</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="border_gray">#E0E0E0</color>
 
 
 

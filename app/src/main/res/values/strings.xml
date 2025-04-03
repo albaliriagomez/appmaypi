@@ -8,9 +8,29 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_muro">Muro de Desaparecidos</string>
+    <string name="nav_reportar">Reportar Desaparición</string>
+    <string name="nav_codigo_rastreo">Código de Rastreo</string>
+    <string name="nav_contacto_emergencia">Contacto de Emergencia</string>
+    <string name="nav_preguntas_frecuentes">Preguntas Frecuentes</string>
+    <string name="nav_guia">Guía de Uso</string>
+    <string name="nav_chatbot">Asistente Virtual</string>
+    <string name="nav_soporte">Soporte Técnico</string>
+    <string name="nav_cerrar_sesion">Cerrar Sesión</string>
+
+
+    <string name="tittle_missing_person">DESAPARECIDO</string>
+    <string name="content_description_missing_person">Imagen de la persona desaparecida</string>
+    <string name="person_details_placeholder">Edad: 36 | Altura: 1.83 cm | Peso: 77 kg\nCabello: Rubio</string>
+    <string name="last_seen_placeholder">Fue visto por última vez el 24 de noviembre de 2023...</string>
+    <string name="date_time_hint">Fecha y Hora de Avistamiento</string>
+    <string name="description_hint">Descripción del Avistamiento</string>
+    <string name="map_section_title">Ubicación del Avistamiento</string>
+    <string name="select_image_button">Seleccionar Imagen</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="send_button">Enviar Reporte</string>
+
 
     <string name="mapbox_access_token">pk.eyJ1IjoiYWxiYWxpcmlhIiwiYSI6ImNtNG5laXpmMzA3YjcybnB4d21yZDM1aDEifQ.OLrEIq1mFGE83eMOeDIfzA</string>
 <!-- TODO: Remove or change this placeholder text -->
@@ -19,4 +39,7 @@
     <string-array name="status_options"> <item>Activo</item> <item>Inactivo</item> <item>Pendiente</item> </string-array>
 
     <string-array name="lineas_telefonicas"> <item>VIVA</item> <item>TIGO</item> <item>ENTEL</item> </string-array>
+
+
+
 </resources>

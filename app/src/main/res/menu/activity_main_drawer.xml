@@ -3,58 +3,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <!-- Sección principal -->
     <group android:checkableBehavior="single">
-
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Inicio" />
-
-        <item
-            android:id="@+id/nav_preguntasfrecuentes"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Preguntas Frecuentes" />
-
-        <item
-            android:id="@+id/nav_guia"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Guias" />
-
-        <item
-            android:id="@+id/nav_soporte"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Soporte" />
-
-        <item
-            android:id="@+id/nav_reportar"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Reportar" />
-
-        <item
-            android:id="@+id/nav_contactoEmergencia"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Contacto Emergencia" />
-
-        <item
-            android:id="@+id/nav_codigoRastreo"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Codigo Rastreo" />
-
-
-        <item
-            android:id="@+id/nav_chatbot"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="ChatBot" />
+            android:icon="@drawable/home_24px"
+            android:title="@string/nav_home"
+            android:orderInCategory="1" />
 
         <item
             android:id="@+id/nav_muro"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Muro de desaparecidos" />
+            android:icon="@drawable/diversity_3_24px"
+            android:title="@string/nav_muro"
+            android:orderInCategory="2" />
 
         <item
-            android:id="@+id/nav_cerrarsesion"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Cerrar Sesion" />
-
+            android:id="@+id/nav_reportar"
+            android:icon="@drawable/familiar_face_and_zone_24px"
+            android:title="@string/nav_reportar"
+            android:orderInCategory="3" />
     </group>
+
+    <!-- Sección de herramientas de rastreo -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_codigoRastreo"
+            android:icon="@drawable/code_24px"
+            android:title="@string/nav_codigo_rastreo"
+            android:orderInCategory="4" />
+
+        <item
+            android:id="@+id/nav_contactoEmergencia"
+            android:icon="@drawable/contacts_24px"
+            android:title="@string/nav_contacto_emergencia"
+            android:orderInCategory="5" />
+    </group>
+
+    <!-- Sección de ayuda y soporte -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_preguntasfrecuentes"
+            android:icon="@drawable/quiz_24px"
+            android:title="@string/nav_preguntas_frecuentes"
+            android:orderInCategory="6" />
+
+        <item
+            android:id="@+id/nav_guia"
+            android:icon="@drawable/developer_guide_24px"
+            android:title="@string/nav_guia"
+            android:orderInCategory="7" />
+
+        <item
+            android:id="@+id/nav_chatbot"
+            android:icon="@drawable/mark_unread_chat_alt_24px"
+            android:title="@string/nav_chatbot"
+            android:orderInCategory="8" />
+
+        <item
+            android:id="@+id/nav_soporte"
+            android:icon="@drawable/support_agent_24px"
+            android:title="@string/nav_soporte"
+            android:orderInCategory="9" />
+    </group>
+
+    <!-- Sección de cuenta -->
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_cerrarsesion"
+            android:icon="@drawable/logout_24px"
+            android:title="@string/nav_cerrar_sesion"
+            android:orderInCategory="10"
+            android:visible="true" />
+    </group>
+
 </menu>
