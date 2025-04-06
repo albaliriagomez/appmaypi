@@ -108,24 +108,35 @@ class ChatBotFragment : Fragment() {
     }
 
     private fun addMessageToContainer(message: String, isUserMessage: Boolean) {
+        val context = requireContext()
+
         val messageView = TextView(context).apply {
             text = message
-            layoutParams = LinearLayout.LayoutParams(
+            setPadding(32, 24, 32, 24)
+            textSize = 16f
+            maxWidth = 700
+            setTextColor(if (isUserMessage) Color.WHITE else Color.BLACK)
+            background = ContextCompat.getDrawable(
+                context,
+                if (isUserMessage) R.drawable.user_message_background
+                else R.drawable.response_message_background
+            )
+
+            val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                setMargins(8, 8, 8, 8)
+                setMargins(16, 8, 16, 8)
                 gravity = if (isUserMessage) Gravity.END else Gravity.START
             }
-            background = ContextCompat.getDrawable(
-                requireContext(),
-                if (isUserMessage) R.drawable.user_message_background else R.drawable.response_message_background
-            )
-            setPadding(16, 8, 16, 8)
-            setTextColor(if (isUserMessage) Color.WHITE else Color.BLACK)
+
+            this.layoutParams = layoutParams
         }
+
         messagesContainer.addView(messageView)
     }
+
+
 
     private fun scrollToBottom() {
         scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
