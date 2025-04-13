@@ -17,8 +17,6 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
 import com.torrezpillcokevin.nuna.data.ApiService
-
-
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import kotlinx.coroutines.withContext
 
@@ -33,34 +31,36 @@ class RegistroActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_registro)
 
-        //atrasButtonView
+        // Botón atrás
         val backButton: ImageButton = findViewById(R.id.backButton2)
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
-                // Configura flags para evitar acumulación de actividades
                 flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             }
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-
         }
 
-        // Inicializa Retrofit (asumiendo que ya tienes una instancia creada en otro lugar)
-        apiService = RetrofitInstance.api // Asegúrate de que esta referencia es correcta
+        // Inicializa Retrofit
+        apiService = RetrofitInstance.api
 
-            // Referencias a las vistas
+        // Referencias a las vistas
         val nameEditText: EditText = findViewById(R.id.nameEditText)
-        val numberphone:EditText=findViewById(R.id.phoneEditText)
+        val numberphone: EditText = findViewById(R.id.phoneEditText)
         val emailEditText: EditText = findViewById(R.id.emailEditText)
         val passwordEditText: EditText = findViewById(R.id.passwordEditText)
-
         val repeatPasswordEditText: EditText = findViewById(R.id.repeatPasswordEditText)
         val registerButton: Button = findViewById(R.id.registerButton)
-        val togglePasswordVisibility: ImageView = findViewById(R.id.togglePasswordVisibility)
         val loginLinkTextView: TextView = findViewById(R.id.loginLinkTextView)
 
-        // Acción para alternar visibilidad de la contraseña
-        togglePasswordVisibility.setOnClickListener {
+        // Si estás usando tu propio botón de visibilidad (no recomendado si usas password_toggle en XML)
+        val togglePasswordVisibility: ImageView? = try {
+            findViewById(R.id.togglePasswordVisibility)
+        } catch (e: Exception) {
+            null
+        }
+
+        togglePasswordVisibility?.setOnClickListener {
             if (isPasswordVisible) {
                 // Enmascarar contraseña
                 passwordEditText.inputType =
@@ -74,8 +74,9 @@ class RegistroActivity : AppCompatActivity() {
                 repeatPasswordEditText.inputType = InputType.TYPE_CLASS_TEXT
                 togglePasswordVisibility.setImageResource(R.drawable.ic_visibility_off)
             }
-            // Mueve el cursor al final del texto
+            // Mueve el cursor al final
             passwordEditText.setSelection(passwordEditText.text.length)
+            repeatPasswordEditText.setSelection(repeatPasswordEditText.text.length)
             isPasswordVisible = !isPasswordVisible
         }
 
@@ -88,8 +89,7 @@ class RegistroActivity : AppCompatActivity() {
             val repeatPassword = repeatPasswordEditText.text.toString()
 
             if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
-                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
             } else if (password != repeatPassword) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
             } else {
@@ -101,21 +101,20 @@ class RegistroActivity : AppCompatActivity() {
         loginLinkTextView.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left) // Animaciones personalizadas
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 
-    // Método para registrar usuario usando la instancia de Retrofit ya creada
+    // Método para registrar usuario
     private fun registerUser(name: String, phone: String, email: String, password: String) {
-        // Asegúrate de agregar un valor para "avatar" y "role"
         val user = User(
             name = name,
             password = password,
             email = email,
-            avatar = "", // O algún valor predeterminado si es requerido
+            avatar = "",
             status = "active",
-            role = "user", // Cambia esto según el rol adecuado
-            numero = phone.toInt() // Convertir teléfono a número
+            role = "user",
+            numero = phone.toInt()
         )
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -126,9 +125,7 @@ class RegistroActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, "Registro exitoso", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(applicationContext, LoginActivity::class.java))
                     } else {
-                        // Imprime el error para ver más detalles
                         val errorResponse = response.errorBody()?.string() ?: "Error desconocido"
-                        //Log.e("Register", "Error: $errorResponse")
                         Toast.makeText(applicationContext, "Error en el registro: $errorResponse", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -139,5 +136,4 @@ class RegistroActivity : AppCompatActivity() {
             }
         }
     }
-
 }
