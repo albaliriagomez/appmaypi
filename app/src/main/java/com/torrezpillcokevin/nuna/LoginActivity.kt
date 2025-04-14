@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.gson.Gson
 import com.torrezpillcokevin.nuna.data.ApiService
 import com.torrezpillcokevin.nuna.data.Login
@@ -78,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         // Acción del botón de inicio de sesión
-        /*loginButton.setOnClickListener {
+        loginButton.setOnClickListener {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
 
@@ -88,9 +90,9 @@ class LoginActivity : AppCompatActivity() {
                 val loginData = Login(username, password)
                 inicioSesion(loginData)
             }
-        }*/
+        }
 
-        loginButton.setOnClickListener {
+        /*loginButton.setOnClickListener {
             val email = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
 
@@ -103,8 +105,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
-        }
-
+        }*/
 
         // Acción del enlace "¿No tienes cuenta? Regístrese"
         registerLinkTextView.setOnClickListener {
@@ -118,34 +119,19 @@ class LoginActivity : AppCompatActivity() {
     // Función para iniciar sesion
     private fun inicioSesion(login: Login) {
         CoroutineScope(Dispatchers.IO).launch {
-            //Log.d("LOGIN_REQUEST", "Username: ${login.username}, Password: ${login.password}")  // Verifica los datos enviados
-            //Log.d("LOGIN_REQUEST", "URL: ${RetrofitInstance.api}")  // Endpoint usado
-           // Log.d("LOGIN_REQUEST", "Content-Type: application/x-www-form-urlencoded")  // Tipo de contenido correcto
-
             try {
                 // Enviar la solicitud POST con Retrofit, ya no es necesario el JSON
                 val response = RetrofitInstance.api.postLogin(login.username, login.password)
 
-                Log.d("API_RESPONSE", "Código de estado de la respuesta: ${response.code()}")
+                //Log.d("API_RESPONSE", "Código de estado de la respuesta: ${response.code()}")
 
                 if (response.isSuccessful) {
                     val authResponse = response.body()
 
                     if (authResponse != null) {
-                        Log.d("API_RESPONSE LOGIN", "Token recibido: ${authResponse.access_token}")
-                        Log.d("API_RESPONSE LOGIN", "User ID: ${authResponse.user_id}")
-                        Log.d("API_RESPONSE LOGIN", "Email: ${authResponse.email}")
 
-                       // Accede a SharedPreferences
-                        val sharedPreferences = getSharedPreferences("APP_PREFS", MODE_PRIVATE)
-
-                      // Guardar los datos de forma persistente
-                        sharedPreferences.edit().apply {
-                            putString("JWT_TOKEN", authResponse.access_token) // Guardar el token
-                            putInt("USER_ID", authResponse.user_id) // Guardar el user_id
-                            putString("EMAIL", authResponse.email) // Guardar el email
-                            apply() // Se aplica los cambios de forma asíncrona
-                        }
+                        // Guardar de forma segura:
+                        saveSecureData(authResponse.access_token, authResponse.user_id, authResponse.email)
 
                         withContext(Dispatchers.Main) {
                             Toast.makeText(this@LoginActivity, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
@@ -177,6 +163,34 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun saveSecureData(token: String, userId: Int, email: String) {
+        try {
+            // 1. Crear una instancia de EncryptedSharedPreferences
+            val masterKey = MasterKey.Builder(applicationContext)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                applicationContext,
+                "SECURE_APP_PREFS",
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+
+            // 2. Guardar los datos cifrados
+            sharedPreferences.edit()
+                .putString("JWT_TOKEN", token)
+                .putInt("USER_ID", userId)
+                .putString("EMAIL", email)
+                .apply()
+
+            Log.d("SECURE_STORAGE", "Datos guardados de forma segura.")
+        } catch (e: Exception) {
+            Log.e("SECURE_STORAGE", "Error al guardar datos cifrados: ${e.message}")
         }
     }
 

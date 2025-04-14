@@ -9,17 +9,19 @@ data class User(
         val status: String,
         val role: String,
         val numero:Int,
+)
 
-)
-data class Report(
-    val nombre: String,
+data class UserGet(
+    val id: Int,         // Asegúrate de incluir este campo
+    val name: String,
+    val password: String,
     val email: String,
-    val telefono: Int,
-    val fecha_avistamiento: String,
-    val ubicacion_avistamiento: String,
-    val descripcion: String,
-    val imagen: String
+    val avatar: String,
+    val status: String,
+    val role: String,
+    val numero: Long     // Cambié 'Int' por 'Long' para manejar números más grandes
 )
+
 
 //LOGIN
 data class Login(
@@ -43,6 +45,50 @@ data class ApiResponse(
     val total_paginas: Int,
     val data: List<User> // Lista de usuarios en la respuesta
 )
+
+
+data class Report(
+    val nombre: String,
+    val email: String,
+    val telefono: Int,
+    val fecha_avistamiento: String,
+    val ubicacion_avistamiento: String,
+    val descripcion: String,
+    val imagen: String
+)
+
+data class ContactoRequest(
+    val nombre: String,
+    val telefono: Long,
+    val linea_telefonica: Int,
+    val accion: String
+)
+
+data class ContactoResponse(
+    val id: Int,
+    val nombre: String,
+    val telefono: Long,
+    val linea_telefonica: Int,
+    val accion: String
+)
+
+data class ContactResponse2(
+    val total_registros: Int,
+    val por_pagina: Int,
+    val pagina_actual: Int,
+    val total_paginas: Int,
+    val data: List<Contact>
+)
+
+data class Contact(
+    val nombre: String,
+    val telefono: Int,
+    val linea_telefonica: Int,
+    val accion: String,
+    val id: Int
+)
+
+
 
 
 

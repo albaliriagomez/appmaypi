@@ -129,8 +129,6 @@ class MainActivity : AppCompatActivity() {
             isProcessing = false // Restablece la bandera al final
         }
 
-
-
         findViewById<ImageView>(R.id.phoneIcono).setOnClickListener {
             makePhoneCall(this)
         }
