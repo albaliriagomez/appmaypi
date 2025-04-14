@@ -19,25 +19,6 @@
             android:background="@drawable/card_background"
             android:elevation="4dp">
 
-            <!-- Encabezado con sombra -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/charcoal"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="6dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tittle_missing_person"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    android:paddingVertical="16dp"
-                    android:fontFamily="@font/poppins_regular"/>
-            </com.google.android.material.card.MaterialCardView>
-
             <!-- Contenido principal con padding consistente -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,6 +94,60 @@
 
                 <!-- Formulario de reporte -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nombreInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/nombre_hint"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nombreField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:importantForAccessibility="yes"
+                        android:contentDescription="@string/nombre_hint"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/email_hint"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/emailField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:importantForAccessibility="yes"
+                        android:contentDescription="@string/email_hint"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/telefonoInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="@string/telefono_hint"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/telefonoField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:importantForAccessibility="yes"
+                        android:contentDescription="@string/telefono_hint"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dateInputLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
@@ -147,42 +182,43 @@
                         android:gravity="top"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Mapa con título -->
-                <TextView
+                <!-- Contenedor para los botones de imagen -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/map_section_title"
-                    android:textSize="16sp"
-                    android:textColor="@color/text_primary"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/poppins_regular"/>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
                     android:layout_marginBottom="16dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="4dp">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:weightSum="2">
 
-                    <com.mapbox.maps.MapView
-                        android:id="@+id/mapContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-                </com.google.android.material.card.MaterialCardView>
+                    <!-- Botón principal para seleccionar imagen -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/selectImage"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1.6"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/select_image"
+                        android:textColor="@color/primary_dark"
+                        app:icon="@drawable/ic_close"
+                        app:iconTint="@color/primary_dark"
+                        app:strokeColor="@color/primary_dark"
+                        app:strokeWidth="1dp"
+                        app:cornerRadius="8dp"/>
 
-                <!-- Botón para seleccionar imagen -->
-                <Button
-                    android:id="@+id/selectImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="Seleccionar imagen"
-                    android:backgroundTint="#34495E"
-                    android:textColor="#FFFFFF"
-                    android:textAllCaps="false"
-                    android:drawablePadding="8dp"
-                    android:gravity="center|start"/>
-
+                    <!-- Botón para abrir opciones (bottom sheet) -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnImageLocation"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="0.4"
+                        android:backgroundTint="@color/primary_dark"
+                        app:icon="@drawable/ic_edit"
+                        app:iconTint="@android:color/white"
+                        app:cornerRadius="8dp"/>
+                </LinearLayout>
 
                 <!-- Botones de acción -->
                 <LinearLayout

@@ -1,54 +1,65 @@
 package com.torrezpillcokevin.nuna.ui.reportar
 
-import android.Manifest
-import android.app.AlertDialog
-import android.app.TimePickerDialog
-import android.content.Context
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.location.LocationManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
+import android.provider.MediaStore
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.gson.Gson
 import com.mapbox.geojson.Point
-import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.ImageHolder
-import com.mapbox.maps.MapView
-import com.mapbox.maps.Style
-import com.mapbox.maps.plugin.LocationPuck2D
-import com.mapbox.maps.plugin.PuckBearing
-import com.mapbox.maps.plugin.animation.MapAnimationOptions
-import com.mapbox.maps.plugin.animation.flyTo
-import com.mapbox.maps.plugin.annotation.annotations
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationManager
-import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
-import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
-import com.mapbox.maps.plugin.gestures.gestures
-import com.mapbox.maps.plugin.locationcomponent.location
+import com.torrezpillcokevin.nuna.LoginActivity
 import com.torrezpillcokevin.nuna.R
+import com.torrezpillcokevin.nuna.data.Report
+import com.torrezpillcokevin.nuna.data.RetrofitInstance
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class ReportarFragment : Fragment() {
-    private lateinit var mapView: MapView
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var pointAnnotationManager: PointAnnotationManager
 
+    //variables para subir la foto
+    private lateinit var imageView: ImageView
+    private lateinit var selectImageLauncher: ActivityResultLauncher<Intent>
+    //para enviar
     private lateinit var dateField: TextInputEditText
+    private lateinit var descriptionField: TextInputEditText
+    private lateinit var nombreField: TextInputEditText
+    private lateinit var emailField: TextInputEditText
+    private lateinit var telefonoField: TextInputEditText
+
+    private var selectedLatitude: Double? = null
+    private var selectedLongitude: Double? = null
+    private var imagenSeleccionadaPart: MultipartBody.Part? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,25 +67,13 @@ class ReportarFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_reportar, container, false)
 
-        // Inicializar el cliente de ubicación
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        // Establecer los valores iniciales vacíos (si es necesario)
+        nombreField = view.findViewById(R.id.nombreField)
+        emailField = view.findViewById(R.id.emailField)
+        telefonoField = view.findViewById(R.id.telefonoField)
+        descriptionField = view.findViewById(R.id.descriptionField)
 
-        // Configurar Mapbox
-        mapView = view.findViewById(R.id.mapContainer)
-        val cameraOptions = CameraOptions.Builder()
-            .center(Point.fromLngLat(-66.1667, -17.4089))  // Coordenadas de Cochabamba
-            .zoom(10.0)  // Nivel de zoom
-            .build()
-        mapView.getMapboxMap().setCamera(cameraOptions)
-
-        mapView.getMapboxMap().loadStyleUri(
-            Style.MAPBOX_STREETS
-        ) {
-            // Verificar permisos después de cargar el estilo
-           // checkLocationPermission()
-            configurarClicEnMapa()
-        }
-
+        cargarDatosUsuario()
 
         // Configurar el campo de fecha y hora
         dateField = view.findViewById(R.id.dateField)
@@ -82,9 +81,204 @@ class ReportarFragment : Fragment() {
             showDateTimePicker()
         }
 
+        imageView = view.findViewById(R.id.imageView)
+        val selectImageButton = view.findViewById<Button>(R.id.selectImage)
+        selectImageButton.setOnClickListener {
+            seleccionarImagen()
+        }
+
+        //captura la imagen seleccionada
+        selectImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                val imageUri: Uri? = data?.data
+                if (imageUri != null) {
+                    procesarImagenSeleccionada(imageUri)
+                }
+            }
+        }
+
+        view.findViewById<Button>(R.id.btnImageLocation)?.setOnClickListener {
+            mostrarMapDialog()
+        }
+
+        val sendReport: Button = view.findViewById(R.id.sendButton)
+        sendReport.setOnClickListener {
+            val imageFile = File(requireContext().cacheDir, "imagen_seleccionada.jpg")  // Asegúrate de que 'imagen_seleccionada.jpg' sea la imagen correcta
+            if (imageFile.exists()) {
+                enviarReporteConImagen(imageFile)
+            } else {
+                Toast.makeText(requireContext(), "Por favor selecciona una imagen primero", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
         return view
     }
+
+    private fun seleccionarImagen() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        selectImageLauncher.launch(intent)
+    }
+
+    private fun procesarImagenSeleccionada(uri: Uri) {
+        val context = requireContext()
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val file = File(context.cacheDir, "imagen_seleccionada.jpg")
+
+        inputStream?.use { input ->
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        imageView.setImageURI(uri) // Para mostrar la imagen seleccionada
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    private fun enviarReporteConImagen(imageFile: File) {
+        val token = getToken()
+        if (token == null) {
+            Toast.makeText(requireContext(), "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+            redirectToLogin()
+            return
+        }
+
+        val nombre = nombreField.text.toString()
+        val email = emailField.text.toString()
+        val telefono = telefonoField.text.toString().toIntOrNull() ?: 0
+        val fecha = dateField.text.toString()
+        val ubicacionStr = "${selectedLatitude},${selectedLongitude}"
+        val descripcion = descriptionField.text.toString()
+
+        // Codifica imagen a Base64
+        val base64Image = Base64.encodeToString(imageFile.readBytes(), Base64.NO_WRAP)
+
+        // Construye el objeto Report
+        val report = Report(
+            nombre = nombre,
+            email = email,
+            telefono = telefono,
+            fecha_avistamiento = fecha,
+            ubicacion_avistamiento = ubicacionStr,
+            descripcion = descripcion,
+            imagen = base64Image
+        )
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitInstance.api.createReport("Bearer $token", report)
+
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Reporte enviado con éxito", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+                    } else {
+                    Toast.makeText(requireContext(), "Error al enviar el reporte: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error de red: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
+
+
+    private fun mostrarMapDialog() {
+        val bottomSheetFragment = MapBottomSheetFragment()
+        // Configurar el listener antes de mostrar el diálogo
+        bottomSheetFragment.setLocationListener(object : MapBottomSheetFragment.OnLocationSelectedListener {
+            override fun onLocationSelected(point: Point) {
+                Log.d("UbicacionOBTENIDAAAAAA", "Lat: ${point.latitude()}, Lng: ${point.longitude()}")
+                selectedLatitude = point.latitude()
+                selectedLongitude= point.longitude()
+            }
+        })
+        bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+    }
+
+    private fun cargarDatosUsuario() {
+        val userId = getUserId()!!
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Hacer la solicitud a la API para obtener los datos del usuario
+                val response = RetrofitInstance.api.getUser(userId)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { usuario ->
+                            // Llenar los campos con los datos obtenidos de la API
+                            nombreField.setText(usuario.name) // Cambié 'nombre' por 'name'
+                            emailField.setText(usuario.email)
+                            telefonoField.setText(usuario.numero.toString()) // Cambié 'telefono' por 'numero'
+
+                            // Log para confirmar que se cargaron los datos correctamente
+                            Log.d("CargarDatosUsuario", "Usuario cargado: ${usuario.name}, ${usuario.email}, ${usuario.numero}")
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Error al cargar datos", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    // Mostrar un mensaje de error en caso de excepción
+                    Log.e("CargarDatosUsuario", "Error de conexión: ${e.message}")
+                    Toast.makeText(requireContext(), "Error de conexión", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun getToken(): String? {
+        return try {
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                requireContext(),
+                "SECURE_APP_PREFS",
+                MasterKey.Builder(requireContext()).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+            val token = sharedPreferences.getString("JWT_TOKEN", null)
+            Log.d("TOKEN_DEBUG", "Token recuperado: ${token?.take(5)}...")  // Muestra solo los primeros 5 caracteres por seguridad
+            token
+        } catch (e: Exception) {
+            Log.e("SECURE_STORAGE", "Error al recuperar el token", e)
+            null
+        }
+    }
+
+    private fun getUserId(): Int? {
+        val encryptedPrefs = EncryptedSharedPreferences.create(
+            requireContext(),
+            "SECURE_APP_PREFS",
+            MasterKey.Builder(requireContext()).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+
+        val userId = encryptedPrefs.getInt("USER_ID", -1).takeIf { it != -1 }
+
+        // Log para verificar si se obtuvo correctamente el userId
+        if (userId != null) {
+           // Log.d("GetUserId", "User ID obtenido: $userId")
+        } else {
+            Log.d("GetUserId", "No se encontró User ID, valor por defecto (-1)")
+        }
+
+        return userId
+    }
+
+    private fun redirectToLogin() {
+        startActivity(Intent(requireContext(), LoginActivity::class.java))
+        activity?.finish()
+    }
+
+
+
     private fun showDateTimePicker() {
         // Crear selector de fecha
         val datePicker = MaterialDatePicker.Builder.datePicker()
@@ -121,149 +315,5 @@ class ReportarFragment : Fragment() {
         }
 
         datePicker.show(parentFragmentManager, "DATE_PICKER")
-    }
-
-
-
-    private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            obtenerUbicacionYColocarEnMapa()
-        } else {
-            requestPermissions(
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                PERMISSION_REQUEST_LOCATION
-            )
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSION_REQUEST_LOCATION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                obtenerUbicacionYColocarEnMapa()
-            } else {
-                Toast.makeText(requireContext(), "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun configurarClicEnMapa() {
-        // Inicializar el manager de anotaciones una sola vez
-        pointAnnotationManager = mapView.annotations.createPointAnnotationManager()
-
-        mapView.gestures.addOnMapClickListener { point ->
-            // 1. Eliminar marcadores anteriores
-            pointAnnotationManager.deleteAll()
-
-            // 2. Crear nuevo marcador en la posición del clic (sin mover la cámara)
-            val bitmap = BitmapFactory.decodeResource(resources, R.drawable.red_marker)
-            pointAnnotationManager.create(
-                PointAnnotationOptions()
-                    .withPoint(Point.fromLngLat(point.longitude(), point.latitude()))
-                    .withIconImage(bitmap)
-                    .withIconSize(0.5) // Ajusta el tamaño según necesites
-            )
-
-            // 3. Mostrar coordenadas (opcional)
-            Toast.makeText(
-                context,
-                "Marcado: ${point.latitude()}, ${point.longitude()}",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            true // Indica que el evento fue manejado
-        }
-    }
-
-    //metodo para obtener la ubicaion y marcar
-    private fun obtenerUbicacionYColocarEnMapa() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val locationManager =
-                requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val isLocationEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-            if (isLocationEnabled) {
-                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    if (location != null) {
-                        val latitude = location.latitude
-                        val longitude = location.longitude
-                        val userLocationPoint = Point.fromLngLat(longitude, latitude)
-
-                        mapView.getMapboxMap().flyTo(
-                            CameraOptions.Builder()
-                                .center(userLocationPoint)
-                                .zoom(18.0)
-                                .bearing(0.0)
-                                .pitch(0.0)
-                                .build(),
-                            MapAnimationOptions.mapAnimationOptions {
-                                duration(2000)
-                            }
-                        )
-
-                        // Configurar el componente de ubicación
-                        mapView.location.apply {
-                            enabled = true
-                            locationPuck = LocationPuck2D(
-                                topImage = ImageHolder.from(R.drawable.mapbox_user_icon),
-                                shadowImage = ImageHolder.from(R.drawable.mapbox_user_stroke_icon)
-                            )
-                            puckBearingEnabled = true
-                            puckBearing = PuckBearing.HEADING
-                            showAccuracyRing = true
-                        }
-
-                        Toast.makeText(
-                            requireContext(),
-                            "¡Ubicación encontrada! $latitude, $longitude",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                }
-            } else {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Ubicación desactivada")
-                    .setMessage("La ubicación está desactivada. Por favor, actívala para obtener la ubicación.")
-                    .setPositiveButton("Ir a Ajustes") { _, _ ->
-                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                        startActivity(intent)
-                    }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        pointAnnotationManager.deleteAll()
-        mapView.onDestroy()
-    }
-
-    companion object {
-        private const val PERMISSION_REQUEST_LOCATION = 1
     }
 }

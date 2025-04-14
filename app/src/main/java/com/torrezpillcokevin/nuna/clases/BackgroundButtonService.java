@@ -12,9 +12,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,6 +30,21 @@ import com.torrezpillcokevin.nuna.R;
 
 public class BackgroundButtonService extends Service {
     private static final String TAG = "BackgroundService";
+    private static final String ACTION_VOLUME_CHANGED = "android.media.VOLUME_CHANGED_ACTION";
+    private static final String CHANNEL_ID = "background_service_channel";
+    private static final String CHANNEL_NAME = "Background Service";
+
+    private static final long VOLUME_LONG_PRESS_THRESHOLD = 3000; // Tiempo en milisegundos para detectar una pulsación larga (2 segundos)
+
+    private long volumeUpPressStartTime = 0;
+    private boolean isVolumeUpPressed = false;
+
+    private AudioManager audioManager;
+    private int maxVolume;
+    private boolean isMaxVolumeDetected = false;
+    private boolean isUserPressingVolumeUp = false;// Nueva variable para controlar si el volumen ya está al máximo
+
+
 
     private final BroadcastReceiver buttonReceiver = new BroadcastReceiver() {
         @Override
@@ -36,70 +54,112 @@ public class BackgroundButtonService extends Service {
             Log.d(TAG, "Evento recibido: " + intent.getAction());
 
             switch (intent.getAction()) {
+                case ACTION_VOLUME_CHANGED:
+                    handleVolumeButtonPress();
+                    break;
                 case Intent.ACTION_SCREEN_ON:
                     showMessage("Pantalla Encendida");
                     break;
                 case Intent.ACTION_SCREEN_OFF:
                     showMessage("Pantalla Apagada");
                     break;
-                case "android.media.VOLUME_CHANGED_ACTION":
-                    showMessage("Botón de volumen presionado");
-                    break;
-
             }
         }
     };
+
+    private void handleVolumeButtonPress() {
+        // Solo hacemos algo si el volumen está al máximo
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (currentVolume == maxVolume) {
+            if (!isMaxVolumeDetected) {
+                isMaxVolumeDetected = true;
+                Log.d(TAG, "Volumen al máximo detectado.");
+            }
+
+            // Verificar si el botón de volumen está siendo presionado (es decir, detectamos un cambio de volumen)
+            if (isVolumeUpPressed()) {
+                if (!isUserPressingVolumeUp) {
+                    isUserPressingVolumeUp = true;
+                    volumeUpPressStartTime = System.currentTimeMillis();
+                    Log.d(TAG, "Usuario comenzó a presionar el botón de volumen.");
+                }
+
+                // Verificar si el usuario ha mantenido presionado el volumen por más de 2 segundos
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - volumeUpPressStartTime >= VOLUME_LONG_PRESS_THRESHOLD) {
+                    if (!isVolumeUpPressed) {
+                        isVolumeUpPressed = true;
+                        triggerAlert();
+                    }
+                }
+            } else {
+                // Si el volumen ya está al máximo pero el usuario ha dejado de presionar el botón, reiniciar
+                if (isUserPressingVolumeUp) {
+                    isUserPressingVolumeUp = false;
+                    volumeUpPressStartTime = 0;
+                    Log.d(TAG, "Usuario dejó de presionar el botón de volumen.");
+                }
+            }
+        } else {
+            // Si el volumen no está al máximo, reiniciar el estado
+            if (isMaxVolumeDetected) {
+                isMaxVolumeDetected = false;
+                Log.d(TAG, "Volumen bajado, desactivando detección.");
+            }
+        }
+    }
+    private boolean isVolumeUpPressed() {
+        // Lógica para detectar si el volumen está siendo subido
+        return true; // Asumimos que se está presionando el volumen hacia arriba
+    }
+
+    private void triggerAlert() {
+        Log.d(TAG, "¡Alerta! Botón de volumen hacia arriba presionado durante más de 2 segundos con volumen al máximo.");
+        showMessage("¡Alerta! El botón de volumen se ha presionado durante más de 2 segundos con el volumen al máximo.");
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "Servicio creado correctamente");
-        registerReceivers();
-        requestDeviceAdmin();  // ⬅️ Solicita permisos de administrador
-        checkBatteryOptimizationPermission();  // ⬅️ Verifica permiso de optimización de batería
-        startForegroundService();
+        createNotificationChannelIfNeeded();// Crear el canal de notificación si es necesario
+        startForegroundService();// Iniciar el servicio en primer plano rápidamente
+        // Inicializa AudioManager
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager == null) {
+            Log.e(TAG, "AudioManager no se pudo obtener");
+        }
+
+        // Verifica el volumen máximo
+        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        registerReceivers();// Registrar BroadcastReceiver
+        requestDeviceAdmin();// Solicitar permisos de administrador de dispositivo
     }
+
 
     private void registerReceivers() {
         Log.d(TAG, "Registrando BroadcastReceiver...");
         IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction("android.media.VOLUME_CHANGED_ACTION");
+        filter.addAction(ACTION_VOLUME_CHANGED);
         registerReceiver(buttonReceiver, filter);
         Log.d(TAG, "BroadcastReceiver registrado correctamente");
-
     }
 
     @SuppressLint("ForegroundServiceType")
     private void startForegroundService() {
         Log.d(TAG, "Iniciando servicio en primer plano...");
 
-        String channelId = "background_service_channel";
-        String channelName = "Background Service";
+        String channelId = CHANNEL_ID;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    channelId,
-                    channelName,
-                    NotificationManager.IMPORTANCE_LOW
-            );
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (manager != null) {
-                manager.createNotificationChannel(channel);
-            }
-            Log.d(TAG, "Canal de notificación creado");
-        }
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-
         Notification notification = new NotificationCompat.Builder(this, channelId)
                 .setContentTitle("Maypi está protegiéndote")
                 .setContentText("Presiona para acceder a la app o solicitar ayuda.")
-                .setSmallIcon(R.drawable.ic_person)
+                .setSmallIcon(R.drawable.person)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
@@ -110,21 +170,25 @@ public class BackgroundButtonService extends Service {
         Log.d(TAG, "Servicio en primer plano iniciado con ID 1");
     }
 
-    // 🚀 Evita que el sistema mate el servicio
+    // Evita que el sistema mate el servicio
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
 
     private void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Evento detectado: " + message);
+        // Evita usar Toast en servicios, podrías optar por una notificación ligera si es necesario
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(buttonReceiver);
+        try {
+            unregisterReceiver(buttonReceiver);
+        } catch (IllegalArgumentException e) {
+            Log.w(TAG, "Receiver no estaba registrado: " + e.getMessage());
+        }
         Log.d(TAG, "Servicio destruido y receptor desregistrado");
     }
 
@@ -134,7 +198,7 @@ public class BackgroundButtonService extends Service {
         return null;
     }
 
-    // 📌 Solicita permisos de Administrador de Dispositivo
+    // Solicita permisos de Administrador de Dispositivo
     private void requestDeviceAdmin() {
         DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
         ComponentName adminComponent = new ComponentName(this, MyDeviceAdminReceiver.class);
@@ -148,19 +212,28 @@ public class BackgroundButtonService extends Service {
         }
     }
 
-    // 📌 Verifica si el permiso de optimización de batería está activo y solicita confirmación al usuario
-    private void checkBatteryOptimizationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String packageName = getPackageName();
-            Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(Uri.parse("package:" + packageName));
-
-            if (!Settings.canDrawOverlays(this)) {
-                // 🔥 Envía un Broadcast a MainActivity
-                Intent broadcastIntent = new Intent("REQUEST_BATTERY_OPTIMIZATION");
-                sendBroadcast(broadcastIntent);
+    // Crea el canal de notificación si es necesario
+    private void createNotificationChannelIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager.getNotificationChannel(CHANNEL_ID) == null) {
+                NotificationChannel channel = new NotificationChannel(
+                        CHANNEL_ID,
+                        CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_LOW
+                );
+                manager.createNotificationChannel(channel);
+                Log.d(TAG, "Canal de notificación creado");
             }
         }
     }
 
+    // Resiliencia: reinicia el servicio si es eliminado
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Intent restartServiceIntent = new Intent(getApplicationContext(), BackgroundButtonService.class);
+        restartServiceIntent.setPackage(getPackageName());
+        startService(restartServiceIntent);
+        super.onTaskRemoved(rootIntent);
+    }
 }

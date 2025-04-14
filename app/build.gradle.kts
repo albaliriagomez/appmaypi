@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.recyclerview)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -72,6 +73,8 @@ dependencies {
 
 
     implementation("androidx.cardview:cardview:1.0.0")
+
+    implementation("androidx.security:security-crypto:1.1.0-alpha06") //para guardar de forma segura
 
 
 

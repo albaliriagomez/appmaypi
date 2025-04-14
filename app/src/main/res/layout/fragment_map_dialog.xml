@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- Botón de cierre FUERA del mapa, alineado a la derecha -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end">
+
+        <ImageButton
+            android:id="@+id/btnClose2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_close"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:elevation="4dp"/>
+    </LinearLayout>
+
+    <!-- Contenedor del mapa -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Mapa -->
+        <com.mapbox.maps.MapView
+            android:id="@+id/mapView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:mapbox_cameraTargetLat="19.4326"
+            app:mapbox_cameraTargetLng="-99.1332"
+            app:mapbox_cameraZoom="12"/>
+
+        <!-- Botón para centrar en ubicación actual -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:layout_above="@+id/btnResetCamera"
+            android:src="@drawable/logout_24px"
+            app:backgroundTint="@android:color/white"
+            app:tint="@color/primary_dark"/>
+
+        <!-- Botón para resetear cámara a posición inicial -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnResetCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_edit"
+            app:backgroundTint="@android:color/white"
+            app:tint="@color/primary_dark"/>
+    </RelativeLayout>
+
+    <!-- Botón de confirmación -->
+    <Button
+        android:id="@+id/btnConfirmLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Confirmar ubicación"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/primary_dark"/>
+</LinearLayout>
