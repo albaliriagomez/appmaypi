@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.torrezpillcokevin.nuna.models.Contact
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -36,6 +37,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         val result = db.insert(TABLE_CONTACTS, null, values)
         db.close()
+
+        //Log.d("DB_INSERT", "Insertado: $contact (resultado: $result)")
         return result
     }
 
@@ -58,6 +61,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         cursor.close()
         db.close()
+
         return contactList
     }
     // Método para actualizar un contacto

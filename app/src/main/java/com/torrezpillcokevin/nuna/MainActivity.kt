@@ -373,13 +373,23 @@ class MainActivity : AppCompatActivity() {
             val line = lineSpinner.selectedItem.toString()
 
             if (name.isNotEmpty() && phone.isNotEmpty() && line != "Seleccione línea") {
-                val dbHelper = DatabaseHelper(this)
                 val contact = Contact(name = name, phone = phone, line = line)
                 val result = dbHelper.addContact(contact)
 
                 if (result != -1L) {
                     loadContacts()
                     Toast.makeText(this, "Contacto guardado", Toast.LENGTH_SHORT).show()
+
+                    // 🚨 Guardar automáticamente como configuración de emergencia si es el primer contacto
+                    val contacts = dbHelper.getAllContacts()
+                    if (contacts.size == 1) {
+                        val sharedPreferences = getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putString("emergency_call_phone", phone)
+                        editor.putStringSet("emergency_sms_phones", setOf(phone))
+                        editor.apply()
+                    }
+
                     dialog.dismiss()
                 } else {
                     Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show()
@@ -395,6 +405,7 @@ class MainActivity : AppCompatActivity() {
 
         dialog.show()
     }
+
     private fun loadContacts() {
         val contacts = dbHelper.getAllContacts()
         contactAdapter = ContactAdapter(contacts, ::editContact, ::deleteContact)
