@@ -1,203 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.soporte.SoporteFragment">
+    android:background="#F8F9FA"
+    android:padding="20dp">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <!-- Título principal -->
+        <TextView
+            android:id="@+id/titleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:text="Contactar soporte"
+            android:textColor="#34495E"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins_regular"/>
 
-            <!-- Título principal -->
-            <TextView
-                android:id="@+id/titleText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Contactar soporte"
-                android:textColor="#34495E"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <!-- Subtítulo -->
+        <TextView
+            android:id="@+id/subtitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enviar tu solicitud"
+            android:textColor="#34495E"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/poppins_regular"/>
 
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/descriptionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tu solicitud será procesada y nuestro equipo de soporte se pondrá en contacto contigo en 24 horas."
+            android:textColor="#757575"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/poppins_regular"/>
 
-            <!-- Subtítulo -->
-            <TextView
-                android:id="@+id/subtitleText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Enviar tu solicitud"
-                android:textColor="#34495E"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins_regular"/>
+        <!-- Nombre -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Nombre"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#2E4053"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxBackgroundColor="@android:color/white">
 
-
-            <!-- Descripción -->
-            <TextView
-                android:id="@+id/descriptionText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Tu solicitud será procesada y nuestro equipo de soporte se pondrá en contacto contigo en 24 horas."
-                android:textColor="#757575"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <!-- Campo de Nombre -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nombre*"
-                android:textColor="#34495E"
-                android:textSize="14sp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingresa tu nombre"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Teléfono -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Teléfono"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#2E4053"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxBackgroundColor="@android:color/white">
 
-            <!-- Campo de Teléfono -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Teléfono*"
-                android:textColor="#34495E"
-                android:textSize="14sp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phoneEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingresa tu teléfono"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext"
                 android:inputType="phone"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Correo Electrónico -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Correo Electrónico"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#2E4053"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxBackgroundColor="@android:color/white">
 
-            <!-- Campo de Correo Electrónico -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Correo electrónico*"
-                android:textColor="#34495E"
-                android:textSize="14sp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingresa tu correo electrónico"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext"
                 android:inputType="textEmailAddress"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Asunto -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="Asunto"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#2E4053"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxBackgroundColor="@android:color/white">
 
-            <!-- Campo de Asunto -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Asunto*"
-                android:textColor="#34495E"
-                android:textSize="14sp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/subjectEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ingresa el asunto"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext"
-                android:layout_marginBottom="16dp"
-                android:fontFamily="@font/poppins_regular"/>
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Mensaje -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:hint="Mensaje"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="#2E4053"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeWidthFocused="2dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxBackgroundColor="@android:color/white">
 
-            <!-- Campo de Mensaje -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Mensaje*"
-                android:textColor="#34495E"
-                android:textSize="14sp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/poppins_regular"/>
-
-
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/messageEditText"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:hint="Escribe tu mensaje"
-                android:padding="12dp"
-                android:background="@drawable/rounded_edittext"
-                android:gravity="top"
-                android:layout_marginBottom="16dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:maxLines="6"
+                android:minLines="4"
+                android:backgroundTint="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="#000000"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Limpiar"
+                android:backgroundTint="#34495E"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"
                 android:fontFamily="@font/poppins_regular"/>
 
-
-            <!-- Botones -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="end"
-                android:layout_marginTop="8dp">
-
-                <Button
-                    android:id="@+id/clearButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Limpiar"
-                    android:backgroundTint="#34495E"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/poppins_regular"/>
-
-
-                <Button
-                    android:id="@+id/sendButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Enviar"
-                    android:backgroundTint="#95A5A6"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="@font/poppins_regular"/>
-
-            </LinearLayout>
-
+                android:text="Enviar"
+                android:backgroundTint="#95A5A6"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@font/poppins_regular"/>
         </LinearLayout>
 
-    </ScrollView>
-</FrameLayout>
+    </LinearLayout>
+</ScrollView>
+

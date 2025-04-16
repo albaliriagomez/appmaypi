@@ -16,6 +16,8 @@
     <!-- Tema general de la app -->
     <style name="Theme.App" parent="Theme.Material3.Light.NoActionBar">
         <item name="materialCalendarTheme">@style/ThemeOverlay.App.DatePicker</item>
+        <item name="textInputStyle">@style/CustomTextInputLayout</item> <!-- Aplicar estilo global a los inputs -->
+        <item name="editTextStyle">@style/CustomEditText</item>
     </style>
 
     <!-- Estilo para el calendario -->
@@ -26,27 +28,40 @@
         <item name="textInputStyle">@style/Widget.App.TextInputLayout</item>
     </style>
 
-    <!-- Estilo base del DatePicker -->
+    <!-- Estilo base del TextInputLayout del calendario -->
     <style name="Widget.App.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/black</item>
         <item name="boxCornerRadiusTopStart">8dp</item>
         <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
     </style>
 
+    <!-- Estilo personalizado para los campos de texto (Inputs) -->
     <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundMode">outline</item>
         <item name="boxCornerRadiusTopStart">12dp</item>
         <item name="boxCornerRadiusTopEnd">12dp</item>
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusBottomEnd">12dp</item>
-        <item name="boxStrokeColor">#2E4053</item>
+        <item name="boxStrokeColor">#2E4053</item> <!-- Azul marino -->
         <item name="boxStrokeWidth">2dp</item>
         <item name="boxStrokeWidthFocused">2dp</item>
         <item name="android:textColorHint">#2E4053</item>
+        <item name="hintTextColor">#2E4053</item>
+    </style>
+
+    <!-- Estilo para los TextInputEditText -->
+    <style name="CustomEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">#2E4053</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Tema overlay por si quieres aplicar los estilos como overlay en fragmentos específicos -->
+    <style name="ThemeOverlay.App.TextFields" parent="ThemeOverlay.Material3.TextInputEditText">
+        <item name="textInputStyle">@style/CustomTextInputLayout</item>
+        <item name="editTextStyle">@style/CustomEditText</item>
     </style>
 
 </resources>
-
-
-
-

@@ -22,8 +22,7 @@
             android:textSize="20sp"
             android:gravity="center"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Código del usuario -->
         <TextView
@@ -36,8 +35,7 @@
             android:textSize="16sp"
             android:gravity="center"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Instrucciones -->
         <TextView
@@ -49,8 +47,7 @@
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Formulario de entrada -->
         <LinearLayout
@@ -67,11 +64,13 @@
                 android:layout_weight="2"
                 android:hint="Código"
                 android:padding="12dp"
-                android:background="#F5F5F5"
+                android:background="@drawable/input_background"
                 android:elevation="2dp"
                 android:layout_marginEnd="8dp"
-                android:fontFamily="@font/poppins_regular"/>
-
+                android:textColor="#34495E"
+                android:textColorHint="#BDBDBD"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_regular" />
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteStatus"
@@ -80,9 +79,12 @@
                 android:layout_weight="1"
                 android:hint="Estado"
                 android:padding="12dp"
-                android:background="#F5F5F5"
+                android:background="@drawable/input_background"
                 android:elevation="2dp"
-                android:fontFamily="@font/poppins_regular"/>
+                android:textColor="#34495E"
+                android:textColorHint="#BDBDBD"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_regular" />
 
         </LinearLayout>
 
@@ -95,8 +97,7 @@
             android:backgroundTint="#F9E79F"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="16dp"
-            android:fontFamily="@font/poppins_regular"/>
-
+            android:fontFamily="@font/poppins_regular" />
 
         <!-- Tabla de códigos -->
         <TableLayout
@@ -121,8 +122,7 @@
                     android:textColor="#FFFFFF"
                     android:padding="8dp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/poppins_regular"/>
-
+                    android:fontFamily="@font/poppins_regular" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -132,8 +132,7 @@
                     android:textColor="#FFFFFF"
                     android:padding="8dp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/poppins_regular"/>
-
+                    android:fontFamily="@font/poppins_regular" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -142,7 +141,7 @@
                     android:textColor="#FFFFFF"
                     android:padding="8dp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/poppins_regular"/>
+                    android:fontFamily="@font/poppins_regular" />
 
             </TableRow>
 
