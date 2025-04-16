@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -22,35 +23,58 @@
         android:fontFamily="@font/poppins_regular" />
 
     <!-- Campos de entrada -->
-    <EditText
-        android:id="@+id/nameEditText"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:hint="Nombre"
-        android:background="@drawable/input_background"
-        android:paddingHorizontal="16dp"
-        android:textSize="16sp"
-        android:layout_marginBottom="12dp" />
+        style="@style/CustomTextInputLayout">
 
-    <EditText
-        android:id="@+id/phoneEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_regular" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:hint="Teléfono"
-        android:inputType="phone"
-        android:background="@drawable/input_background"
-        android:paddingHorizontal="16dp"
-        android:textSize="16sp"
-        android:layout_marginBottom="12dp" />
+        style="@style/CustomTextInputLayout">
 
-    <Spinner
-        android:id="@+id/lineSpinner"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/phoneEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:inputType="phone"
+            android:backgroundTint="@android:color/transparent"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/poppins_regular" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/input_background"
-        android:paddingHorizontal="16dp"
-        android:textSize="16sp"
-        android:layout_marginBottom="24dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:hint="Línea"
+        style="@style/CustomTextInputLayout">
+
+        <Spinner
+            android:id="@+id/lineSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingHorizontal="16dp"
+            android:textSize="16sp"
+            android:backgroundTint="@android:color/transparent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Botones de acción -->
     <LinearLayout
@@ -82,4 +106,3 @@
     </LinearLayout>
 
 </LinearLayout>
-

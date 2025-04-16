@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -49,7 +50,6 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-
         <!-- Link para registrarse -->
         <TextView
             android:id="@+id/registerLinkTextView"
@@ -58,51 +58,53 @@
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_regular"
-            android:text="¿No tiene una cuenta? Regístrese"
+            android:text="¿No tienes una cuenta? Regístrate"
             android:textColor="#34495E"
             android:textSize="14sp" />
 
-
-        <!-- Campo de correo electrónico -->
-        <EditText
-            android:id="@+id/usernameEditText"
+        <!-- Campo de correo electrónico con estilo personalizado -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="correo electronico"
-            android:background="@drawable/edit_text_background"
-            android:padding="12dp"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins_regular" />
+            android:layout_marginTop="16dp"
+            android:hint="Correo Electrónico">
 
-        <!-- Campo de contraseña con ícono para mostrar/ocultar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-
-            <EditText
-                android:id="@+id/passwordEditText"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="contraseña"
-                android:inputType="textPassword"
-                android:background="@drawable/edit_text_background"
-                android:padding="12dp"
-                android:layout_marginTop="8dp"
+                android:inputType="textEmailAddress"
                 android:fontFamily="@font/poppins_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Campo de contraseña con estilo personalizado -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
+            android:id="@+id/passwordInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Contraseña"
+            app:endIconMode="password_toggle">
 
-            <ImageView
-                android:id="@+id/togglePasswordVisibility"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:contentDescription="Toggle Password Visibility"
-                android:padding="8dp"
-                android:src="@drawable/ic_visibility_off" />
-        </LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:fontFamily="@font/poppins_regular" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Icono para alternar visibilidad de la contraseña -->
+        <ImageView
+            android:id="@+id/togglePasswordVisibility"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_visibility_off"
+            android:contentDescription="Alternar visibilidad de contraseña" />
 
         <!-- Recordar contraseña -->
         <CheckBox
@@ -125,18 +127,16 @@
             android:text="¿Olvidó la contraseña?"
             android:textColor="#34495E" />
 
-
         <!-- Botón de inicio sesión -->
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="120dp"
-            android:backgroundTint="@color/charcoal"
+            android:backgroundTint="#2E4053"
             android:fontFamily="@font/poppins_regular"
             android:text="Inicia Sesión"
             android:textColor="#FFFFFF" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
