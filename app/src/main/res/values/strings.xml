@@ -39,6 +39,10 @@
     <string name="select_image">Seleccionar imagen</string>
 
 
+    <string name="title_muro">Muro Desaparecidos</string>
+    <string name="title_reportar">Reportar</string>
+
+
     <string name="mapbox_access_token">pk.eyJ1IjoiYWxiYWxpcmlhIiwiYSI6ImNtNG5laXpmMzA3YjcybnB4d21yZDM1aDEifQ.OLrEIq1mFGE83eMOeDIfzA</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
