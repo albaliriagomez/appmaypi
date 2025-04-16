@@ -61,5 +61,20 @@
         android:label="Muro Desaparecidos"
         tools:layout="@layout/fragment_muro" />
 
+    <fragment
+        android:id="@+id/navigation_muro"
+        android:name="com.torrezpillcokevin.nuna.ui.muro.MuroFragment"
+        android:label="@string/title_muro"
+        tools:layout="@layout/fragment_muro">
+        <action
+            android:id="@+id/action_navigation_muro_to_reportarFragment"
+            app:destination="@id/reportarFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reportarFragment"
+        android:name="com.torrezpillcokevin.nuna.ui.reportar.ReportarFragment"
+        android:label="@layout/fragment_reportar" />
+
 
 </navigation>

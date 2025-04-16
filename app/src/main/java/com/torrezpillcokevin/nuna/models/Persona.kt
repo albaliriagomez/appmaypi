@@ -15,7 +15,11 @@ data class Persona(
     val estadoInvestigacion: String,
     val imagen: Int,
     val caracteristicas: String,
-    val tiempoDesaparecido: String
+    val tiempoDesaparecido: String,
+    val nombreContacto: String,
+    val telefonoContacto: String,
+    val emailContacto: String,
+    val ubicacionDesaparicion: String = "" // Campo adicional para coordenadas (valor por defecto vacío)
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -30,7 +34,11 @@ data class Persona(
         parcel.readString() ?: "",
         parcel.readInt(),
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",  // nombreContacto
+        parcel.readString() ?: "",  // telefonoContacto
+        parcel.readString() ?: "",  // emailContacto
+        parcel.readString() ?: ""   // ubicacionDesaparicion
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -46,6 +54,10 @@ data class Persona(
         parcel.writeInt(imagen)
         parcel.writeString(caracteristicas)
         parcel.writeString(tiempoDesaparecido)
+        parcel.writeString(nombreContacto)      // Añadido
+        parcel.writeString(telefonoContacto)    // Añadido
+        parcel.writeString(emailContacto)       // Añadido
+        parcel.writeString(ubicacionDesaparicion) // Añadido
     }
 
     override fun describeContents(): Int {
