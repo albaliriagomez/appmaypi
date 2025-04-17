@@ -1,5 +1,6 @@
 package com.torrezpillcokevin.nuna.clases;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -12,21 +13,28 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.PowerManager;
-import android.provider.Settings;
+import android.os.Message;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.telephony.SmsManager;
 import android.util.Log;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.torrezpillcokevin.nuna.MainActivity;
+
 import com.torrezpillcokevin.nuna.R;
+
+import java.util.Set;
 
 public class BackgroundButtonService extends Service {
     private static final String TAG = "BackgroundService";
@@ -36,14 +44,14 @@ public class BackgroundButtonService extends Service {
 
     private static final long VOLUME_LONG_PRESS_THRESHOLD = 3000; // Tiempo en milisegundos para detectar una pulsación larga (2 segundos)
 
-    private long volumeUpPressStartTime = 0;
-    private boolean isVolumeUpPressed = false;
-
     private AudioManager audioManager;
-    private int maxVolume;
-    private boolean isMaxVolumeDetected = false;
-    private boolean isUserPressingVolumeUp = false;// Nueva variable para controlar si el volumen ya está al máximo
+    private long volumeDownPressStartTime = 0;
+    private boolean isVolumeDownPressed = false;
+    private boolean isUserPressingVolumeDown = false;
+    private boolean isMinVolumeDetected = false;
+    private SharedPreferences sharedPreferences;
 
+    //private static final int NOTIFICATION_ID = 102;
 
 
     private final BroadcastReceiver buttonReceiver = new BroadcastReceiver() {
@@ -51,7 +59,7 @@ public class BackgroundButtonService extends Service {
         public void onReceive(Context context, Intent intent) {
             if (intent == null || intent.getAction() == null) return;
 
-            Log.d(TAG, "Evento recibido: " + intent.getAction());
+            //Log.d(TAG, "Evento recibido: " + intent.getAction());
 
             switch (intent.getAction()) {
                 case ACTION_VOLUME_CHANGED:
@@ -64,64 +72,88 @@ public class BackgroundButtonService extends Service {
                     showMessage("Pantalla Apagada");
                     break;
             }
+
         }
+
     };
 
     private void handleVolumeButtonPress() {
-        // Solo hacemos algo si el volumen está al máximo
         int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        if (currentVolume == maxVolume) {
-            if (!isMaxVolumeDetected) {
-                isMaxVolumeDetected = true;
-                Log.d(TAG, "Volumen al máximo detectado.");
+        int minVolume = 0; // Volumen mínimo (silenciado)
+
+        if (currentVolume == minVolume) {
+            if (!isMinVolumeDetected) {
+                isMinVolumeDetected = true;
+                Log.d(TAG, "Volumen al mínimo detectado.");
             }
 
-            // Verificar si el botón de volumen está siendo presionado (es decir, detectamos un cambio de volumen)
-            if (isVolumeUpPressed()) {
-                if (!isUserPressingVolumeUp) {
-                    isUserPressingVolumeUp = true;
-                    volumeUpPressStartTime = System.currentTimeMillis();
-                    Log.d(TAG, "Usuario comenzó a presionar el botón de volumen.");
+            if (isVolumeDownPressed()) {
+                if (!isUserPressingVolumeDown) {
+                    isUserPressingVolumeDown = true;
+                    volumeDownPressStartTime = System.currentTimeMillis();
+                    Log.d(TAG, "Usuario comenzó a presionar el botón de volumen hacia abajo.");
+                    Alert();
                 }
 
-                // Verificar si el usuario ha mantenido presionado el volumen por más de 2 segundos
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - volumeUpPressStartTime >= VOLUME_LONG_PRESS_THRESHOLD) {
-                    if (!isVolumeUpPressed) {
-                        isVolumeUpPressed = true;
-                        triggerAlert();
+                if (currentTime - volumeDownPressStartTime >= VOLUME_LONG_PRESS_THRESHOLD) {
+                    if (!isVolumeDownPressed) {
+                        isVolumeDownPressed = true;
                     }
                 }
             } else {
-                // Si el volumen ya está al máximo pero el usuario ha dejado de presionar el botón, reiniciar
-                if (isUserPressingVolumeUp) {
-                    isUserPressingVolumeUp = false;
-                    volumeUpPressStartTime = 0;
-                    Log.d(TAG, "Usuario dejó de presionar el botón de volumen.");
+                if (isUserPressingVolumeDown) {
+                    isUserPressingVolumeDown = false;
+                    volumeDownPressStartTime = 0;
+                    Log.d(TAG, "Usuario dejó de presionar el botón de volumen hacia abajo.");
                 }
             }
         } else {
-            // Si el volumen no está al máximo, reiniciar el estado
-            if (isMaxVolumeDetected) {
-                isMaxVolumeDetected = false;
-                Log.d(TAG, "Volumen bajado, desactivando detección.");
+            if (isMinVolumeDetected) {
+                isMinVolumeDetected = false;
+                isVolumeDownPressed = false;
+                isUserPressingVolumeDown = false;
+                volumeDownPressStartTime = 0;
+                Log.d(TAG, "Volumen aumentado, desactivando detección.");
             }
         }
     }
-    private boolean isVolumeUpPressed() {
-        // Lógica para detectar si el volumen está siendo subido
-        return true; // Asumimos que se está presionando el volumen hacia arriba
+
+    private boolean isVolumeDownPressed() {
+        // Implementación básica - en producción necesitarías una solución más robusta
+        return true;
     }
 
-    private void triggerAlert() {
-        Log.d(TAG, "¡Alerta! Botón de volumen hacia arriba presionado durante más de 2 segundos con volumen al máximo.");
-        showMessage("¡Alerta! El botón de volumen se ha presionado durante más de 2 segundos con el volumen al máximo.");
+    private void Alert() {
+        Log.d(TAG, "Alarma Activada");
+
+        // String savedCallContact = sharedPreferences.getString("emergency_call_phone", null);
+        Set<String> savedSMSContacts = sharedPreferences.getStringSet("emergency_sms_phones", null);
+        //Log.d(TAG, "Número de llamada de emergencia guardado: " + savedCallContact);
+        Log.d(TAG, "Número de SMS de emergencia guardado: " + savedSMSContacts);
+        showEmergencyNotification();
+
+        /*try {
+            // Enviar SMS a los contactos configurados
+            if (savedSMSContacts != null && !savedSMSContacts.isEmpty()) {
+                sendSmsToContacts(savedSMSContacts);
+                Log.d(TAG, "SMS Enviados a tus contactos");
+                showEmergencyNotification();
+            } else {
+                Log.d(TAG, "No hay contactos configurados para enviar SMS");
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error inesperado al activar la alerta", e);
+        }*/
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "Servicio creado correctamente");
+        // Inicializa las nuevas dependencias
+        sharedPreferences = getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE);
         createNotificationChannelIfNeeded();// Crear el canal de notificación si es necesario
         startForegroundService();// Iniciar el servicio en primer plano rápidamente
         // Inicializa AudioManager
@@ -129,9 +161,6 @@ public class BackgroundButtonService extends Service {
         if (audioManager == null) {
             Log.e(TAG, "AudioManager no se pudo obtener");
         }
-
-        // Verifica el volumen máximo
-        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         registerReceivers();// Registrar BroadcastReceiver
         requestDeviceAdmin();// Solicitar permisos de administrador de dispositivo
     }
@@ -226,6 +255,28 @@ public class BackgroundButtonService extends Service {
                 Log.d(TAG, "Canal de notificación creado");
             }
         }
+    }
+
+    private void showEmergencyNotification() {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        String channelId = CHANNEL_ID;
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.sms_24px) // Usa un ícono de alerta
+                .setContentTitle("¡Sms Enviados!")
+                .setContentText("Maypi ha enviado el SMS a tus contactos")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setVibrate(new long[]{0, 300, 200, 300});
+
+        notificationManager.notify(99, builder.build());
     }
 
     // Resiliencia: reinicia el servicio si es eliminado
