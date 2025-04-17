@@ -113,15 +113,10 @@ class MainActivity : AppCompatActivity() {
                 isProcessing = false
                 return@setOnClickListener
             }
-
             //enviarMensajeWhatsApp()
-
             //enviarMensajeTelegram()
-
             //makePhoneCall(this)
-
             //sendEmergencySMS(this, "Me encuentro en peligro. (Prueba Desarrollo)")
-
             //abrirCamara()
 
             // Al finalizar todas las acciones, restablece la bandera
@@ -166,8 +161,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
-
-
 
     }
 
@@ -256,9 +249,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
    /* private fun enviarMensajeWhatsApp() {
         val whatsappUri = Uri.parse("https://api.whatsapp.com/send?phone=$predefinedNumber&text=${Uri.encode(messageText)}")
         val intent = Intent(Intent.ACTION_VIEW, whatsappUri)
@@ -270,7 +260,6 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-
     /*private fun enviarMensajeTelegram() {
         val telegramUri = Uri.parse("https://telegram.me/share/url?url=$messageText")
         val intent = Intent(Intent.ACTION_VIEW, telegramUri)
@@ -281,7 +270,6 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Telegram no está instalado", Toast.LENGTH_SHORT).show()
         }
     }*/
-
 
     private fun makePhoneCall(context: Context) {
         val sharedPreferences = context.getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
@@ -504,7 +492,6 @@ class MainActivity : AppCompatActivity() {
         val bottomSheetDialog = BottomSheetDialog(context)
         bottomSheetDialog.setContentView(dialogView)
 
-
         val spinnerCallContact = dialogView.findViewById<Spinner>(R.id.spinnerCallContact)
         val listViewContacts = dialogView.findViewById<ListView>(R.id.lvContacts)
         val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
@@ -557,20 +544,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            val editor = sharedPreferences.edit()
-
-            // Guardar solo si hubo cambios
-            if (savedCallContact != selectedCallContact.phone) {
-                editor.putString("emergency_call_phone", selectedCallContact.phone)
+            with(sharedPreferences.edit()) {
+                if (savedCallContact != selectedCallContact.phone) {
+                    putString("emergency_call_phone", selectedCallContact.phone)
+                }
+                if (savedSMSContacts != selectedSMSContacts) {
+                    putStringSet("emergency_sms_phones", selectedSMSContacts)
+                }
+                if (isServiceEnabled != switchBackgroundService.isChecked) {
+                    putBoolean("background_service_enabled", switchBackgroundService.isChecked)
+                }
+                apply()
             }
-            if (savedSMSContacts != selectedSMSContacts) {
-                editor.putStringSet("emergency_sms_phones", selectedSMSContacts)
-            }
-            if (isServiceEnabled != switchBackgroundService.isChecked) {
-                editor.putBoolean("background_service_enabled", switchBackgroundService.isChecked)
-            }
-
-            editor.apply()
 
             Toast.makeText(context, "Configuración guardada", Toast.LENGTH_SHORT).show()
             bottomSheetDialog.dismiss()
@@ -581,8 +566,21 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun startBackgroundService(context: Context) {
+        val serviceIntent = Intent(context, BackgroundButtonService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(serviceIntent)
+        } else {
+            context.startService(serviceIntent)
+        }
+    }
 
-    private fun showPermissionDialog(context: Context, switchService: Switch) {
+    private fun stopBackgroundService(context: Context) {
+        val serviceIntent = Intent(context, BackgroundButtonService::class.java)
+        context.stopService(serviceIntent)
+    }
+
+    private fun showPermissionDialog(context: Context, @SuppressLint("UseSwitchCompatOrMaterialCode") switchService: Switch) {
         AlertDialog.Builder(context)
             .setTitle("Permiso necesario")
             .setMessage("¿Quieres permitir la ejecución en segundo plano?")
@@ -596,20 +594,4 @@ class MainActivity : AppCompatActivity() {
             .setCancelable(false)
             .show()
     }
-
-
-    private fun startBackgroundService(context: Context) {
-        val intent = Intent(context, BackgroundButtonService::class.java)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            context.startForegroundService(intent)
-        } else {
-            context.startService(intent)
-        }
-    }
-
-    private fun stopBackgroundService(context: Context) {
-        val intent = Intent(context, BackgroundButtonService::class.java)
-        context.stopService(intent)
-    }
-
 }

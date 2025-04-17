@@ -22,7 +22,6 @@ data class UserGet(
     val numero: Long     // Cambié 'Int' por 'Long' para manejar números más grandes
 )
 
-
 //LOGIN
 data class Login(
     val username: String,
