@@ -14,7 +14,7 @@ object RetrofitInstance {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://172.16.4.200:8000/")
+        .baseUrl("http://192.168.0.13:8000/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
