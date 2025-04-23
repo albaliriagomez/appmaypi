@@ -1,5 +1,6 @@
-<!-- res/layout/dialog_agregar_contacto.xml -->
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,73 +25,94 @@
             android:textStyle="bold"
             android:textColor="#000000"
             android:gravity="center"
-            android:paddingBottom="12dp" />
+            android:paddingBottom="12dp"
+            android:fontFamily="@font/poppins_regular"/>
 
-        <!-- Campos de texto -->
+        <!-- Campo Nombre -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextName2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:minHeight="48dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="16sp"
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Campo Teléfono -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="12dp"
+            android:hint="Teléfono">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextPhone2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:minHeight="48dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:inputType="phone"
+                android:fontFamily="@font/poppins_regular"
+                android:textSize="16sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Dropdown con Spinner clásico -->
-        <TextView
+        <!-- Spinner estilizado -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Línea"
-            android:textColor="#000"
-            android:textSize="14sp"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="4dp" />
+            android:hint="Línea">
 
-        <Spinner
-            android:id="@+id/spinnerLinea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/spinner_background"
-            android:padding="8dp"/>
+            <Spinner
+                android:id="@+id/spinnerLinea"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/spinner_background"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:spinnerMode="dropdown"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botones -->
+        <!-- Botones centrados -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="end"
+            android:gravity="center"
             android:layout_marginTop="24dp">
 
             <Button
                 android:id="@+id/buttonCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
                 android:text="Cancelar"
-                android:backgroundTint="#B0BEC5"
+                android:backgroundTint="@color/olive"
                 android:textColor="@android:color/white"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/poppins_regular"/>
 
             <Button
                 android:id="@+id/buttonSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
                 android:text="Guardar"
-                android:backgroundTint="#00796B"
-                android:textColor="@android:color/white"/>
+                android:backgroundTint="@color/charcoal"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/poppins_regular"/>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
