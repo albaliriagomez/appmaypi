@@ -1,148 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="16dp"
     android:background="#F8FAFC">
 
-    <LinearLayout
+    <!-- Título -->
+    <TextView
+        android:id="@+id/guideTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="16dp">
+        android:text="Guía de Emergencia"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#1E293B"
+        android:gravity="center"
+        android:paddingBottom="16dp" />
 
-        <!-- Título -->
-        <TextView
-            android:id="@+id/guideTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guía de Emergencia"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#1E293B"
-            android:gravity="center"
-            android:paddingBottom="16dp" />
+    <!-- RecyclerView para las Guías organizadas por categoría -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewGuides2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        android:paddingTop="8dp" />
 
-        <!-- Sección: Primeros Pasos -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Primeros Pasos"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#334155"
-            android:paddingTop="8dp"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/whatIsThisApp"
-            style="@style/GuideItem"
-            android:text="¿Cómo funciona esta app?" />
-
-        <TextView
-            android:id="@+id/emergencyActions"
-            style="@style/GuideItem"
-            android:text="¿Qué hacer en caso de emergencia?" />
-
-        <TextView
-            android:id="@+id/setupContacts"
-            style="@style/GuideItem"
-            android:text="¿Cómo configurar mis contactos de emergencia?" />
-
-        <!-- Sección: Funciones de Seguridad -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Funciones de Seguridad"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#334155"
-            android:paddingTop="12dp"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/activateSOS"
-            style="@style/GuideItem"
-            android:text="Activar el modo SOS" />
-
-        <TextView
-            android:id="@+id/shareLocation"
-            style="@style/GuideItem"
-            android:text="Compartir mi ubicación en tiempo real" />
-
-        <TextView
-            android:id="@+id/sendAlert"
-            style="@style/GuideItem"
-            android:text="Enviar una alerta a mis contactos" />
-
-        <TextView
-            android:id="@+id/panicButton"
-            style="@style/GuideItem"
-            android:text="Usar el botón de pánico" />
-
-        <!-- Sección: Consejos y Prevención -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Consejos y Prevención"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#334155"
-            android:paddingTop="12dp"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/missingPerson"
-            style="@style/GuideItem"
-            android:text="Cómo actuar si alguien desaparece" />
-
-        <TextView
-            android:id="@+id/streetSafety"
-            style="@style/GuideItem"
-            android:text="Medidas de seguridad en la calle" />
-
-        <TextView
-            android:id="@+id/dangerActions"
-            style="@style/GuideItem"
-            android:text="Qué hacer si me siento en peligro" />
-
-        <!-- Sección: Configuración y Soporte -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Configuración y Soporte"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#334155"
-            android:paddingTop="12dp"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/configureAlerts"
-            style="@style/GuideItem"
-            android:text="Configurar alertas y notificaciones" />
-
-        <TextView
-            android:id="@+id/manageContacts"
-            style="@style/GuideItem"
-            android:text="Administrar contactos de confianza" />
-
-        <TextView
-            android:id="@+id/contactSupport"
-            style="@style/GuideItem"
-            android:text="Contactar soporte" />
-
-        <!-- Botón para más información -->
-        <Button
-            android:id="@+id/moreInfoButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Más Información"
-            android:textAllCaps="false"
-            android:backgroundTint="#1E40AF"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:padding="12dp" />
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

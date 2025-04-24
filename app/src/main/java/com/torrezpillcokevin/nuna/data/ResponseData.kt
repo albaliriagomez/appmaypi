@@ -1,5 +1,126 @@
 package com.torrezpillcokevin.nuna.data
 
+import com.google.gson.annotations.SerializedName
+
+
+
+
+//Nuevas data class segun las ultimas modificaciones del backend
+data class UserRequest(
+    @SerializedName("codigo_persona") val codigoPersona: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("avatar_imagen") val avatarImagen: String = "",
+    @SerializedName("status") val status: String,
+    @SerializedName("role") val role: String,
+    @SerializedName("password") val password: String,
+    @SerializedName("numero") val numero: String,
+    @SerializedName("token_firebase") val tokenFirebase: String,
+    @SerializedName("linea_telefonica") val lineaTelefonica: String,
+    @SerializedName("username") val username: String,
+    @SerializedName("name") val name: String
+)
+
+data class UserResponse(
+    @SerializedName("id") val id: Int,  // Nota que es Int, no String como en el ejemplo anterior
+    @SerializedName("codigo_persona") val codigoPersona: String,
+    @SerializedName("email")val email: String,
+    @SerializedName("avatar_imagen")   val avatarImagen: String,  // No es nullable según tu ejemplo (viene como "")
+    @SerializedName("status") val status: String,
+    @SerializedName("role") val role: String,
+    @SerializedName("password") // Normalmente no deberías recibir el password hasheado
+    val passwordHash: String,   // pero si tu API lo devuelve, lo incluimos
+    @SerializedName("numero") val numero: String,
+    @SerializedName("token_firebase")val tokenFirebase: String,
+    @SerializedName("linea_telefonica")val lineaTelefonica: String,
+    @SerializedName("username")val username: String,
+    @SerializedName("name")  val name: String
+) {
+    /**
+     * Función de conveniencia para verificar si el usuario está activo
+     * (asumiendo que "status" puede ser "active", "inactive", etc.)
+     */
+    fun isActive(): Boolean = status.equals("1", ignoreCase = true)
+
+    /**
+     * Función para obtener la URL completa del avatar si no está vacío
+     */
+    fun getAvatarUrl(baseUrl: String): String? {
+        return if (avatarImagen.isNotEmpty()) {
+            "$baseUrl/$avatarImagen"
+        } else {
+            null
+        }
+    }
+}
+
+//LOGIN
+data class Login(
+    val username: String,
+    val password: String,
+)
+
+// Clase que representa la respuesta del login (con JWT)
+data class AuthResponse(
+    val access_token: String,
+    val token_type: String,  // Ejemplo: "bearer"
+    val user_id: Int,  // Agregar el user_id que devuelve la API
+    val email: String  // Agregar el email que devuelve la API
+)
+
+//SOPORTE
+data class SupportRequest(
+    val user_id: Int,
+    val name: String,
+    val email: String,
+    val subject: String,
+    val message: String,
+    val sent_at: String
+)
+
+data class UserData(
+    @SerializedName("usuarios_id") val id: Int,
+    val nombres: String,
+    val apellidos: String,
+    val usuario: String,
+    val email: String,
+    val estado: Int,
+    val role: String,
+    val image: String?
+)
+
+data class UserResponseGet(
+    val message: String,
+    val data: UserData
+)
+
+//GUIA
+data class Guide(
+    val id: Int,
+    val category_id: Int,
+    val author_id: Int,
+    val slug: String,
+    val title: String,
+    val subtitle: String,
+    val content: String
+)
+
+data class GuideResponse(
+    val total_registros: Int,
+    val por_pagina: Int,
+    val pagina_actual: Int,
+    val total_paginas: Int,
+    val data: List<Guide>
+)
+
+
+
+
+
+
+
+
+
+
 // Clase que representa un usuario
 data class User(
         val name: String,
@@ -22,19 +143,6 @@ data class UserGet(
     val numero: Long     // Cambié 'Int' por 'Long' para manejar números más grandes
 )
 
-//LOGIN
-data class Login(
-    val username: String,
-    val password: String,
-)
-
-// Clase que representa la respuesta del login (con JWT)
-data class AuthResponse(
-    val access_token: String,
-    val token_type: String,  // Ejemplo: "bearer"
-    val user_id: Int,  // Agregar el user_id que devuelve la API
-    val email: String  // Agregar el email que devuelve la API
-)
 
 // Clase que representa la respuesta de la API
 data class ApiResponse(
@@ -86,8 +194,4 @@ data class Contact(
     val accion: String,
     val id: Int
 )
-
-
-
-
 
