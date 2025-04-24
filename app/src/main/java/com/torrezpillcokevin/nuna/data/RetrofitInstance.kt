@@ -26,12 +26,20 @@ object RetrofitInstance {
         // Validar URL base
         validateBaseUrl(DEVELOPMENT_BASE_URL)
 
+
         Retrofit.Builder()
             .baseUrl(DEVELOPMENT_BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://192.168.0.13:8000/")
+        .client(client)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
 
     // API Service
     val api: ApiService by lazy {

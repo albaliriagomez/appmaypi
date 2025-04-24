@@ -62,7 +62,7 @@
             android:textColor="#34495E"
             android:textSize="14sp" />
 
-        <!-- Campo de correo electrónico con estilo personalizado -->
+        <!-- Campo de correo electrónico -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomTextInputLayout"
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                 android:fontFamily="@font/poppins_regular" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo de contraseña con estilo personalizado -->
+        <!-- Campo de contraseña con ícono de visibilidad -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/CustomTextInputLayout"
             android:id="@+id/passwordInputLayout"
@@ -96,16 +96,6 @@
                 android:fontFamily="@font/poppins_regular" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Icono para alternar visibilidad de la contraseña -->
-        <ImageView
-            android:id="@+id/togglePasswordVisibility"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_visibility_off"
-            android:contentDescription="Alternar visibilidad de contraseña" />
-
         <!-- Recordar contraseña -->
         <CheckBox
             android:id="@+id/rememberPasswordCheckBox"
@@ -114,17 +104,6 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Recordar Contraseña"
-            android:textColor="#34495E" />
-
-        <!-- ¿Olvidó la contraseña? -->
-        <TextView
-            android:id="@+id/forgotPasswordTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins_regular"
-            android:text="¿Olvidó la contraseña?"
             android:textColor="#34495E" />
 
         <!-- Botón de inicio sesión -->
@@ -138,5 +117,14 @@
             android:text="Inicia Sesión"
             android:textColor="#FFFFFF" />
     </LinearLayout>
+
+    <!-- Botón invisible para evitar error de Kotlin -->
+    <ImageButton
+        android:id="@+id/togglePasswordVisibility"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

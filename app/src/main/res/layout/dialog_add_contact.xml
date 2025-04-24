@@ -22,61 +22,67 @@
         android:paddingBottom="20dp"
         android:fontFamily="@font/poppins_regular" />
 
-    <!-- Campos de entrada -->
+    <!-- Campo Nombre -->
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="Nombre"
-        style="@style/CustomTextInputLayout">
+        android:hint="Nombre">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameEditText"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:backgroundTint="@android:color/transparent"
-            android:paddingHorizontal="16dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textSize="16sp"
             android:textColor="#000000"
-            android:fontFamily="@font/poppins_regular" />
+            android:fontFamily="@font/poppins_regular"
+            android:backgroundTint="@android:color/transparent" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Campo Teléfono -->
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:hint="Teléfono"
-        style="@style/CustomTextInputLayout">
+        android:hint="Teléfono">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phoneEditText"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:inputType="phone"
-            android:backgroundTint="@android:color/transparent"
-            android:paddingHorizontal="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:textSize="16sp"
             android:textColor="#000000"
-            android:fontFamily="@font/poppins_regular" />
+            android:fontFamily="@font/poppins_regular"
+            android:backgroundTint="@android:color/transparent" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Campo Línea con Spinner -->
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/CustomTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:hint="Línea"
-        style="@style/CustomTextInputLayout">
+        android:hint="Línea">
 
         <Spinner
             android:id="@+id/lineSpinner"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:paddingHorizontal="16dp"
-            android:textSize="16sp"
-            android:backgroundTint="@android:color/transparent" />
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:background="@drawable/spinner_background" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Botones de acción -->
+    <!-- Botones -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,8 +97,8 @@
             android:text="Cancelar"
             android:textColor="#FFFFFF"
             android:backgroundTint="@color/olive"
-            android:padding="10dp"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/poppins_regular" />
 
         <Button
             android:id="@+id/btnSave"
@@ -102,7 +108,6 @@
             android:text="Guardar"
             android:textColor="#FFFFFF"
             android:backgroundTint="@color/charcoal"
-            android:padding="10dp" />
+            android:fontFamily="@font/poppins_regular" />
     </LinearLayout>
-
 </LinearLayout>
