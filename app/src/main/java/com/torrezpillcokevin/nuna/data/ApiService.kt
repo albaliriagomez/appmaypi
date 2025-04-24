@@ -18,6 +18,11 @@ import retrofit2.http.Query
 
 interface ApiService {
 
+    //multtimas modificaciones
+    //registrar usuario
+    @POST("/api/users/")
+    suspend fun createUser(@Body userRequest: UserRequest): Response<UserResponse>
+
     @POST("api/users/")
     suspend fun postUsers(
         @Body user: User
@@ -29,6 +34,27 @@ interface ApiService {
         @Field("username") username: String,
         @Field("password") password: String
     ): Response<AuthResponse>
+
+    @POST("/api/support-requests/")
+    suspend fun createSupportRequest(
+        @Body supportRequest: SupportRequest,
+        @Header("Authorization") authHeader: String
+    ): Response<SupportRequest>
+
+    @GET("api/v1/user/{id}")
+    suspend fun getUserById(
+        @Path("id") userId: Int,
+        @Header("Authorization") token: String
+    ): Response<UserResponseGet>
+
+
+
+
+
+
+
+
+
 
     @GET("api/users/")
     suspend fun getUsers(
@@ -66,6 +92,18 @@ interface ApiService {
         @Query("pagina") pagina: Int,
         @Query("por_pagina") porPagina: Int
     ): Response<ContactResponse2>
+
+    //guia
+    @GET("api/Guides/")
+    suspend fun getGuides(
+        @Query("pagina") pagina: Int,
+        @Query("por_pagina") porPagina: Int,
+        @Header("Authorization") authToken: String
+    ): Response<GuideResponse>
+
+
+
+
 
 
 

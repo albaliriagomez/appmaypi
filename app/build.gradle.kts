@@ -38,7 +38,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
+
 }
 
 dependencies {
@@ -65,7 +67,7 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.11.0")
     implementation("com.mapbox.maps:android:11.7.1") //libreria para el uso del mapa
 
-    //01 - 11 - 2024
+
     implementation ("com.squareup.picasso:picasso:2.8") //permite cargar y gestionar imágenes de manera sencilla y eficiente
     implementation ("com.squareup.retrofit2:retrofit:2.11.0") // biblioteca de cliente HTTP para Android para el uso de apis
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0") //convertidor de JSON para Retrofit
