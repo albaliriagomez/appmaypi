@@ -18,8 +18,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    //multtimas modificaciones
-    //registrar usuario
+
     @POST("/api/users/")
     suspend fun createUser(@Body userRequest: UserRequest): Response<UserResponse>
 
@@ -46,6 +45,17 @@ interface ApiService {
         @Path("id") userId: Int,
         @Header("Authorization") token: String
     ): Response<UserResponseGet>
+
+    @GET("api/Guides-categories/")
+    suspend fun getGuideCategories(
+        @Query("pagina") pagina: Int,
+        @Query("por_pagina") porPagina: Int,
+        @Header("Authorization") token: String
+    ): Response<GuideCategoryResponse>
+
+
+
+
 
 
 
