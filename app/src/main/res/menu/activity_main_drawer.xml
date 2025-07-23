@@ -18,7 +18,7 @@
             android:orderInCategory="2" />
 
         <item
-            android:id="@+id/nav_reportar"
+            android:id="@+id/nav_DesaparecidoFragment"
             android:icon="@drawable/familiar_face_and_zone_24px"
             android:title="@string/nav_reportar"
             android:orderInCategory="3" />

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,49 +20,119 @@ import androidx.recyclerview.widget.RecyclerView
 import com.torrezpillcokevin.nuna.R
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.torrezpillcokevin.nuna.data.GuideCategory
+import com.torrezpillcokevin.nuna.data.GuideCategoryResponse
+import com.torrezpillcokevin.nuna.databinding.FragmentGuiaBinding
 
 
 class GuiaFragment : Fragment() {
 
     private lateinit var viewModel: GuiaViewModel
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var guidesAdapter: GuidesAdapter
+    private lateinit var binding: FragmentGuiaBinding
+    private lateinit var guideAdapter: GuideCategoryAdapter
+    private val allCategories = mutableListOf<GuideCategory>()
+    private var currentPage = 0 // Comienza en 1
+    private var totalPages = 1
+    private var isLoading = false
 
-    @SuppressLint("MissingInflatedId")
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_guia, container, false)
+    ): View {
+        binding = FragmentGuiaBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // Inicializa el ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupRecyclerView()
+        setupScrollListener()
+        loadInitialData()
+    }
+
+    private fun setupViewModel() {
         val apiService = RetrofitInstance.api
         val factory = GuidesViewModelFactory(requireActivity().application, apiService)
         viewModel = ViewModelProvider(this, factory)[GuiaViewModel::class.java]
 
-        // Inicializa el RecyclerView
-        recyclerView = view.findViewById(R.id.recyclerViewGuides2)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        viewModel.categories.observe(viewLifecycleOwner) { result ->
+            isLoading = false
+            Log.d("GuiaFragment", "Nuevo resultado recibido en el Fragment")
 
-        viewModel.guides.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { guidesByCategory ->
-                if (!::guidesAdapter.isInitialized) {
-                    guidesAdapter = GuidesAdapter(guidesByCategory)
-                    recyclerView.adapter = guidesAdapter
+            result.onSuccess { response ->
+                Log.d("GuiaFragment", "Datos exitosos recibidos. Total páginas: ${response.totalPaginas}")
+                Log.d("GuiaFragment", "Datos recibidos: ${response.data.map { it.title }}")
+
+                if (response.data.isNotEmpty()) {
+                    totalPages = response.totalPaginas
+
+                    val beforeAdd = allCategories.map { it.title }
+                    Log.d("GuiaFragment", "Antes de añadir: $beforeAdd")
+
+                    allCategories.addAll(response.data)
+
+                    val afterAdd = allCategories.map { it.title }
+                    Log.d("GuiaFragment", "Después de añadir: $afterAdd")
+
+                    guideAdapter.updateData(allCategories)
+                    currentPage++
+
+                    Log.d("GuiaFragment", "Datos finales en adapter: ${guideAdapter.currentList().map { it.title }}")
                 } else {
-                    guidesAdapter.notifyDataSetChanged()
+                    Log.d("GuiaFragment", "No hay más datos para cargar")
+                    Toast.makeText(context, "No hay más datos para cargar", Toast.LENGTH_SHORT).show()
                 }
             }.onFailure {
-                Toast.makeText(requireContext(), "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                Log.e("GuiaFragment", "Error recibido: ${it.message}", it)
+                Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            isLoading = loading
+            //binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
 
+    private fun setupRecyclerView() {
+        guideAdapter = GuideCategoryAdapter { category ->
+            // Manejar clic en categoría
+        }
+        binding.recyclerViewGuides2.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = guideAdapter
+        }
+    }
 
-        // Llama al ViewModel para obtener las guías
-        viewModel.getGuides(pagina = 0, porPagina = 5)
+    private fun setupScrollListener() {
+        binding.recyclerViewGuides2.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
-        return view
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
+                val totalItems = layoutManager.itemCount
+
+                // Cargar más si no está cargando y estamos en la última posición visible
+                if (!isLoading && lastVisibleItem == totalItems - 1 && currentPage <= totalPages) {
+                    loadNextPage()
+                }
+            }
+        })
+    }
+
+    private fun loadInitialData() {
+        if (allCategories.isEmpty()) {
+            loadNextPage()
+        }
+    }
+
+    private fun loadNextPage() {
+        if (isLoading || currentPage > totalPages) return
+
+        isLoading = true
+        viewModel.getGuideCategories(currentPage, 5) // Llama al ViewModel para cargar los siguientes datos
     }
 }

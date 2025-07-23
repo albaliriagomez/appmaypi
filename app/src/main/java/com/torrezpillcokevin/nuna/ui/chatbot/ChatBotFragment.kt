@@ -324,8 +324,8 @@ class ChatBotFragment : Fragment() {
     private fun fetchGeminiResponse(userMessage: String) {
         // Inicializa el modelo generativo Gemini
         val generativeModel = GenerativeModel(
-            modelName = "gemini-1.5-flash",
-            apiKey = "AIzaSyAN1t0IA7WLrCf8Tgx_dKJOKxrM6ttjZ8I"
+            modelName = "gemini-2.5-flash",
+            apiKey = "AIzaSyALO2emnwDYI-LqDAadRPBqopYLt39OaDc"
         )
 
         lifecycleScope.launch(Dispatchers.IO) {

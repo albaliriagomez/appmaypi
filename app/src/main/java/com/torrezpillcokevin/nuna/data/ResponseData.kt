@@ -111,6 +111,31 @@ data class GuideResponse(
     val total_paginas: Int,
     val data: List<Guide>
 )
+//nuevo guia
+
+data class GuideCategory(
+    val id: Int,
+    val title: String,
+    val slug: String
+)
+
+data class GuideCategoryResponse(
+    @SerializedName("total_registros")
+    val totalRegistros: Int,
+
+    @SerializedName("por_pagina")
+    val porPagina: Int,
+
+    @SerializedName("pagina_actual")
+    val paginaActual: Int,
+
+    @SerializedName("total_paginas")
+    val totalPaginas: Int,
+
+    val data: List<GuideCategory>
+)
+
+
 
 
 
