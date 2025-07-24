@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_bottom_sheet_top_rounded"
     android:padding="20dp"
     android:orientation="vertical">
@@ -86,22 +86,35 @@
         android:divider="@color/charcoal"
         android:dividerHeight="1dp"/>
 
-    <Button
-        android:id="@+id/btnSave"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar"
-        android:backgroundTint="@color/charcoal"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:weightSum="2">
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancelar"
-        android:backgroundTint="@color/olive"
-        android:textColor="@color/white"
-        android:layout_marginTop="5dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Guardar"
+            android:layout_marginEnd="8dp"
+            style="@style/Widget.Material3.Button"
+            app:backgroundTint="@color/charcoal"
+            android:textColor="@color/white" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancelar"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeColor="@color/charcoal"
+            app:strokeWidth="1dp"
+            android:textColor="@color/charcoal" />
+    </LinearLayout>
+
 </LinearLayout>

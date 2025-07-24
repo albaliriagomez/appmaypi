@@ -57,20 +57,37 @@
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Género -->
+                <!-- Apellido -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:hint="Género"
+                    android:hint="Apellidos"
                     >
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etGenero"
+                        android:id="@+id/etAp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Género -->
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Género"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:paddingBottom="4dp" />
+
+                <Spinner
+                    android:id="@+id/spGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown"
+                    android:backgroundTint="?attr/colorOutline"
+                    android:padding="12dp" />
+
 
                 <!-- Edad -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -141,7 +158,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Características físicas / Ropa"
+                    android:hint="Características físicas"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCaracteristicas"
@@ -257,6 +274,24 @@
                         android:inputType="text"
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
+                <!-- Descripcion suceso -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Descripcion del Ropa "
+                    >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -293,15 +328,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre del Reportante"
+                    android:layout_marginBottom="8dp"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etNomRepor"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLines="1"/>
+                        android:layout_height="wrap_content"  />
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <!-- Teléfono reportante -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -318,23 +351,6 @@
                         android:inputType="phone"
                         android:maxLines="1"/>
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Estado investigación -->
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:hint="Estado de investigación"
-                    >
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etEstadoInvestigacion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"/>
-                </com.google.android.material.textfield.TextInputLayout>
-
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

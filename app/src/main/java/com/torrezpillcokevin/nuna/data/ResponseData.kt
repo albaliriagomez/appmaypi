@@ -165,8 +165,28 @@ data class UserGet(
     val avatar: String,
     val status: String,
     val role: String,
-    val numero: Long     // Cambié 'Int' por 'Long' para manejar números más grandes
+    val numero: Long
 )
+
+data class ReporteDesaparecido(
+    val nombre: String,
+    val apellido: String,
+    val genero: String,
+    val descripcion: String,
+    val fecha_nacimiento: String,
+    val fecha_desaparicion: String,
+    val lugar_desaparicion: String,
+    val estado_investigacion: String,
+    val foto_perfil: String,
+    val nombre_reportante: String,
+    val telefono_reportante: String,
+    val foto_suceso: String,
+    val coordenadas: String,
+    val edad: Int,
+    val caracteristicas: String,
+    val id_usuario: Int
+)
+
 
 
 // Clase que representa la respuesta de la API

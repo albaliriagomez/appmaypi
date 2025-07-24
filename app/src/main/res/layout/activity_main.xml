@@ -125,14 +125,14 @@
             android:fontFamily="@font/poppins_regular"
             android:layout_marginEnd="8dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/registerButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="Registrarse"
-            android:backgroundTint="#808000"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/black"
             android:fontFamily="@font/poppins_regular"
             android:layout_marginEnd="8dp"/>
 
