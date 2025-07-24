@@ -1,7 +1,71 @@
 package com.torrezpillcokevin.nuna.ui.reportar_desaparecido
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import com.torrezpillcokevin.nuna.data.ApiService
+import com.torrezpillcokevin.nuna.data.ReporteDesaparecido
+import kotlinx.coroutines.launch
 
-class ReportarDesaparecidoViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class ReportarDesaparecidoViewModel(
+    application: Application,
+    private val apiService: ApiService
+) : AndroidViewModel(application) {
+
+    private val _status = MutableLiveData<Result<String>>()
+    val status: LiveData<Result<String>> = _status
+
+    fun reportarDesaparecido(reporte: ReporteDesaparecido) {
+        viewModelScope.launch {
+            try {
+                val token = getJwtToken()
+                if (token == null) {
+                    _status.postValue(Result.failure(Exception("Token no encontrado")))
+                    return@launch
+                }
+
+                val response = apiService.reportarDesaparecido("Bearer $token", reporte)
+                if (response.isSuccessful) {
+                    _status.postValue(Result.success("Reporte enviado con éxito"))
+                } else {
+                    _status.postValue(Result.failure(Exception("Error: ${response.errorBody()?.string()}")))
+                }
+            } catch (e: Exception) {
+                _status.postValue(Result.failure(e))
+            }
+        }
+    }
+
+    fun getJwtToken(): String? {
+        val masterKey = MasterKey.Builder(getApplication())
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            getApplication(),
+            "SECURE_APP_PREFS",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        return sharedPreferences.getString("JWT_TOKEN", null)
+    }
+
+    fun getUserId(): Int {
+        val masterKey = MasterKey.Builder(getApplication())
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            getApplication(),
+            "SECURE_APP_PREFS",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        return sharedPreferences.getInt("USER_ID", -1)
+    }
 }

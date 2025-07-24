@@ -113,6 +113,16 @@ interface ApiService {
 
 
 
+    @POST("api/desaparecidoss/")
+    suspend fun reportarDesaparecido(
+        @Header("Authorization") token: String,
+        @Body reporte: ReporteDesaparecido
+    ): Response<ReporteDesaparecido>
+
+
+
+
+
 
 
 
