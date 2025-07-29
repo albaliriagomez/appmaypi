@@ -19,6 +19,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.mapbox.geojson.Point
 import com.torrezpillcokevin.nuna.R
 import com.torrezpillcokevin.nuna.data.ReporteDesaparecido
@@ -48,17 +49,17 @@ class ReportarDesaparecidoFragment : Fragment() {
 
     private var fotoPerfilUri: String = ""
     private var fotoSucesoUri: String = ""
-
     private lateinit var generoSpinner: Spinner
 
     private var selectedLatitude: Double? = null
     private var selectedLongitude: Double? = null
 
-
     private lateinit var btnSeleccionarFotoPerfil: Button
     private lateinit var btnSeleccionarFotoSuceso: Button
 
     private var seleccionandoFotoPerfil = false
+
+    private val navController by lazy { findNavController() }
 
 
     override fun onCreateView(
@@ -178,12 +179,23 @@ class ReportarDesaparecidoFragment : Fragment() {
 
             viewModel.reportarDesaparecido(reporte)
             Log.i("ReporteDesaparecido", "Solicitud de envío enviada al ViewModel")
+            viewModel.reporteExitoso.observe(viewLifecycleOwner) { exito ->
+                if (exito) {
+                    // Navegar al Fragment deseado (ej: HomeFragment)
+                    navController.navigate(R.id.nav_home)
+
+                    // Opcional: Mostrar mensaje de éxito
+                    Toast.makeText(requireContext(), "Reporte enviado con éxito", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         limpiarCampos()
 
         return view
     }
+
+
 
     private val seleccionarImagenLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->

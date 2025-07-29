@@ -4,59 +4,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="@android:color/transparent">
+    android:layout_height="wrap_content" >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
-        android:background="@color/white_smoke"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:background="@color/white_smoke">
-
+            android:padding="20dp">
             <!-- Título del Diálogo -->
             <TextView
                 android:id="@+id/txtTituloDialog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Detalles de la Persona"
+                android:textAlignment="center"
+                android:textColor="@color/charcoal"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="@color/charcoal"
-                android:textAlignment="center"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Contenedor de la imagen (circular) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardImageContainer"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="60dp"
                 app:cardElevation="4dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/txtTituloDialog"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/txtTituloDialog">
 
                 <ImageView
                     android:id="@+id/imgPersonaDetalle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
                     android:contentDescription="Foto de la persona desaparecida"
-                    tools:src="@android:drawable/ic_menu_gallery"/>
+                    android:scaleType="centerCrop"
+                    tools:src="@android:drawable/ic_menu_gallery" />
             </androidx.cardview.widget.CardView>
 
             <!-- Nombre de la persona (destacado) -->
@@ -64,40 +56,40 @@
                 android:id="@+id/txtNombreDetalle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/dark_slate_gray"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/dark_slate_gray"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/cardImageContainer"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="Juan Pérez"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardImageContainer"
+                tools:text="Juan Pérez" />
 
             <!-- Tiempo desaparecido (destacado en amber) -->
             <TextView
                 android:id="@+id/txtTiempoDesaparecido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/amber"
-                android:textStyle="bold"
                 android:layout_marginTop="4dp"
-                app:layout_constraintTop_toBottomOf="@id/txtNombreDetalle"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/charcoal_translucent"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="2 días desaparecido"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txtNombreDetalle"
+                tools:text="2 días desaparecido" />
 
             <!-- Card con información básica -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardInfoBasica"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/txtTiempoDesaparecido"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/txtTiempoDesaparecido">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,34 +101,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Información Personal"
-                        android:textStyle="bold"
                         android:textColor="@color/charcoal"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/gainsboro"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/gainsboro" />
 
                     <TextView
                         android:id="@+id/txtEdadDetalle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/dark_slate_gray"
                         android:textSize="14sp"
-                        android:layout_marginBottom="4dp"
-                        tools:text="Edad: 30 años"/>
+                        tools:text="Edad: 30 años" />
 
                     <TextView
                         android:id="@+id/txtGeneroDetalle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/dark_slate_gray"
                         android:textSize="14sp"
-                        android:layout_marginBottom="4dp"
-                        tools:text="Género: Masculino"/>
+                        tools:text="Género: Masculino" />
 
                     <TextView
                         android:id="@+id/txtFechaNacimientoDetalle"
@@ -144,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_slate_gray"
                         android:textSize="14sp"
-                        tools:text="Fecha de nacimiento: 15/05/1994"/>
+                        tools:text="Fecha de nacimiento: 15/05/1994" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -153,12 +145,12 @@
                 android:id="@+id/cardInfoDesaparicion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/cardInfoBasica"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/cardInfoBasica">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -170,35 +162,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Detalles de la Desaparición"
-                        android:textStyle="bold"
-                        android:textColor="@color/amber"
-                        android:textSize="16sp"/>
+                        android:textColor="@color/charcoal"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/gainsboro"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/gainsboro" />
 
                     <TextView
                         android:id="@+id/txtFechaDesaparicionDetalle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/amber"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
                         android:layout_marginBottom="4dp"
-                        tools:text="Fecha de desaparición: 01/04/2025"/>
+                        android:textColor="@color/dark_slate_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="Fecha de desaparición: 01/04/2025" />
 
                     <TextView
                         android:id="@+id/txtLugarDesaparicionDetalle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:textColor="@color/dark_slate_gray"
                         android:textSize="14sp"
-                        android:layout_marginBottom="4dp"
-                        tools:text="Lugar de desaparición: Ciudad de México"/>
+                        tools:text="Lugar de desaparición: Ciudad de México" />
 
                     <TextView
                         android:id="@+id/txtDescripcionDetalle"
@@ -206,7 +198,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_slate_gray"
                         android:textSize="14sp"
-                        tools:text="Descripción: Desapareció en la zona centro."/>
+                        tools:text="Descripción: Desapareció en la zona centro." />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -215,12 +207,12 @@
                 android:id="@+id/cardInfoAdicional"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp"
-                android:layout_marginTop="12dp"
-                app:layout_constraintTop_toBottomOf="@id/cardInfoDesaparicion"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/cardInfoDesaparicion">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,26 +224,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Información Adicional"
-                        android:textStyle="bold"
-                        android:textColor="@color/olive"
-                        android:textSize="16sp"/>
+                        android:textColor="@color/charcoal"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/gainsboro"
                         android:layout_marginTop="4dp"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/gainsboro" />
 
                     <TextView
                         android:id="@+id/txtEstadoInvestigacionDetalle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/amber"
-                        android:textStyle="bold"
-                        android:textSize="14sp"
                         android:layout_marginBottom="4dp"
-                        tools:text="Estado: En investigación"/>
+                        android:textColor="@color/dark_slate_gray"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        tools:text="Estado: En investigación" />
 
                     <TextView
                         android:id="@+id/txtCaracteristicasDetalle"
@@ -259,7 +251,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/dark_slate_gray"
                         android:textSize="14sp"
-                        tools:text="Características: 1.75m, cabello corto negro, lunar en la mejilla."/>
+                        tools:text="Características: 1.75m, cabello corto negro, lunar en la mejilla." />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -267,33 +259,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/cardInfoAdicional"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/cardInfoAdicional">
 
                 <Button
                     android:id="@+id/btnReportar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:text="Reportar Información"
-                    android:textColor="@color/white_smoke"
                     android:backgroundTint="@color/olive"
                     android:padding="12dp"
-                    android:layout_marginEnd="8dp"/>
+                    android:text="Reportar Información"
+                    android:textColor="@color/white_smoke" />
 
                 <Button
                     android:id="@+id/btnCerrar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Cerrar"
-                    android:textColor="@color/white_smoke"
                     android:backgroundTint="@color/charcoal"
-                    android:padding="12dp"/>
+                    android:padding="12dp"
+                    android:text="Cerrar"
+                    android:textColor="@color/white_smoke" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

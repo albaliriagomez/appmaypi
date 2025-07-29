@@ -119,6 +119,14 @@ interface ApiService {
         @Body reporte: ReporteDesaparecido
     ): Response<ReporteDesaparecido>
 
+    @GET("api/desaparecidoss/")
+    suspend fun obtenerDesaparecidos(
+        @Query("pagina") pagina: Int ,
+        @Query("por_pagina") porPagina: Int,
+        @Header("Authorization") token: String
+    ): Response<DesaparecidoResponse>
+
+
 
 
 

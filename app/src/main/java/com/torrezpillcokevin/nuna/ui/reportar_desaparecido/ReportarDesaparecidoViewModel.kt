@@ -18,7 +18,9 @@ class ReportarDesaparecidoViewModel(
 ) : AndroidViewModel(application) {
 
     private val _status = MutableLiveData<Result<String>>()
-    val status: LiveData<Result<String>> = _status
+    private val _reporteExitoso = MutableLiveData<Boolean>()
+    val reporteExitoso: LiveData<Boolean> = _reporteExitoso
+
 
     fun reportarDesaparecido(reporte: ReporteDesaparecido) {
         viewModelScope.launch {
@@ -32,11 +34,14 @@ class ReportarDesaparecidoViewModel(
                 val response = apiService.reportarDesaparecido("Bearer $token", reporte)
                 if (response.isSuccessful) {
                     _status.postValue(Result.success("Reporte enviado con éxito"))
+                    _reporteExitoso.postValue(true) // Indicar que fue exitoso
                 } else {
                     _status.postValue(Result.failure(Exception("Error: ${response.errorBody()?.string()}")))
+                    _reporteExitoso.postValue(false)
                 }
             } catch (e: Exception) {
                 _status.postValue(Result.failure(e))
+                _reporteExitoso.postValue(false)
             }
         }
     }

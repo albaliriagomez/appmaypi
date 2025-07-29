@@ -136,16 +136,6 @@ data class GuideCategoryResponse(
 )
 
 
-
-
-
-
-
-
-
-
-
-
 // Clase que representa un usuario
 data class User(
         val name: String,
@@ -168,6 +158,7 @@ data class UserGet(
     val numero: Long
 )
 
+
 data class ReporteDesaparecido(
     val nombre: String,
     val apellido: String,
@@ -186,6 +177,15 @@ data class ReporteDesaparecido(
     val caracteristicas: String,
     val id_usuario: Int
 )
+data class DesaparecidoResponse(
+    val total_registros: Int,
+    val por_pagina: Int,
+    val pagina_actual: Int,
+    val total_paginas: Int,
+    val data: List<ReporteDesaparecido>
+)
+
+
 
 
 
