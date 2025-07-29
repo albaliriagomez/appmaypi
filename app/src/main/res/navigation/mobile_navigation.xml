@@ -67,6 +67,10 @@
         <action
             android:id="@+id/action_navigation_muro_to_reportarFragment"
             app:destination="@id/reportarFragment" />
+
+        <action
+            android:id="@+id/action_navigation_muro_to_desaparecidoFragment"
+            app:destination="@id/nav_DesaparecidoFragment" />
     </fragment>
 
     <fragment
