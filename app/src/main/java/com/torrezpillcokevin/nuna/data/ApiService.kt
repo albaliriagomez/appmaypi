@@ -18,7 +18,6 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-
     @POST("/api/users/")
     suspend fun createUser(@Body userRequest: UserRequest): Response<UserResponse>
 
@@ -125,17 +124,6 @@ interface ApiService {
         @Query("por_pagina") porPagina: Int,
         @Header("Authorization") token: String
     ): Response<DesaparecidoResponse>
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

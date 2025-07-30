@@ -8,6 +8,8 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.graphics.Color
@@ -24,12 +26,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.google.android.gms.location.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import android.os.Handler // Agrega esta línea al inicio de tu archivo
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
@@ -48,6 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     private val REQUEST_CALL_PERMISSION = 1
     private val REQUEST_RECORD_AUDIO_PERMISSION = 2
+    private val REQUEST_LOCATION_PERMISSION = 3
     private var mediaRecorder: MediaRecorder? = null
     private var audioFilePath: String? = null
     private var isRecording = false
@@ -60,6 +64,10 @@ class MainActivity : AppCompatActivity() {
     private var photoUri: Uri? = null
     private lateinit var addContactButton: Button
 
+    // Location services
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
+
     //base de datos sqlite
     private lateinit var dbHelper: DatabaseHelper
     private lateinit var contactAdapter: ContactAdapter
@@ -69,6 +77,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_main)
+
+        // Inicializar location client
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         //SQLite
         dbHelper = DatabaseHelper(this)
@@ -92,9 +103,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         messageIcono.setOnClickListener {
-           sendEmergencySMS(this, "Me encuentro en peligro(Prueba Desarollo)")
+            sendEmergencyLocationSMS(this)
         }
-
 
         val redButton = findViewById<ImageView>(R.id.redButton)
         redButton.setOnClickListener {
@@ -113,15 +123,13 @@ class MainActivity : AppCompatActivity() {
                 isProcessing = false
                 return@setOnClickListener
             }
-            //enviarMensajeWhatsApp()
-            //enviarMensajeTelegram()
-            //makePhoneCall(this)
-            //sendEmergencySMS(this, "Me encuentro en peligro. (Prueba Desarrollo)")
-            //abrirCamara()
+
+            // Enviar ubicación por SMS
+            sendEmergencyLocationSMS(this)
 
             // Al finalizar todas las acciones, restablece la bandera
             Toast.makeText(this, "Acciones de emergencia ejecutadas", Toast.LENGTH_SHORT).show()
-            isProcessing = false // Restablece la bandera al final
+            isProcessing = false
         }
 
         findViewById<ImageView>(R.id.phoneIcono).setOnClickListener {
@@ -151,7 +159,6 @@ class MainActivity : AppCompatActivity() {
             showEmergencyConfigDialog(this)
         }
 
-
         loginButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -161,7 +168,149 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
         }
+    }
 
+    private fun checkLocationPermissions(): Boolean {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            REQUEST_LOCATION_PERMISSION
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun sendEmergencyLocationSMS(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
+        val emergencyNumbers = sharedPreferences.getStringSet("emergency_sms_phones", emptySet())
+
+        if (emergencyNumbers.isNullOrEmpty()) {
+            Toast.makeText(context, "No hay contactos de emergencia configurados", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Verificar permisos de SMS
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+            if (context is Activity) {
+                ActivityCompat.requestPermissions(context, arrayOf(Manifest.permission.SEND_SMS), REQUEST_SEND_SMS)
+            }
+            return
+        }
+
+        // Verificar permisos de ubicación
+        if (!checkLocationPermissions()) {
+            requestLocationPermissions()
+            return
+        }
+
+        Toast.makeText(context, "Obteniendo ubicación...", Toast.LENGTH_SHORT).show()
+
+        // Primero intentar obtener la última ubicación conocida
+        fusedLocationClient.lastLocation.addOnSuccessListener { lastLocation ->
+            if (lastLocation != null) {
+                sendLocationSMS(context, lastLocation.latitude, lastLocation.longitude, emergencyNumbers)
+            } else {
+                // Si no hay última ubicación, solicitar nueva
+                requestNewLocation(context, emergencyNumbers)
+            }
+        }.addOnFailureListener {
+            // Si falla obtener la última ubicación, solicitar nueva
+            requestNewLocation(context, emergencyNumbers)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocation(context: Context, emergencyNumbers: Set<String>) {
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+            .setMinUpdateIntervalMillis(1000)
+            .setMaxUpdateDelayMillis(10000)
+            .setMaxUpdates(1) // Solo una actualización
+            .build()
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                fusedLocationClient.removeLocationUpdates(this)
+
+                val location = locationResult.lastLocation
+                if (location != null) {
+                    sendLocationSMS(context, location.latitude, location.longitude, emergencyNumbers)
+                } else {
+                    // Como último recurso, enviar mensaje sin ubicación
+                    sendEmergencyMessageWithoutLocation(context, emergencyNumbers)
+                }
+            }
+
+            override fun onLocationAvailability(locationAvailability: LocationAvailability) {
+                if (!locationAvailability.isLocationAvailable) {
+                    fusedLocationClient.removeLocationUpdates(this)
+                    // Enviar mensaje sin ubicación si no está disponible
+                    sendEmergencyMessageWithoutLocation(context, emergencyNumbers)
+                }
+            }
+        }
+
+        try {
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+
+            // Timeout después de 8 segundos
+            Handler(Looper.getMainLooper()).postDelayed({
+                fusedLocationClient.removeLocationUpdates(locationCallback)
+                sendEmergencyMessageWithoutLocation(context, emergencyNumbers)
+            }, 8000)
+        } catch (e: SecurityException) {
+            Log.e("LOCATION_ERROR", "Security exception", e)
+            sendEmergencyMessageWithoutLocation(context, emergencyNumbers)
+        }
+    }
+
+    private fun sendLocationSMS(context: Context, latitude: Double, longitude: Double, emergencyNumbers: Set<String>) {
+        val googleMapsUrl = "https://maps.google.com/?q=$latitude,$longitude"
+        val message = " EMERGENCIA \nNecesito ayuda urgente.\n Mi ubicación:\n$googleMapsUrl"
+
+        try {
+            val smsManager = SmsManager.getDefault()
+            emergencyNumbers.forEach { numero ->
+                val parts = smsManager.divideMessage(message)
+                if (parts.size == 1) {
+                    smsManager.sendTextMessage(numero, null, message, null, null)
+                } else {
+                    smsManager.sendMultipartTextMessage(numero, null, parts, null, null)
+                }
+            }
+            Toast.makeText(context, " Ubicación de emergencia enviada", Toast.LENGTH_SHORT).show()
+            Log.d("EMERGENCY_SMS", "Location sent: $latitude, $longitude")
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error al enviar la ubicación", Toast.LENGTH_SHORT).show()
+            Log.e("SMS_ERROR", "Error sending location SMS", e)
+        }
+    }
+
+    private fun sendEmergencyMessageWithoutLocation(context: Context, emergencyNumbers: Set<String>) {
+        val message = " EMERGENCIA \nNecesito ayuda urgente.\n⚠️ No se pudo obtener mi ubicación exacta. Por favor contactar inmediatamente."
+
+        try {
+            val smsManager = SmsManager.getDefault()
+            emergencyNumbers.forEach { numero ->
+                val parts = smsManager.divideMessage(message)
+                if (parts.size == 1) {
+                    smsManager.sendTextMessage(numero, null, message, null, null)
+                } else {
+                    smsManager.sendMultipartTextMessage(numero, null, parts, null, null)
+                }
+            }
+            Toast.makeText(context, "⚠️ Mensaje de emergencia enviado (sin ubicación)", Toast.LENGTH_LONG).show()
+            Log.d("EMERGENCY_SMS", "Emergency message sent without location")
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error al enviar mensaje de emergencia", Toast.LENGTH_SHORT).show()
+            Log.e("SMS_ERROR", "Error sending emergency SMS", e)
+        }
     }
 
     private fun abrirCamara() {
@@ -169,7 +318,7 @@ class MainActivity : AppCompatActivity() {
         val values = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, "IMG_${System.currentTimeMillis()}.jpg")
             put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES) // 📂 Se guardará en Pictures
+            put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
         }
 
         val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
@@ -195,7 +344,6 @@ class MainActivity : AppCompatActivity() {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             photoUri?.let { uri ->
-                //Toast.makeText(this, "Imagen guardada en la galería: $uri", Toast.LENGTH_LONG).show()
                 Toast.makeText(this, "Imagen guardada en la galería", Toast.LENGTH_SHORT).show()
             } ?: run {
                 Toast.makeText(this, "No se pudo guardar la imagen", Toast.LENGTH_SHORT).show()
@@ -203,73 +351,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    // Permisos
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             REQUEST_RECORD_AUDIO_PERMISSION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startRecording()  // Comenzar la grabación si se ha concedido el permiso
+                    startRecording()
                 } else {
                     Toast.makeText(this, "Permiso de grabación denegado", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-    }
-
-
-    private fun sendEmergencySMS(context: Context, message: String) {
-        val sharedPreferences = context.getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
-        val emergencyNumbers = sharedPreferences.getStringSet("emergency_sms_phones", emptySet())
-
-        if (emergencyNumbers.isNullOrEmpty()) {
-            Toast.makeText(context, "No hay contactos de emergencia configurados", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Verificar permiso antes de enviar SMS
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-            try {
-                val smsManager = SmsManager.getDefault()
-                emergencyNumbers.forEach { numero ->
-                    smsManager.sendTextMessage(numero, null, message, null, null)
+            REQUEST_LOCATION_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permiso de ubicación concedido", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
                 }
-                Toast.makeText(context, "Mensajes de emergencia enviados", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) {
-                Toast.makeText(context, "Error al enviar los mensajes", Toast.LENGTH_SHORT).show()
-                e.printStackTrace()
             }
-        } else {
-            // Solicitar permiso si no está concedido
-            if (context is Activity) {
-                ActivityCompat.requestPermissions(context, arrayOf(Manifest.permission.SEND_SMS), REQUEST_SEND_SMS)
-            } else {
-                Toast.makeText(context, "No se puede solicitar el permiso en este contexto", Toast.LENGTH_SHORT).show()
+            REQUEST_SEND_SMS -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    sendEmergencyLocationSMS(this)
+                } else {
+                    Toast.makeText(this, "Permiso para enviar SMS denegado", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
-   /* private fun enviarMensajeWhatsApp() {
-        val whatsappUri = Uri.parse("https://api.whatsapp.com/send?phone=$predefinedNumber&text=${Uri.encode(messageText)}")
-        val intent = Intent(Intent.ACTION_VIEW, whatsappUri)
-        intent.setPackage("com.whatsapp")
-        try {
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "WhatsApp no está instalado", Toast.LENGTH_SHORT).show()
-        }
-    }*/
-
-    /*private fun enviarMensajeTelegram() {
-        val telegramUri = Uri.parse("https://telegram.me/share/url?url=$messageText")
-        val intent = Intent(Intent.ACTION_VIEW, telegramUri)
-        intent.setPackage("org.telegram.messenger")
-        try {
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Telegram no está instalado", Toast.LENGTH_SHORT).show()
-        }
-    }*/
 
     private fun makePhoneCall(context: Context) {
         val sharedPreferences = context.getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
@@ -280,12 +387,10 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Verificar permiso
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             val callIntent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$emergencyPhoneNumber"))
             context.startActivity(callIntent)
         } else {
-            // Solicitar permiso si no ha sido concedido
             if (context is Activity) {
                 ActivityCompat.requestPermissions(context, arrayOf(Manifest.permission.CALL_PHONE), REQUEST_CALL_PERMISSION)
             } else {
@@ -293,7 +398,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun checkAudioPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
@@ -304,7 +408,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startRecording() {
-        // Generar un nombre único con la fecha y hora actual
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val audioFile = File(getExternalFilesDir(Environment.DIRECTORY_MUSIC), "AUDIO_$timeStamp.3gp")
         audioFilePath = audioFile.absolutePath
@@ -320,7 +423,6 @@ class MainActivity : AppCompatActivity() {
         isRecording = true
         Toast.makeText(this, "Grabación iniciada", Toast.LENGTH_SHORT).show()
 
-        // Detener la grabación automáticamente después de 5 segundos
         Handler(Looper.getMainLooper()).postDelayed({
             if (isRecording) {
                 mediaRecorder?.apply {
@@ -332,9 +434,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Grabación finalizada", Toast.LENGTH_SHORT).show()
                 Log.d("AUDIO_RECORD", "Archivo guardado en: $audioFilePath")
             }
-        }, 5000) // 5 segundos
+        }, 5000)
     }
 
+    // ... resto de métodos sin cambios (showAddContactDialog, loadContacts, editContact, deleteContact, showEmergencyConfigDialog, etc.)
 
     private fun showAddContactDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_contact, null)
@@ -368,7 +471,6 @@ class MainActivity : AppCompatActivity() {
                     loadContacts()
                     Toast.makeText(this, "Contacto guardado", Toast.LENGTH_SHORT).show()
 
-                    // 🚨 Guardar automáticamente como configuración de emergencia si es el primer contacto
                     val contacts = dbHelper.getAllContacts()
                     if (contacts.size == 1) {
                         val sharedPreferences = getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
@@ -409,16 +511,13 @@ class MainActivity : AppCompatActivity() {
         val btnSave = dialogView.findViewById<Button>(R.id.btnEdit)
         val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
 
-        // Llenar los campos con la información actual
         nameEditText.setText(contact.name)
         phoneEditText.setText(contact.phone)
 
-        // Configurar Spinner con opciones
         val operators = arrayOf("Seleccione línea", "Entel", "Tigo", "Viva")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, operators)
         lineSpinner.adapter = adapter
 
-        // Seleccionar el valor correcto en el Spinner
         val position = operators.indexOf(contact.line)
         if (position >= 0) lineSpinner.setSelection(position)
 
@@ -434,8 +533,8 @@ class MainActivity : AppCompatActivity() {
 
             if (newName.isNotEmpty() && newPhone.isNotEmpty() && newLine != "Seleccione línea") {
                 val updatedContact = Contact(contact.id, newName, newPhone, newLine)
-                dbHelper.updateContact(updatedContact) // Asegúrate de implementar este método en DBHelper
-                loadContacts() // Recargar los datos en RecyclerView
+                dbHelper.updateContact(updatedContact)
+                loadContacts()
                 dialog.dismiss()
                 Toast.makeText(this, "Contacto actualizado", Toast.LENGTH_SHORT).show()
             } else {
@@ -564,7 +663,6 @@ class MainActivity : AppCompatActivity() {
         btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
         bottomSheetDialog.show()
     }
-
 
     private fun startBackgroundService(context: Context) {
         val serviceIntent = Intent(context, BackgroundButtonService::class.java)
