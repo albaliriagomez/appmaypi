@@ -138,13 +138,13 @@ data class GuideCategoryResponse(
 
 // Clase que representa un usuario
 data class User(
-        val name: String,
-        val password: String,
-        val email: String,
-        val avatar: String,
-        val status: String,
-        val role: String,
-        val numero:Int,
+    val name: String,
+    val password: String,
+    val email: String,
+    val avatar: String,
+    val status: String,
+    val role: String,
+    val numero:Int,
 )
 
 data class UserGet(
@@ -239,4 +239,3 @@ data class Contact(
     val accion: String,
     val id: Int
 )
-
