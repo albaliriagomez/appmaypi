@@ -4,8 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,10 +23,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.torrezpillcokevin.nuna.R
+import com.torrezpillcokevin.nuna.clases.BackgroundButtonService
 import com.torrezpillcokevin.nuna.data.ContactoRequest
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import com.torrezpillcokevin.nuna.dbSqlite.DatabaseHelper
@@ -34,6 +40,7 @@ class ContactoEmergenciaFragment : Fragment() {
 
     private lateinit var tableLayout: TableLayout
     private lateinit var dbHelper: DatabaseHelper
+    private lateinit var settingsButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +60,12 @@ class ContactoEmergenciaFragment : Fragment() {
             val dialog = AgregarEditarContactoDialog()
             dialog.setTargetFragment(this, 0)
             dialog.show(parentFragmentManager, "AgregarContacto")
+        }
+
+        // Configurar el botón de settings
+        settingsButton = view.findViewById(R.id.settingsButton)
+        settingsButton.setOnClickListener {
+            showEmergencyConfigDialog(requireContext())
         }
 
         cargarContactos()
@@ -97,9 +110,8 @@ class ContactoEmergenciaFragment : Fragment() {
                 setPadding(16, 8, 16, 8)
                 setColorFilter(ContextCompat.getColor(requireContext(), R.color.primary_color))
                 setOnClickListener {
-                    dbHelper.deleteContact(contacto.id)
-                    cargarContactos()
-                    Toast.makeText(requireContext(), "Eliminado ${contacto.name}", Toast.LENGTH_SHORT).show()
+                    // Mostrar el diálogo de confirmación antes de eliminar
+                    showDeleteConfirmationDialog(contacto)
                 }
             }
 
@@ -111,6 +123,153 @@ class ContactoEmergenciaFragment : Fragment() {
 
             tableLayout.addView(row)
         }
+    }
+
+    // Función para mostrar el diálogo de confirmación de eliminación
+    private fun showDeleteConfirmationDialog(contact: Contact) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_delete_contact, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val btnDelete = dialogView.findViewById<Button>(R.id.btnDelete)
+        val tvMessage = dialogView.findViewById<TextView>(R.id.tvDialogMessage)
+
+        tvMessage.text = "¿Estás seguro de que deseas eliminar a ${contact.name}?"
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        btnDelete.setOnClickListener {
+            val rowsDeleted = dbHelper.deleteContact(contact.id)
+            if (rowsDeleted > 0) {
+                cargarContactos() // Recargar la tabla
+                Toast.makeText(requireContext(), "${contact.name} eliminado", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Error al eliminar", Toast.LENGTH_SHORT).show()
+            }
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private fun showEmergencyConfigDialog(context: Context) {
+        val contacts = dbHelper.getAllContacts()
+
+        if (contacts.isEmpty()) {
+            Toast.makeText(context, "No hay contactos guardados", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.bottomsheet_emergency, null)
+        val bottomSheetDialog = BottomSheetDialog(context)
+        bottomSheetDialog.setContentView(dialogView)
+
+        val spinnerCallContact = dialogView.findViewById<Spinner>(R.id.spinnerCallContact)
+        val listViewContacts = dialogView.findViewById<ListView>(R.id.lvContacts)
+        val btnSave = dialogView.findViewById<Button>(R.id.btnSave)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val switchBackgroundService = dialogView.findViewById<Switch>(R.id.switchBackgroundService)
+
+        val contactNames = contacts.map { "${it.name} (${it.phone})" }
+
+        val callAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, contactNames)
+        spinnerCallContact.adapter = callAdapter
+
+        val smsAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, contactNames)
+        listViewContacts.adapter = smsAdapter
+        listViewContacts.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+
+        val sharedPreferences = context.getSharedPreferences("EmergencyPrefs", Context.MODE_PRIVATE)
+        val savedCallContact = sharedPreferences.getString("emergency_call_phone", null)
+        val savedSMSContacts = sharedPreferences.getStringSet("emergency_sms_phones", emptySet())
+        val isServiceEnabled = sharedPreferences.getBoolean("background_service_enabled", false)
+
+        switchBackgroundService.isChecked = isServiceEnabled
+
+        savedCallContact?.let { phone ->
+            contacts.indexOfFirst { it.phone == phone }
+                .takeIf { it >= 0 }
+                ?.let { spinnerCallContact.setSelection(it) }
+        }
+
+        savedSMSContacts?.forEach { savedPhone ->
+            contacts.indexOfFirst { it.phone == savedPhone }
+                .takeIf { it >= 0 }
+                ?.let { listViewContacts.setItemChecked(it, true) }
+        }
+
+        switchBackgroundService.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                showPermissionDialog(context, switchBackgroundService)
+            } else {
+                stopBackgroundService(context)
+            }
+        }
+
+        btnSave.setOnClickListener {
+            val selectedCallContact = contacts[spinnerCallContact.selectedItemPosition]
+            val selectedSMSContacts = mutableSetOf<String>()
+
+            for (i in 0 until listViewContacts.count) {
+                if (listViewContacts.isItemChecked(i)) {
+                    selectedSMSContacts.add(contacts[i].phone)
+                }
+            }
+
+            with(sharedPreferences.edit()) {
+                if (savedCallContact != selectedCallContact.phone) {
+                    putString("emergency_call_phone", selectedCallContact.phone)
+                }
+                if (savedSMSContacts != selectedSMSContacts) {
+                    putStringSet("emergency_sms_phones", selectedSMSContacts)
+                }
+                if (isServiceEnabled != switchBackgroundService.isChecked) {
+                    putBoolean("background_service_enabled", switchBackgroundService.isChecked)
+                }
+                apply()
+            }
+
+            Toast.makeText(context, "Configuración guardada", Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.dismiss()
+        }
+
+        btnCancel.setOnClickListener { bottomSheetDialog.dismiss() }
+        bottomSheetDialog.show()
+    }
+
+    private fun startBackgroundService(context: Context) {
+        val serviceIntent = Intent(context, BackgroundButtonService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(serviceIntent)
+        } else {
+            context.startService(serviceIntent)
+        }
+    }
+
+    private fun stopBackgroundService(context: Context) {
+        val serviceIntent = Intent(context, BackgroundButtonService::class.java)
+        context.stopService(serviceIntent)
+    }
+
+    private fun showPermissionDialog(context: Context, @SuppressLint("UseSwitchCompatOrMaterialCode") switchService: Switch) {
+        AlertDialog.Builder(context)
+            .setTitle("Permiso necesario")
+            .setMessage("¿Quieres permitir la ejecución en segundo plano?")
+            .setPositiveButton("Sí") { _, _ ->
+                switchService.isChecked = true
+                startBackgroundService(context)
+            }
+            .setNegativeButton("No") { _, _ ->
+                switchService.isChecked = false
+            }
+            .setCancelable(false)
+            .show()
     }
 
     class AgregarEditarContactoDialog : DialogFragment() {
