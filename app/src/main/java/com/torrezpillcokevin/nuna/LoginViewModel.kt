@@ -70,6 +70,27 @@ class LoginViewModel(application: Application, private val apiService: ApiServic
             Log.e("SECURE_STORAGE", "Error al guardar datos cifrados: ${e.message}")
         }
     }
+    fun isUserLoggedIn(): Boolean {
+        return try {
+            val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                context,
+                "SECURE_APP_PREFS",
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+
+            val token = sharedPreferences.getString("JWT_TOKEN", null)
+            !token.isNullOrEmpty()
+        } catch (e: Exception) {
+            false
+        }
+    }
+
 
     sealed class ResultadoLogin {
         data class Exito(val message: String) : ResultadoLogin()

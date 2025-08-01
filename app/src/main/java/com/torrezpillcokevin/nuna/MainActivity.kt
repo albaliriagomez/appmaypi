@@ -41,6 +41,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.torrezpillcokevin.nuna.clases.BackgroundButtonService
 import com.torrezpillcokevin.nuna.clases.ContactAdapter
@@ -77,6 +79,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(R.layout.activity_main)
+
+        if (isUserLoggedIn()) {
+            // Redirige directamente al home (pantalla principal)
+            val intent = Intent(this, MainActivity2::class.java)
+            startActivity(intent)
+            finish() // evita volver atrás
+            return
+        }
 
         // Inicializar location client
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -167,6 +177,26 @@ class MainActivity : AppCompatActivity() {
         registroButton.setOnClickListener {
             val intent = Intent(this, RegistroActivity::class.java)
             startActivity(intent)
+        }
+    }
+    private fun isUserLoggedIn(): Boolean {
+        return try {
+            val masterKey = MasterKey.Builder(this)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            val sharedPreferences = EncryptedSharedPreferences.create(
+                this,
+                "SECURE_APP_PREFS",
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+
+            val token = sharedPreferences.getString("JWT_TOKEN", null)
+            !token.isNullOrEmpty()
+        } catch (e: Exception) {
+            false
         }
     }
 

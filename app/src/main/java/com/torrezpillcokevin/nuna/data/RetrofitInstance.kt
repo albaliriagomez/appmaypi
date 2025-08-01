@@ -9,7 +9,7 @@ import java.net.URL
 
 object RetrofitInstance {
     // Configuración para desarrollo
-    private const val DEVELOPMENT_BASE_URL = "http://192.168.0.11:8000/"
+    private const val DEVELOPMENT_BASE_URL = "http://10.0.2.2:8000/"
     private const val TIMEOUT_SECONDS = 30L
 
     // Client con timeouts y logging para desarrollo

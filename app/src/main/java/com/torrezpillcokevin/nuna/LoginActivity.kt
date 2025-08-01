@@ -34,12 +34,20 @@ class LoginActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        setContentView(R.layout.activity_login)
 
         // Inicializa el ViewModel con Factory
         val apiService = RetrofitInstance.api
         viewModel = ViewModelProvider(this, LoginViewModelFactory(application, apiService))[LoginViewModel::class.java]
+
+        // Verifica si ya hay una sesión activa
+        if (viewModel.isUserLoggedIn()) {
+            startActivity(Intent(this, MainActivity2::class.java))
+            finish()
+            return
+        }
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setContentView(R.layout.activity_login)
 
         // Observa el estado de la autenticación
         viewModel.loginState.observe(this) { result ->
