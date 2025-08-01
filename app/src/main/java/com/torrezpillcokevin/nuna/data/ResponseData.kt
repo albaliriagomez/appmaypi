@@ -2,9 +2,6 @@ package com.torrezpillcokevin.nuna.data
 
 import com.google.gson.annotations.SerializedName
 
-
-
-
 //Nuevas data class segun las ultimas modificaciones del backend
 data class UserRequest(
     @SerializedName("codigo_persona") val codigoPersona: String,
@@ -111,6 +108,23 @@ data class GuideResponse(
     val total_paginas: Int,
     val data: List<Guide>
 )
+
+data class Faq(
+    val id: Int,
+    val question: String,
+    val answer: String,
+    val category_id: Int,
+    val author_id: Int
+)
+
+data class FaqResponse(
+    val total_registros: Int,
+    val por_pagina: Int,
+    val pagina_actual: Int,
+    val total_paginas: Int,
+    val data: List<Faq>
+)
+
 //nuevo guia
 
 data class GuideCategory(

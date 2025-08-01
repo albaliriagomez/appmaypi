@@ -110,6 +110,14 @@ interface ApiService {
         @Header("Authorization") authToken: String
     ): Response<GuideResponse>
 
+    //Preguntas Frecuentes
+    @GET("api/faqs/")
+    suspend fun getFaqs(
+        @Query("pagina") pagina: Int,
+        @Query("por_pagina") porPagina: Int,
+        @Header("Authorization") authToken: String
+    ): Response<FaqResponse>
+
 
 
     @POST("api/desaparecidoss/")

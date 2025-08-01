@@ -1,88 +1,95 @@
 package com.torrezpillcokevin.nuna.ui.preguntasfrecuentes
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
-import com.torrezpillcokevin.nuna.R
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.torrezpillcokevin.nuna.data.RetrofitInstance
+import com.torrezpillcokevin.nuna.databinding.FragmentPreguntasFrecuentesBinding
 
 class PreguntasFrecuentesFragment : Fragment() {
 
-    // Lista de TextViews para manejar cada pregunta y su respuesta
-    private lateinit var preguntas: List<TextView>
-    private lateinit var respuestas: List<TextView>
+    private lateinit var binding: FragmentPreguntasFrecuentesBinding
+    private lateinit var viewModel: PreguntasFrecuentesViewModel
+    private lateinit var adapter: FaqAdapter
 
-    companion object {
-        fun newInstance() = PreguntasFrecuentesFragment()
+    private var currentPage = 0
+    private var totalPages = 1
+    private var isLoading = false
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentPreguntasFrecuentesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private val viewModel: PreguntasFrecuentesViewModel by viewModels()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupViewModel()
+        setupRecyclerView()
+        setupScrollListener()
+        loadInitialFaqs()
+    }
 
-    @SuppressLint("MissingInflatedId")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_preguntas_frecuentes, container, false)
+    private fun setupViewModel() {
+        val factory = PreguntasFrecuentesViewModelFactory(requireActivity().application, RetrofitInstance.api)
+        viewModel = ViewModelProvider(this, factory)[PreguntasFrecuentesViewModel::class.java]
 
-        // Inicializamos las vistas
-        preguntas = listOf(
-            view.findViewById(R.id.tituloPregunta1),
+        viewModel.faqs.observe(viewLifecycleOwner) { result ->
+            isLoading = false
+            result.onSuccess { response ->
+                totalPages = response.total_paginas
 
-            // Agrega más TextViews si es necesario
-        )
-        respuestas = listOf(
-            view.findViewById(R.id.respuesta1),
-
-            // Agrega más TextViews si es necesario
-        )
-
-        // Establecemos el OnClickListener para cada pregunta
-        preguntas.forEachIndexed { index, textView ->
-            textView.setOnClickListener {
-                onPreguntaClick(index)
+                if (response.data.isNotEmpty()) {
+                    adapter.submitList(response.data.toList())  // Lista ya acumulada
+                    currentPage++  // Incrementa sólo si recibiste datos
+                } else {
+                    // No hay más datos, evitar futuras cargas
+                    currentPage = totalPages
+                }
+            }.onFailure {
+                Toast.makeText(requireContext(), "Error: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
-        return view
+        viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            isLoading = loading
+            // Puedes mostrar u ocultar progress bar aquí si tienes
+        }
     }
 
-    // Método que se llama cuando se hace clic en una pregunta
-    fun onPreguntaClick(index: Int) {
-        val respuestaTextView = respuestas[index]
+    private fun setupRecyclerView() {
+        adapter = FaqAdapter()
+        binding.recyclerViewFaqs.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewFaqs.adapter = adapter
+    }
 
-        // Comprobamos si la respuesta está visible o no
-        if (respuestaTextView.visibility == View.GONE) {
-            // Si está oculta, la mostramos con una animación
-            respuestaTextView.visibility = View.VISIBLE
+    private fun setupScrollListener() {
+        binding.recyclerViewFaqs.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
+                val layoutManager = rv.layoutManager as LinearLayoutManager
+                val lastVisible = layoutManager.findLastVisibleItemPosition()
+                val totalItems = layoutManager.itemCount
 
-            // Animación de deslizamiento hacia abajo
-            val slideDown = ObjectAnimator.ofFloat(respuestaTextView, "translationY", -respuestaTextView.height.toFloat(), 0f)
-            slideDown.duration = 300 // Duración de la animación
-            slideDown.start()
-        } else {
-            // Si está visible, la ocultamos con una animación
-            val slideUp = ObjectAnimator.ofFloat(respuestaTextView, "translationY", 0f, -respuestaTextView.height.toFloat())
-            slideUp.duration = 190 // Duración de la animación
-
-            // Agregamos un listener a la animación
-            slideUp.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                    // Ocultamos la vista después de la animación
-                    respuestaTextView.visibility = View.GONE
+                if (!isLoading && lastVisible == totalItems - 1 && currentPage < totalPages) {
+                    loadNextPage()
                 }
-            })
-            slideUp.start()
+            }
+        })
+    }
+
+    private fun loadInitialFaqs() {
+        if (adapter.itemCount == 0) {
+            loadNextPage()
         }
+    }
+
+    private fun loadNextPage() {
+        if (isLoading || currentPage >= totalPages) return
+        isLoading = true
+        viewModel.getFaqs(currentPage, 5)
     }
 }

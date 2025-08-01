@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:id="@+id/faqItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <!-- Pregunta -->
+        <TextView
+            android:id="@+id/textQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Qué es la vida?"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+             />
+
+        <!-- Respuesta (oculta por defecto) -->
+        <TextView
+            android:id="@+id/textAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="La vida es la parte de la sana."
+            android:textSize="15sp"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/poppins_regular"
+            android:visibility="gone"
+            android:paddingTop="8dp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
