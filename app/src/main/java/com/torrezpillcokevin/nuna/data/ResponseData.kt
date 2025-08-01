@@ -95,13 +95,13 @@ data class UserResponseGet(
 
 //GUIA
 data class Guide(
-    val id: Int,
     val category_id: Int,
     val author_id: Int,
     val slug: String,
     val title: String,
     val subtitle: String,
-    val content: String
+    val content: String,
+    val id: Int
 )
 
 data class GuideResponse(

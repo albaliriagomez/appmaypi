@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.torrezpillcokevin.nuna.R
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.torrezpillcokevin.nuna.data.Guide
 import com.torrezpillcokevin.nuna.data.GuideCategory
 import com.torrezpillcokevin.nuna.data.GuideCategoryResponse
 import com.torrezpillcokevin.nuna.databinding.FragmentGuiaBinding
@@ -29,9 +30,9 @@ class GuiaFragment : Fragment() {
 
     private lateinit var viewModel: GuiaViewModel
     private lateinit var binding: FragmentGuiaBinding
-    private lateinit var guideAdapter: GuideCategoryAdapter
-    private val allCategories = mutableListOf<GuideCategory>()
-    private var currentPage = 0 // Comienza en 1
+    private lateinit var guideAdapter: GuideAdapter // Cambié el nombre a GuideAdapter porque ahora son guías, no categorías
+    private val allGuides = mutableListOf<Guide>()
+    private var currentPage = 0 // Empieza en 0 según tu API
     private var totalPages = 1
     private var isLoading = false
 
@@ -57,26 +58,26 @@ class GuiaFragment : Fragment() {
         val factory = GuidesViewModelFactory(requireActivity().application, apiService)
         viewModel = ViewModelProvider(this, factory)[GuiaViewModel::class.java]
 
-        viewModel.categories.observe(viewLifecycleOwner) { result ->
+        viewModel.guides.observe(viewLifecycleOwner) { result ->
             isLoading = false
             Log.d("GuiaFragment", "Nuevo resultado recibido en el Fragment")
 
             result.onSuccess { response ->
-                Log.d("GuiaFragment", "Datos exitosos recibidos. Total páginas: ${response.totalPaginas}")
+                Log.d("GuiaFragment", "Datos exitosos recibidos. Total páginas: ${response.total_paginas}")
                 Log.d("GuiaFragment", "Datos recibidos: ${response.data.map { it.title }}")
 
                 if (response.data.isNotEmpty()) {
-                    totalPages = response.totalPaginas
+                    totalPages = response.total_paginas
 
-                    val beforeAdd = allCategories.map { it.title }
+                    val beforeAdd = allGuides.map { it.title }
                     Log.d("GuiaFragment", "Antes de añadir: $beforeAdd")
 
-                    allCategories.addAll(response.data)
+                    allGuides.addAll(response.data)
 
-                    val afterAdd = allCategories.map { it.title }
+                    val afterAdd = allGuides.map { it.title }
                     Log.d("GuiaFragment", "Después de añadir: $afterAdd")
 
-                    guideAdapter.updateData(allCategories)
+                    guideAdapter.updateData(allGuides)
                     currentPage++
 
                     Log.d("GuiaFragment", "Datos finales en adapter: ${guideAdapter.currentList().map { it.title }}")
@@ -92,13 +93,13 @@ class GuiaFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             isLoading = loading
-            //binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            ///binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun setupRecyclerView() {
-        guideAdapter = GuideCategoryAdapter { category ->
-            // Manejar clic en categoría
+        guideAdapter = GuideAdapter { guide ->
+            // Manejar clic en guía (guide)
         }
         binding.recyclerViewGuides2.apply {
             layoutManager = LinearLayoutManager(context)
@@ -115,8 +116,7 @@ class GuiaFragment : Fragment() {
                 val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
                 val totalItems = layoutManager.itemCount
 
-                // Cargar más si no está cargando y estamos en la última posición visible
-                if (!isLoading && lastVisibleItem == totalItems - 1 && currentPage <= totalPages) {
+                if (!isLoading && lastVisibleItem == totalItems - 1 && currentPage < totalPages) {
                     loadNextPage()
                 }
             }
@@ -124,15 +124,15 @@ class GuiaFragment : Fragment() {
     }
 
     private fun loadInitialData() {
-        if (allCategories.isEmpty()) {
+        if (allGuides.isEmpty()) {
             loadNextPage()
         }
     }
 
     private fun loadNextPage() {
-        if (isLoading || currentPage > totalPages) return
+        if (isLoading || currentPage >= totalPages) return
 
         isLoading = true
-        viewModel.getGuideCategories(currentPage, 5) // Llama al ViewModel para cargar los siguientes datos
+        viewModel.getGuides(currentPage, 5) // Cambié a getGuides para coincidir con el ViewModel
     }
 }

@@ -20,29 +20,31 @@ import com.torrezpillcokevin.nuna.data.Guide
 import androidx.lifecycle.viewModelScope
 import com.torrezpillcokevin.nuna.data.GuideCategory
 import com.torrezpillcokevin.nuna.data.GuideCategoryResponse
+import com.torrezpillcokevin.nuna.data.GuideResponse
 import kotlinx.coroutines.launch
 
 class GuiaViewModel(application: Application, private val apiService: ApiService) :
     AndroidViewModel(application) {
 
-    private val _categories = MutableLiveData<Result<GuideCategoryResponse>>()
-    val categories: LiveData<Result<GuideCategoryResponse>> = _categories
+    private val _guides = MutableLiveData<Result<GuideResponse>>()
+    val guides: LiveData<Result<GuideResponse>> = _guides
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val loadedIds = mutableSetOf<Int>() // Para trackear IDs ya cargados
 
-    fun getGuideCategories(pagina: Int, itemsPerPage: Int) {
+    fun getGuides(pagina: Int, itemsPerPage: Int) {
         viewModelScope.launch {
             _isLoading.postValue(true)
             try {
                 val token = getJwtToken() ?: throw Exception("Token no encontrado")
+                val authHeader = "Bearer $token"
 
-                val response = apiService.getGuideCategories(
+                val response = apiService.getGuides(
                     pagina = pagina,
                     porPagina = itemsPerPage,
-                    token = "Bearer $token"
+                    authToken = authHeader
                 )
 
                 if (response.isSuccessful) {
@@ -51,18 +53,18 @@ class GuiaViewModel(application: Application, private val apiService: ApiService
                         val newItems = apiResponse.data.filterNot { loadedIds.contains(it.id) }
                         loadedIds.addAll(newItems.map { it.id })
 
-                        // Ordenar por número de tema (extraído del título)
-                        val sortedData = newItems.sortedBy {
-                            it.title.replace("TEMA", "").trim().toIntOrNull() ?: 0
-                        }
+                        // Ordenar por título o como prefieras, aquí dejo sin ordenar
+                        val sortedData = newItems // o aplica sort si quieres
 
-                        _categories.postValue(Result.success(
+                        _guides.postValue(Result.success(
                             apiResponse.copy(data = sortedData)
                         ))
                     }
                 } else {
-                    // Manejo de errores
+                    _guides.postValue(Result.failure(Exception("Error: ${response.code()}")))
                 }
+            } catch (e: Exception) {
+                _guides.postValue(Result.failure(e))
             } finally {
                 _isLoading.postValue(false)
             }
