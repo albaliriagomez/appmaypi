@@ -11,18 +11,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Título principal -->
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contactar soporte"
-            android:textColor="#34495E"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/poppins_regular"/>
 
         <!-- Subtítulo -->
         <TextView

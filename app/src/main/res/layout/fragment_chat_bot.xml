@@ -185,12 +185,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
     <!-- Iconos con tamaño reducido y mayor espaciado -->
-    <ImageView
-        android:layout_width="26dp"
-    android:layout_height="26dp"
-    android:layout_marginEnd="12dp"
-    android:layout_marginTop="4dp"
-    android:src="@drawable/add" />
+
 
         <!-- Reemplaza el ImageView del micrófono existente con este -->
         <ImageView
