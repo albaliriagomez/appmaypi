@@ -27,12 +27,6 @@
     <!-- Sección de herramientas de rastreo -->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_codigoRastreo"
-            android:icon="@drawable/code_24px"
-            android:title="@string/nav_codigo_rastreo"
-            android:orderInCategory="4" />
-
-        <item
             android:id="@+id/nav_contactoEmergencia"
             android:icon="@drawable/contacts_24px"
             android:title="@string/nav_contacto_emergencia"

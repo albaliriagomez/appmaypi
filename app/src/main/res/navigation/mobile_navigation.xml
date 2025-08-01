@@ -48,12 +48,6 @@
         tools:layout="@layout/fragment_contacto_emergencia" />
 
     <fragment
-        android:id="@+id/nav_codigoRastreo"
-        android:name="com.torrezpillcokevin.nuna.ui.codigoRastreo.CodigoRastreoFragment"
-        android:label="CodigoRastreo"
-        tools:layout="@layout/fragment_codigo_rastreo" />
-
-    <fragment
         android:id="@+id/nav_muro"
         android:name="com.torrezpillcokevin.nuna.ui.muro.MuroFragment"
         android:label="Muro Desaparecidos"
