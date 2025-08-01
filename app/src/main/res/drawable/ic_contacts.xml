@@ -1,0 +1,47 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurface">
+
+    <!-- Persona principal en el centro -->
+    <group>
+        <!-- Cabeza -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M12,2C13.66,2 15,3.34 15,5C15,6.66 13.66,8 12,8C10.34,8 9,6.66 9,5C9,3.34 10.34,2 12,2Z"/>
+
+        <!-- Cuerpo -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M12,10C15.31,10 18,12.69 18,16V18H6V16C6,12.69 8.69,10 12,10Z"/>
+    </group>
+
+    <!-- Persona pequeña izquierda -->
+    <group>
+        <!-- Cabeza pequeña -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M4,4C4.83,4 5.5,4.67 5.5,5.5C5.5,6.33 4.83,7 4,7C3.17,7 2.5,6.33 2.5,5.5C2.5,4.67 3.17,4 4,4Z"/>
+
+        <!-- Cuerpo pequeño -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M4,8C5.66,8 7,9.34 7,11V12H1V11C1,9.34 2.34,8 4,8Z"/>
+    </group>
+
+    <!-- Persona pequeña derecha -->
+    <group>
+        <!-- Cabeza pequeña -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M20,4C20.83,4 21.5,4.67 21.5,5.5C21.5,6.33 20.83,7 20,7C19.17,7 18.5,6.33 18.5,5.5C18.5,4.67 19.17,4 20,4Z"/>
+
+        <!-- Cuerpo pequeño -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M20,8C21.66,8 23,9.34 23,11V12H17V11C17,9.34 18.34,8 20,8Z"/>
+    </group>
+
+</vector>
