@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_smoke">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- TITULO -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Evaluación de Riesgo de Desaparición"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/charcoal"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Herramienta orientativa. No reemplaza denuncia formal."
+            android:textSize="12sp"
+            android:textColor="@color/amber"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- PROGRESO -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:max="12"
+            android:progress="0"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- TARJETA -->
+        <LinearLayout
+            android:id="@+id/containerPregunta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:elevation="6dp">
+
+            <TextView
+                android:id="@+id/tvPregunta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/charcoal"/>
+
+            <TextView
+                android:id="@+id/tvAyuda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/primary_color"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- NO -->
+            <Button
+                android:id="@+id/btnNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/charcoal"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/poppins_regular"/>
+
+            <!-- A VECES -->
+            <Button
+                android:id="@+id/btnAveces"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="A veces"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/amber"
+                android:textColor="@color/charcoal"
+                android:fontFamily="@font/poppins_regular"/>
+
+            <!-- SI -->
+            <Button
+                android:id="@+id/btnSi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sí"
+                android:backgroundTint="@color/olive"
+                android:textColor="@android:color/white"
+                android:fontFamily="@font/poppins_regular"/>
+        </LinearLayout>
+
+        <!-- RESULTADO -->
+        <LinearLayout
+            android:id="@+id/layoutResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvResultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_regular"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/tvScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tvAcciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="15dp"/>
+
+            <Button
+                android:id="@+id/btnReiniciar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Reiniciar"
+                android:layout_marginTop="15dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

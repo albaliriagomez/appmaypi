@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_smoke">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- TITULO PRINCIPAL -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Red Jurídica MAYPI"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:textColor="@color/charcoal"
+            android:fontFamily="@font/poppins_regular" />
+
+        <!-- BADGE -->
+        <TextView
+            android:id="@+id/tvBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Norma base"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:background="@color/amber"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_regular" />
+
+        <!-- AREA -->
+        <TextView
+            android:id="@+id/tvArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Protección constitucional"
+            android:layout_marginTop="6dp"
+            android:padding="8dp"
+            android:background="@color/olive"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_regular" />
+
+        <!-- SECCION BOTONES -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/btnCpe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Constitución Política del Estado"
+                android:backgroundTint="@color/charcoal"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btn263"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ley Nº 263"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/amber"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btn1486"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="D.S. Nº 1486"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/olive"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btn281"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Art. 281 Bis"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/dark_slate_gray"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btn264"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ley Nº 264"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/steel_blue"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btn3933"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ley Nº 3933"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/gainsboro"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btn548"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ley Nº 548"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/olive"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btn348"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ley Nº 348"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/amber"
+                android:textColor="@color/white"/>
+
+            <Button
+                android:id="@+id/btn031"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ley Nº 031"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/charcoal"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <!-- CONTENIDO -->
+        <TextView
+            android:id="@+id/tvContenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Selecciona una norma para ver la información completa."
+            android:textColor="@color/charcoal"
+            android:fontFamily="@font/poppins_regular"
+            android:lineSpacingExtra="4dp"/>
+
+    </LinearLayout>
+</ScrollView>
