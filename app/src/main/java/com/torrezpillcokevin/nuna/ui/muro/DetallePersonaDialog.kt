@@ -100,7 +100,6 @@ class DetallePersonaDialog : DialogFragment() {
             muroFragment?.let {
                 // El ReportarFragment espera: nombre, email, telefono, fecha_avistamiento, ubicacion_avistamiento, descripcion
                 val bundle = Bundle().apply {
-                    // Prefill los campos con la información de la persona
                     putString("nombre_prefill", persona?.nombre ?: "")
                     putString("email_prefill", persona?.emailContacto ?: "")
                     putString("telefono_prefill", persona?.telefonoContacto?.replace("-", "") ?: "")
@@ -110,10 +109,7 @@ class DetallePersonaDialog : DialogFragment() {
                 }
 
                 // Navegar al fragmento de reportar
-                it.findNavController().navigate(
-                    R.id.action_navigation_muro_to_reportarFragment,
-                    bundle
-                )
+                findNavController().navigate(R.id.nav_DesaparecidoFragment, bundle)
             }
         }
 

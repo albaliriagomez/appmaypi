@@ -1,36 +1,48 @@
 package com.torrezpillcokevin.nuna
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.torrezpillcokevin.nuna.data.ApiService
-import com.torrezpillcokevin.nuna.data.UserRequest
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class RegistroViewModel(private val apiService: ApiService) : ViewModel() {
 
     private val _registroEstado = MutableLiveData<ResultadoRegistro>()
     val registroEstado: LiveData<ResultadoRegistro> = _registroEstado
 
-    fun registrarUsuario(userRequest: UserRequest) {
+    fun registrarUsuario(name: String, email: String, phone: String, pass: String, avatarBytes: ByteArray) {
         viewModelScope.launch {
             try {
-                val response = apiService.createUser(userRequest)
-                if (response.isSuccessful && response.body() != null) {
-                    _registroEstado.postValue(ResultadoRegistro.Exito("Registro exitoso"))
+                val mediaType = "text/plain".toMediaTypeOrNull()
+                val nameRB = name.toRequestBody(mediaType)
+                val emailRB = email.toRequestBody(mediaType)
+                val phoneRB = phone.toRequestBody(mediaType)
+                val passRB = pass.toRequestBody(mediaType)
+                val lastNameRB = "Pillco".toRequestBody(mediaType)
+                val secondSurnameRB = "Kevin".toRequestBody(mediaType)
+                val statusRB = "online".toRequestBody(mediaType)
+                val codeRB = "USR-${System.currentTimeMillis()}".toRequestBody(mediaType)
+
+                val requestFile = avatarBytes.toRequestBody("image/png".toMediaTypeOrNull())
+                val avatarPart = MultipartBody.Part.createFormData("avatar", "avatar.png", requestFile)
+
+                val response = apiService.createUser(codeRB, nameRB, lastNameRB, secondSurnameRB, emailRB, passRB, phoneRB, statusRB, null, avatarPart)
+
+                if (response.isSuccessful) {
+                    _registroEstado.postValue(ResultadoRegistro.Exito("Éxito"))
                 } else {
-                    val error = response.errorBody()?.string() ?: "Error desconocido"
-                    _registroEstado.postValue(ResultadoRegistro.Error("Error: $error"))
+                    _registroEstado.postValue(ResultadoRegistro.Error("Fallo en el servidor"))
                 }
             } catch (e: Exception) {
-                _registroEstado.postValue(ResultadoRegistro.Error("Excepción: ${e.message}"))
+                _registroEstado.postValue(ResultadoRegistro.Error(e.message ?: "Error"))
             }
         }
     }
 
-
     sealed class ResultadoRegistro {
+        object Cargando : ResultadoRegistro()
         data class Exito(val mensaje: String) : ResultadoRegistro()
         data class Error(val error: String) : ResultadoRegistro()
     }

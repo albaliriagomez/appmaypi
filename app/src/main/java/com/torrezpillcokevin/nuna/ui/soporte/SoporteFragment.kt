@@ -62,7 +62,7 @@ class SoporteFragment : Fragment() {
 
         // Observa los datos del usuario para precargar los campos
         viewModel.user.observe(viewLifecycleOwner) { user ->
-            nameEditText.setText(user.nombres)
+            nameEditText.setText(user.name) // CAMBIADO: de user.nombres a user.name
             emailEditText.setText(user.email)
         }
 
@@ -74,27 +74,26 @@ class SoporteFragment : Fragment() {
         sendButton.setOnClickListener {
             val nombre = nameEditText.text.toString()
             val correo = emailEditText.text.toString()
-            val asunto = subjectEditText.text.toString()
+            val asunto = subjectEditText.text.toString() // Esto irá al campo 'title'
             val mensaje = messageEditText.text.toString()
+            val telefono = phoneEditText.text.toString()
 
             if (nombre.isBlank() || correo.isBlank() || asunto.isBlank() || mensaje.isBlank()) {
-                Toast.makeText(requireContext(), "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Por favor, completa los campos obligatorios", Toast.LENGTH_SHORT).show()
             } else {
-                // Asegúrate de tener los datos del usuario disponibles
                 val currentUser = viewModel.user.value
-                if (currentUser != null) {
-                    val supportRequest = SupportRequest(
-                        user_id = currentUser.id,
-                        name = nombre,
-                        email = correo,
-                        subject = asunto,
-                        message = mensaje,
-                        sent_at = LocalDateTime.now().toString()
-                    )
-                    viewModel.sendSupportRequest(supportRequest)
-                } else {
-                    Toast.makeText(requireContext(), "Cargando datos de usuario...", Toast.LENGTH_SHORT).show()
-                }
+
+                // Mapeo directo al modelo que entiende FastAPI
+                val supportRequest = SupportRequest(
+                    user_id = currentUser?.id, // Puede ser null si el backend lo permite
+                    name = nombre,
+                    email = correo,
+                    title = asunto,    // Asunto -> Title
+                    message = mensaje,
+                    phone = telefono
+                )
+
+                viewModel.sendSupportRequest(supportRequest)
             }
         }
 

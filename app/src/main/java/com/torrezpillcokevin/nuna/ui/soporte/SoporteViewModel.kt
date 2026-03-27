@@ -27,15 +27,18 @@ class SoporteViewModel(application: Application, private val apiService: ApiServ
             try {
                 val token = getJwtToken()
                 if (token == null) {
-                    _status.postValue(Result.failure(Exception("Token no encontrado")))
+                    _status.postValue(Result.failure(Exception("Sesión expirada o token no encontrado")))
                     return@launch
                 }
 
+                // Llamada al backend
                 val response = apiService.createSupportRequest(request, "Bearer $token")
+
                 if (response.isSuccessful) {
-                    _status.postValue(Result.success("Solicitud enviada con éxito"))
+                    _status.postValue(Result.success("Soporte enviado con éxito: ${response.body()?.message}"))
                 } else {
-                    _status.postValue(Result.failure(Exception("Error: ${response.errorBody()?.string()}")))
+                    val errorMsg = response.errorBody()?.string() ?: "Error desconocido"
+                    _status.postValue(Result.failure(Exception(errorMsg)))
                 }
             } catch (e: Exception) {
                 _status.postValue(Result.failure(e))
@@ -48,20 +51,12 @@ class SoporteViewModel(application: Application, private val apiService: ApiServ
             try {
                 val token = getJwtToken()
                 val userId = getUserId()
-                if (token == null || userId == -1) {
-                    _status.postValue(Result.failure(Exception("Token o ID no encontrados")))
-                    return@launch
-                }
-
-                val response = apiService.getUserById(userId, "Bearer $token")
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        _user.postValue(it.data)
-                    } ?: run {
-                        _status.postValue(Result.failure(Exception("Respuesta vacía")))
+                if (token != null && userId != -1) {
+                    // Ahora getUserById ya existe en ApiService
+                    val response = apiService.getUserById(userId, "Bearer $token")
+                    if (response.isSuccessful) {
+                        _user.postValue(response.body()?.data)
                     }
-                } else {
-                    _status.postValue(Result.failure(Exception("Error al obtener usuario: ${response.code()}")))
                 }
             } catch (e: Exception) {
                 _status.postValue(Result.failure(e))
@@ -70,13 +65,9 @@ class SoporteViewModel(application: Application, private val apiService: ApiServ
     }
 
     private fun getJwtToken(): String? {
-        val masterKey = MasterKey.Builder(getApplication())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        val masterKey = MasterKey.Builder(getApplication()).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
         val sharedPreferences = EncryptedSharedPreferences.create(
-            getApplication(),
-            "SECURE_APP_PREFS",
-            masterKey,
+            getApplication(), "SECURE_APP_PREFS", masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
@@ -84,13 +75,9 @@ class SoporteViewModel(application: Application, private val apiService: ApiServ
     }
 
     private fun getUserId(): Int {
-        val masterKey = MasterKey.Builder(getApplication())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
+        val masterKey = MasterKey.Builder(getApplication()).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
         val sharedPreferences = EncryptedSharedPreferences.create(
-            getApplication(),
-            "SECURE_APP_PREFS",
-            masterKey,
+            getApplication(), "SECURE_APP_PREFS", masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )

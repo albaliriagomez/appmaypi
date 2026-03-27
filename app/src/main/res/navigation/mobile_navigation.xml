@@ -36,12 +36,6 @@
         tools:layout="@layout/fragment_preguntas_frecuentes" />
 
     <fragment
-        android:id="@+id/nav_reportar"
-        android:name="com.torrezpillcokevin.nuna.ui.reportar.ReportarFragment"
-        android:label="Reportar"
-        tools:layout="@layout/fragment_reportar" />
-
-    <fragment
         android:id="@+id/nav_contactoEmergencia"
         android:name="com.torrezpillcokevin.nuna.ui.contactosEmergencia.ContactoEmergenciaFragment"
         android:label="ContactoEmergencia"
@@ -51,26 +45,12 @@
         android:id="@+id/nav_muro"
         android:name="com.torrezpillcokevin.nuna.ui.muro.MuroFragment"
         android:label="Muro Desaparecidos"
-        tools:layout="@layout/fragment_muro" />
-
-    <fragment
-        android:id="@+id/navigation_muro"
-        android:name="com.torrezpillcokevin.nuna.ui.muro.MuroFragment"
-        android:label="@string/title_muro"
         tools:layout="@layout/fragment_muro">
         <action
-            android:id="@+id/action_navigation_muro_to_reportarFragment"
-            app:destination="@id/reportarFragment" />
-
-        <action
-            android:id="@+id/action_navigation_muro_to_desaparecidoFragment"
+            android:id="@+id/action_nav_muro_to_nav_DesaparecidoFragment"
             app:destination="@id/nav_DesaparecidoFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/reportarFragment"
-        android:name="com.torrezpillcokevin.nuna.ui.reportar.ReportarFragment"
-        android:label="@layout/fragment_reportar" />
 
     <fragment
         android:id="@+id/nav_DesaparecidoFragment"

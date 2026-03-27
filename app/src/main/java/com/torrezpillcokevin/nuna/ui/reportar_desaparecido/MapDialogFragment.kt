@@ -1,4 +1,4 @@
-package com.torrezpillcokevin.nuna.ui.reportar
+package com.torrezpillcokevin.nuna.ui.reportar_desaparecido
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -75,17 +75,17 @@ class MapBottomSheetFragment : BottomSheetDialogFragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         mapView = view.findViewById(R.id.mapView4)
-           val cameraOptions = CameraOptions.Builder()
-               .center(Point.fromLngLat(-66.1667, -17.4089))  // Coordenadas de Cochabamba
-               .zoom(10.0)  // Nivel de zoom
-               .build()
-           mapView.getMapboxMap().setCamera(cameraOptions)
+        val cameraOptions = CameraOptions.Builder()
+            .center(Point.fromLngLat(-66.1667, -17.4089))  // Coordenadas de Cochabamba
+            .zoom(10.0)  // Nivel de zoom
+            .build()
+        mapView.getMapboxMap().setCamera(cameraOptions)
 
-           mapView.getMapboxMap().loadStyleUri(
-               Style.MAPBOX_STREETS
-           ) {
-               configurarClicEnMapa()
-           }
+        mapView.getMapboxMap().loadStyleUri(
+            Style.MAPBOX_STREETS
+        ) {
+            configurarClicEnMapa()
+        }
 
 
         // Configura el botón de cierre

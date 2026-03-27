@@ -22,12 +22,14 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
+// Archivo: com.torrezpillcokevin.nuna.ui.muro.DesaparecidoAdapter.kt
+
 class DesaparecidoAdapter(
     private val onItemClick: (ReporteDesaparecido) -> Unit
 ) : ListAdapter<ReporteDesaparecido, DesaparecidoAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<ReporteDesaparecido>() {
         override fun areItemsTheSame(oldItem: ReporteDesaparecido, newItem: ReporteDesaparecido) =
-            oldItem.nombre == newItem.nombre && oldItem.apellido == newItem.apellido
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: ReporteDesaparecido, newItem: ReporteDesaparecido) =
             oldItem == newItem
@@ -43,8 +45,7 @@ class DesaparecidoAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_desaparecido, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_desaparecido, parent, false)
         return ViewHolder(view)
     }
 
@@ -58,45 +59,32 @@ class DesaparecidoAdapter(
         holder.txtUbicacion.text = persona.lugar_desaparicion
         holder.txtTiempoDesaparecido.text = calcularDiasDesaparecido(persona.fecha_desaparicion)
 
-        holder.imgPersona.setImageResource(R.drawable.infantes) // placeholder
-        loadImageFromUrl(persona.foto_perfil, holder.imgPersona)
-
-        // 👇 CLIC EN LA CARD
-        holder.itemView.setOnClickListener {
-            onItemClick(persona)
+        // Reset de imagen para evitar parpadeos en el scroll
+        holder.imgPersona.setImageResource(R.drawable.infantes)
+        if (persona.foto_perfil.isNotEmpty()) {
+            loadImageFromUrl(persona.foto_perfil, holder.imgPersona)
         }
+
+        holder.itemView.setOnClickListener { onItemClick(persona) }
     }
 
     private fun loadImageFromUrl(url: String, imageView: ImageView) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val input = URL(url).openStream()
-                val bitmap = BitmapFactory.decodeStream(input)
-                withContext(Dispatchers.Main) {
-                    imageView.setImageBitmap(bitmap)
-                }
+                val bitmap = BitmapFactory.decodeStream(URL(url).openStream())
+                withContext(Dispatchers.Main) { imageView.setImageBitmap(bitmap) }
             } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    imageView.setImageResource(R.drawable.ninaperdida)
-                }
+                withContext(Dispatchers.Main) { imageView.setImageResource(R.drawable.ninaperdida) }
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun calcularDiasDesaparecido(fechaDesaparicion: String): String {
+    private fun calcularDiasDesaparecido(fechaStr: String): String {
         return try {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val fecha = LocalDate.parse(fechaDesaparicion, formatter)
-            val hoy = LocalDate.now()
-            val dias = ChronoUnit.DAYS.between(fecha, hoy)
-            when (dias) {
-                0L -> "Hoy desaparecido"
-                1L -> "1 día desaparecido"
-                else -> "$dias días desaparecido"
-            }
-        } catch (e: Exception) {
-            ""
-        }
+            val fecha = LocalDate.parse(fechaStr, DateTimeFormatter.ISO_LOCAL_DATE)
+            val dias = ChronoUnit.DAYS.between(fecha, LocalDate.now())
+            if (dias <= 0) "Desaparecido hoy" else "$dias días desaparecido"
+        } catch (e: Exception) { "Fecha desconocida" }
     }
 }

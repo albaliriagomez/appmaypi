@@ -25,17 +25,21 @@ class MuroViewModel(
     private var paginaActual = 1
     private var totalPaginas = 1
     private var cargando = false
+
+    // Control para no recargar innecesariamente
     var yaSeCargaronInicialmente = false
 
-    fun recargarDesdePrimeraPagina(porPagina: Int = 5) {
+    fun recargarDesdePrimeraPagina(porPagina: Int = 10) {
         paginaActual = 1
         totalPaginas = 1
-        _desaparecidos.value = emptyList()
-        obtenerDesaparecidos(porPagina)
+        // No limpiamos la lista inmediatamente para evitar saltos visuales bruscos,
+        // la respuesta de la API la reemplazará.
+        obtenerDesaparecidos(porPagina, isRefresh = true)
     }
-    fun obtenerDesaparecidos(porPagina: Int = 5) {
-        if (cargando || paginaActual > totalPaginas) return
 
+    fun obtenerDesaparecidos(porPagina: Int = 10, isRefresh: Boolean = false) {
+        // Si ya estamos cargando o llegamos al final, ignorar
+        if (cargando || (!isRefresh && paginaActual > totalPaginas)) return
 
         cargando = true
 
@@ -43,33 +47,38 @@ class MuroViewModel(
             try {
                 val token = getJwtToken()
                 if (token == null) {
-                    _status.postValue(Result.failure(Exception("Token no encontrado")))
+                    _status.postValue(Result.failure(Exception("Sesión expirada o token no encontrado")))
                     cargando = false
                     return@launch
                 }
 
                 val response = apiService.obtenerDesaparecidos(
-                    pagina = paginaActual,
+                    pagina = if (isRefresh) 1 else paginaActual,
                     porPagina = porPagina,
                     token = "Bearer $token"
                 )
 
                 if (response.isSuccessful) {
                     val body = response.body()
-                    val nuevos = body?.data ?: emptyList()
-                    val anteriores = _desaparecidos.value ?: emptyList()
+                    val nuevosItems = body?.data ?: emptyList()
 
-                    _desaparecidos.postValue(anteriores + nuevos)
+                    val listaActualizada = if (isRefresh) {
+                        nuevosItems
+                    } else {
+                        val anteriores = _desaparecidos.value ?: emptyList()
+                        anteriores + nuevosItems
+                    }
 
-                    paginaActual = body?.pagina_actual?.plus(1) ?: paginaActual + 1
-                    totalPaginas = body?.total_paginas ?: totalPaginas
+                    _desaparecidos.postValue(listaActualizada)
 
-                    _status.postValue(Result.success("Página $paginaActual cargada"))
+                    // Actualizar punteros de paginación
+                    totalPaginas = body?.total_paginas ?: 1
+                    paginaActual = (body?.pagina_actual ?: 1) + 1
+
+                    _status.postValue(Result.success("Datos cargados correctamente"))
                 } else {
-                    val error = response.errorBody()?.string()
-                    _status.postValue(Result.failure(Exception("Error al obtener datos: $error")))
+                    _status.postValue(Result.failure(Exception("Error de servidor: ${response.code()}")))
                 }
-
             } catch (e: Exception) {
                 _status.postValue(Result.failure(e))
             } finally {
@@ -78,36 +87,14 @@ class MuroViewModel(
         }
     }
 
+    // --- Helpers de Preferencias ---
+    private fun getEncryptedPrefs() = EncryptedSharedPreferences.create(
+        getApplication(),
+        "SECURE_APP_PREFS",
+        MasterKey.Builder(getApplication()).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
-    fun getJwtToken(): String? {
-        val masterKey = MasterKey.Builder(getApplication())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            getApplication(),
-            "SECURE_APP_PREFS",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-
-        return sharedPreferences.getString("JWT_TOKEN", null)
-    }
-
-    fun getUserId(): Int {
-        val masterKey = MasterKey.Builder(getApplication())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            getApplication(),
-            "SECURE_APP_PREFS",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-
-        return sharedPreferences.getInt("USER_ID", -1)
-    }
+    fun getJwtToken(): String? = getEncryptedPrefs().getString("JWT_TOKEN", null)
 }

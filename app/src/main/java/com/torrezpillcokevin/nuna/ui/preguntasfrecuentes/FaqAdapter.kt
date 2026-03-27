@@ -24,7 +24,12 @@ class FaqAdapter : ListAdapter<Faq, FaqAdapter.FaqViewHolder>(DIFF_CALLBACK) {
         fun bind(faq: Faq, isExpanded: Boolean) {
             binding.textQuestion.text = faq.question
             binding.textAnswer.text = faq.answer
+
+            // Controlar visibilidad de la respuesta
             binding.textAnswer.visibility = if (isExpanded) View.VISIBLE else View.GONE
+
+            // Rotar la flechita (0 grados abajo, 180 arriba)
+            binding.imgArrow.rotation = if (isExpanded) 180f else 0f
 
             binding.faqItemLayout.setOnClickListener {
                 val previousExpanded = expandedPosition

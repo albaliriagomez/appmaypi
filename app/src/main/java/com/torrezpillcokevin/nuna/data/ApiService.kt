@@ -1,137 +1,118 @@
 package com.torrezpillcokevin.nuna.data
 
-
-import okhttp3.Call
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
-    @POST("/api/users/")
-    suspend fun createUser(@Body userRequest: UserRequest): Response<UserResponse>
-
-    @POST("api/users/")
-    suspend fun postUsers(
-        @Body user: User
-    ): Response<User>
-
     @FormUrlEncoded
-    @POST("api/login/")
+    @POST("api/v1/auth/login")
     suspend fun postLogin(
-        @Field("username") username: String,
-        @Field("password") password: String
+        @Field("username") phone: String,
+        @Field("password") pass: String
     ): Response<AuthResponse>
 
-    @POST("/api/support-requests/")
-    suspend fun createSupportRequest(
-        @Body supportRequest: SupportRequest,
-        @Header("Authorization") authHeader: String
-    ): Response<SupportRequest>
-
-    @GET("api/v1/user/{id}")
+    @GET("api/v1/users/{id}")
     suspend fun getUserById(
-        @Path("id") userId: Int,
+        @Path("id") id: Int,
         @Header("Authorization") token: String
     ): Response<UserResponseGet>
 
-    @GET("api/Guides-categories/")
-    suspend fun getGuideCategories(
+    @Multipart
+    @POST("api/v1/users")
+    suspend fun createUser(
+        @Part("code") code: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("last_name") lastName: RequestBody,
+        @Part("second_surname") secondSurname: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("user_status") status: RequestBody,
+        @Part("token_firebase") tokenFirebase: RequestBody?,
+        @Part avatar: MultipartBody.Part
+    ): Response<UserResponseGet>
+
+    @Multipart
+    @POST("api/v1/public/missing")
+    suspend fun registrarDesaparecidoPublico(
+        @Part("name") name: RequestBody,
+        @Part("last_name") lastName: RequestBody,
+        @Part("age") age: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("birthdate") birthdate: RequestBody,
+        @Part("disappearance_date") disappearance_date: RequestBody,
+        @Part("place_of_disappearance") place_of_disappearance: RequestBody,
+        @Part("characteristics") characteristics: RequestBody,
+        @Part("reporter_name") reporter_name: RequestBody,
+        @Part("reporter_phone") reporter_phone: RequestBody,
+        @Part("id_usuario") id_usuario: RequestBody, // <-- Este es el que faltaba
+        @Part photo: MultipartBody.Part,
+        @Part event_photo: MultipartBody.Part
+    ): Response<MissingResponse>
+
+    // AGREGAR ESTA FUNCIÓN AL FINAL:
+    @GET("api/v1/public/missing")
+    suspend fun obtenerDesaparecidos(
         @Query("pagina") pagina: Int,
         @Query("por_pagina") porPagina: Int,
         @Header("Authorization") token: String
+    ): Response<MissingPaginadoResponse>
+
+
+    @GET("api/v1/faqs")
+    suspend fun getFaqs(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Header("Authorization") authHeader: String
+    ): Response<FaqListResponse>
+
+
+
+
+    @POST("api/v1/contacts-support")
+    suspend fun postContactoEmergencia(
+        @Header("Authorization") token: String, // Bearer Token
+        @Body request: ContactoSupportRequest
+    ): Response<ContactoSupportResponse>
+
+    @POST("api/v1/contacts-support")
+    suspend fun createSupportRequest(
+        @Body request: SupportRequest,
+        @Header("Authorization") token: String
+    ): Response<SupportResponse>
+
+
+    // CORREGIDO: "guides" en minúsculas para evitar el 404
+
+    @GET("api/guides-categories/")
+
+    suspend fun getGuideCategories(
+
+        @Query("pagina") pagina: Int,
+
+        @Query("por_pagina") porPagina: Int,
+
+        @Header("Authorization") token: String
+
     ): Response<GuideCategoryResponse>
 
+    // CORREGIDO: "guides" en minúsculas (tenías "Guides")
 
+    @GET("api/guides/")
 
-
-
-
-
-
-
-
-
-
-
-
-    @GET("api/users/")
-    suspend fun getUsers(
-        @Query("pagina") page: Int,
-        @Query("por_pagina") itemsPerPage: Int
-    ): Response<ApiResponse>
-
-    @GET("api/users/{id}")
-    suspend fun getUserById(
-        @Path("id") userId: Int
-    ): Response<User>
-
-
-    @GET("api/users/{user_id}")
-    suspend fun getUser(
-        @Path("user_id") userId: Int
-    ): Response<UserGet>
-
-
-    @POST("api/reportes/")
-    suspend fun createReport(
-        @Header("Authorization") token: String,
-        @Body report: Report
-    ): Response<Report>
-
-    @POST("api/contactoss/")
-    suspend fun createContacto(
-        @Header("Authorization") token: String,
-        @Body contacto: ContactoRequest
-    ): Response<ContactoResponse>
-
-    @GET("api/contactoss/")
-    suspend fun getContactos(
-        @Header("Authorization") token: String,
-        @Query("pagina") pagina: Int,
-        @Query("por_pagina") porPagina: Int
-    ): Response<ContactResponse2>
-
-    //guia
-    @GET("api/Guides/")
     suspend fun getGuides(
+
         @Query("pagina") pagina: Int,
+
         @Query("por_pagina") porPagina: Int,
+
         @Header("Authorization") authToken: String
+
     ): Response<GuideResponse>
-
-    //Preguntas Frecuentes
-    @GET("api/faqs/")
-    suspend fun getFaqs(
-        @Query("pagina") pagina: Int,
-        @Query("por_pagina") porPagina: Int,
-        @Header("Authorization") authToken: String
-    ): Response<FaqResponse>
-
-
-
-    @POST("api/desaparecidoss/")
-    suspend fun reportarDesaparecido(
-        @Header("Authorization") token: String,
-        @Body reporte: ReporteDesaparecido
-    ): Response<ReporteDesaparecido>
-
-    @GET("api/desaparecidoss/")
-    suspend fun obtenerDesaparecidos(
-        @Query("pagina") pagina: Int ,
-        @Query("por_pagina") porPagina: Int,
-        @Header("Authorization") token: String
-    ): Response<DesaparecidoResponse>
 
 
 }

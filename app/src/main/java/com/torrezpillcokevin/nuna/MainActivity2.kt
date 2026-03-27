@@ -51,7 +51,6 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_preguntasfrecuentes,
                 R.id.nav_guia,
                 R.id.nav_soporte,
-                R.id.nav_reportar,
                 R.id.nav_contactoEmergencia,
                 R.id.nav_muro,
                 R.id.nav_DesaparecidoFragment
