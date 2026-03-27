@@ -1,30 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F8F9FA">
+    android:background="@color/white_smoke">
 
-    <!-- Título -->
-    <TextView
-        android:id="@+id/guideTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guía de Emergencia"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#1E293B"
-        android:gravity="center"
-        android:paddingBottom="16dp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <!-- RecyclerView para las Guías organizadas por categoría -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGuides2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="16dp"
-        android:paddingTop="8dp" />
+        <!-- TITULO -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guía de Bienestar en la Búsqueda"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/charcoal"/>
 
-</LinearLayout>
+        <!-- ITEM 1 -->
+        <LinearLayout
+            android:id="@+id/item1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="12dp"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/header1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="👤 Cuidar tu bienestar emocional"
+                android:textStyle="bold"
+                android:textColor="@color/olive"/>
+
+            <LinearLayout
+                android:id="@+id/content1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dormir lo necesario, alimentarse bien, hidratarse y hacer pausas."
+                    android:textColor="@color/text_primary"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Es normal sentir confusión o agotamiento emocional."
+                    android:textStyle="italic"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ITEM 2 -->
+        <LinearLayout
+            android:id="@+id/item2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="12dp"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/header2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🤝 Cómo apoyar a la familia"
+                android:textStyle="bold"
+                android:textColor="@color/steel_blue"/>
+
+            <LinearLayout
+                android:id="@+id/content2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✔ Escuchar sin juzgar\n✔ Acompañar emocionalmente"
+                    android:textColor="@color/olive"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="✘ Evitar frases vacías o rumores"
+                    android:textColor="@color/red"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
