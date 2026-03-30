@@ -27,9 +27,8 @@ class MuroFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_muro, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerPersonas)
-        txtResultados = view.findViewById(R.id.txtResultados)
+        val txtResultados = view.findViewById<TextView>(R.id.txtResultados)
         val fabAgregar = view.findViewById<FloatingActionButton>(R.id.fabAgregarPersona)
-
         // Configuración de UI
         adapter = DesaparecidoAdapter { persona ->
             val dialog = DesaparecidoDetalleDialogFragment(persona)
@@ -62,7 +61,9 @@ class MuroFragment : Fragment() {
 
         viewModel.status.observe(viewLifecycleOwner) { result ->
             result.exceptionOrNull()?.let {
-                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                Log.e("MURO_ERROR", "Error detallado: ", it) // Esto te dirá en el Logcat qué es nulo exactamente
+                val mensaje = it.message ?: "Error desconocido en la conexión"
+                Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
             }
         }
 

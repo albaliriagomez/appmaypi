@@ -21,19 +21,26 @@ class GuiaFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         activarAcordeon()
     }
 
     private fun activarAcordeon() {
-        configurarToggle(binding.header1, binding.content1)
-        configurarToggle(binding.header2, binding.content2)
+        // Item 1: Bienestar Emocional
+        binding.header1.setOnClickListener { toggleContent(binding.content1) }
+
+        // Item 2: Apoyo a la familia
+        binding.header2.setOnClickListener { toggleContent(binding.content2) }
+
+        // Item 3: Niños y Adolescentes
+        binding.header3.setOnClickListener { toggleContent(binding.content3) }
+
+        // Item 4: Apoyo Psicológico
+        binding.header4.setOnClickListener { toggleContent(binding.content4) }
     }
 
-    private fun configurarToggle(header: View, content: View) {
-        header.setOnClickListener {
-            content.visibility =
-                if (content.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        }
+    private fun toggleContent(content: View) {
+        content.visibility = if (content.visibility == View.VISIBLE) View.GONE else View.VISIBLE
     }
 
     override fun onDestroyView() {

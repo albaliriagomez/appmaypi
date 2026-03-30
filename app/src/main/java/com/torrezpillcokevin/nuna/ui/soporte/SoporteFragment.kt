@@ -1,6 +1,5 @@
 package com.torrezpillcokevin.nuna.ui.soporte
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.torrezpillcokevin.nuna.R
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
-import com.torrezpillcokevin.nuna.data.SupportRequest
-import java.time.LocalDateTime
 
 class SoporteFragment : Fragment() {
 
@@ -28,7 +24,6 @@ class SoporteFragment : Fragment() {
     private lateinit var clearButton: Button
     private lateinit var sendButton: Button
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +45,7 @@ class SoporteFragment : Fragment() {
         clearButton = view.findViewById(R.id.clearButton)
         sendButton = view.findViewById(R.id.sendButton)
 
-        // Observa el resultado del envío de la solicitud
+        // Observa el resultado del envío
         viewModel.status.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
@@ -60,40 +55,30 @@ class SoporteFragment : Fragment() {
             }
         }
 
-        // Observa los datos del usuario para precargar los campos
-        viewModel.user.observe(viewLifecycleOwner) { user ->
-            nameEditText.setText(user.name) // CAMBIADO: de user.nombres a user.name
-            emailEditText.setText(user.email)
-        }
-
-        // Llama a fetchUserInfo para obtener datos del usuario
-        viewModel.fetchUserInfo()
-
         clearButton.setOnClickListener { limpiarCampos() }
 
         sendButton.setOnClickListener {
             val nombre = nameEditText.text.toString()
             val correo = emailEditText.text.toString()
-            val asunto = subjectEditText.text.toString() // Esto irá al campo 'title'
+            val asunto = subjectEditText.text.toString()
             val mensaje = messageEditText.text.toString()
-            val telefono = phoneEditText.text.toString()
+            val telefono = phoneEditText.text.toString().takeIf { it.isNotBlank() }
 
             if (nombre.isBlank() || correo.isBlank() || asunto.isBlank() || mensaje.isBlank()) {
-                Toast.makeText(requireContext(), "Por favor, completa los campos obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Por favor, completa los campos obligatorios",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                val currentUser = viewModel.user.value
-
-                // Mapeo directo al modelo que entiende FastAPI
-                val supportRequest = SupportRequest(
-                    user_id = currentUser?.id, // Puede ser null si el backend lo permite
-                    name = nombre,
-                    email = correo,
-                    title = asunto,    // Asunto -> Title
-                    message = mensaje,
-                    phone = telefono
+                // Llama al ViewModel con parámetros individuales (no SupportRequest)
+                viewModel.sendSupportRequest(
+                    nombre   = nombre,
+                    email    = correo,
+                    titulo   = asunto,
+                    mensaje  = mensaje,
+                    telefono = telefono
                 )
-
-                viewModel.sendSupportRequest(supportRequest)
             }
         }
 

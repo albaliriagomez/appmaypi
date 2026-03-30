@@ -54,13 +54,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ui.EvaluacionActivity"
+            android:name=".EvaluacionActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.PoliticaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.Politica"
+            android:name=".PoliticaActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity2"

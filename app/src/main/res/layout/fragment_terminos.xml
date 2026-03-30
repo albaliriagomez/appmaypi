@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <!-- Encabezado con color -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1A237E"
+            android:orientation="vertical"
+            android:paddingTop="32dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📋"
+                android:textSize="36sp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TÉRMINOS Y CONDICIONES"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aplicación MAYPI"
+                android:textSize="13sp"
+                android:textColor="#C5CAE9"
+                android:textAlignment="center"
+                android:paddingTop="4dp"/>
+        </LinearLayout>
+
+        <!-- Introducción -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E8EAF6"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Los siguientes Términos y Condiciones regulan el uso de la aplicación móvil MAYPI. El acceso y uso de los servicios implica la aceptación expresa de estos términos."
+                android:textSize="14sp"
+                android:textColor="#37474F"
+                android:lineSpacingExtra="4dp"/>
+        </LinearLayout>
+
+        <!-- Contenido de artículos -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+            <!-- Artículo 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="1"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Aceptación de los Términos"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="El uso de la aplicación móvil implica la aceptación total de estos Términos y Condiciones. Si el usuario no está de acuerdo, debe abstenerse de descargar, instalar o utilizar la aplicación. Esta cláusula asegura que los usuarios comprenden que su participación en la plataforma está sujeta a reglas claras y preestablecidas."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="2"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Finalidad de la Aplicación"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La aplicación tiene como propósito central servir como herramienta de apoyo a la comunidad de Cochabamba en la prevención de desapariciones de personas, facilitando la emisión de alertas, la recepción de reportes, el acceso a información útil y la comunicación entre usuarios y autoridades competentes."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 3 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="3"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Requisitos para el Uso"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• El usuario debe ser mayor de 16 años. Si es menor, debe contar con el consentimiento de su madre, padre o tutor legal.\n\n• Debe proporcionar datos reales y actuales.\n\n• Evitar hacer mal uso del botón de pánico.\n\n• No se permite el uso de la aplicación con fines engañosos, comerciales no autorizados, ni para divulgar información falsa o sensible."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 4 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="4"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Protección de Datos y Privacidad"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La aplicación recolecta y trata información personal sólo cuando sea estrictamente necesario, conforme a la legislación boliviana:\n\n• Nombre, número de contacto, correo electrónico y, en algunos casos, ubicación geográfica.\n\n• Los datos serán almacenados de forma segura, y únicamente se compartirán con las autoridades o familiares directos con el objetivo de apoyar en la localización de personas.\n\nEl usuario puede consultar la Política de Privacidad para conocer más sobre la gestión de sus datos personales."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 5 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="5"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Uso Responsable"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="El usuario se compromete a:\n\n• No realizar reportes falsos, maliciosos o infundados.\n\n• No compartir imágenes o datos personales de terceros sin su consentimiento explícito.\n\n• No hacer mal uso del botón de pánico.\n\n• No utilizar lenguaje ofensivo o discriminatorio."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 6 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="6"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Limitación de Responsabilidad"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="El equipo detrás de la aplicación no garantiza la recuperación inmediata ni efectiva de personas desaparecidas. La aplicación es un instrumento de apoyo comunitario, y no reemplaza los procedimientos oficiales de las autoridades. El usuario asume la responsabilidad de interpretar y utilizar la información de forma adecuada."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 7 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="7"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jurisdicción Aplicable"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Esta aplicación se rige bajo las leyes del Estado Plurinacional de Bolivia, por lo que cualquier controversia será resuelta por los tribunales bolivianos competentes."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 8 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="8"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sanciones por Mal Uso"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="El uso indebido de la aplicación podrá derivar en la suspensión temporal o definitiva de la cuenta del usuario, y, si corresponde, en la denuncia ante las autoridades competentes habiéndose analizado el tipo de mal uso si corresponde a la jurisdicción penal o civil."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 9 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="9"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_blue"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Modificaciones de los Términos"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1A237E"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Estos términos pueden ser modificados en cualquier momento. Los cambios serán comunicados a través de la aplicación. El uso continuo después de las modificaciones implica la aceptación automática de los nuevos términos."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Artículo 10 — Contacto con fondo especial -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1A237E"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10. Contacto"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#FFFFFF"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Para dudas, sugerencias o reportes de mal uso, el usuario puede contactarse con el equipo de soporte a través de los canales oficiales de la institución."
+                    android:textSize="14sp"
+                    android:textColor="#C5CAE9"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

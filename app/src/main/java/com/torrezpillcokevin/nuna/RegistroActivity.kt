@@ -1,6 +1,5 @@
 package com.torrezpillcokevin.nuna
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -22,59 +21,81 @@ class RegistroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_registro)
 
         val apiService = RetrofitInstance.api
-        viewModel = ViewModelProvider(this, RegistroViewModelFactory(apiService))[RegistroViewModel::class.java]
+        // ✅ Factory ahora recibe application también
+        viewModel = ViewModelProvider(
+            this,
+            RegistroViewModelFactory(application, apiService)
+        )[RegistroViewModel::class.java]
 
         setupObservers()
 
-        val nameEdit = findViewById<EditText>(R.id.nameEditText)
-        val phoneEdit = findViewById<EditText>(R.id.phoneEditText)
-        val emailEdit = findViewById<EditText>(R.id.emailEditText)
-        val passwordEdit = findViewById<EditText>(R.id.passwordEditText)
-        val confirmEdit = findViewById<EditText>(R.id.repeatPasswordEditText)
-        val registerBtn = findViewById<Button>(R.id.registerButton)
+        // ✅ Campos separados: nombre, apellido, segundo apellido
+        val nombreEdit        = findViewById<EditText>(R.id.nameEditText)
+        val apellidoEdit      = findViewById<EditText>(R.id.apellidoEditText)
+        val segundoApellidoEdit = findViewById<EditText>(R.id.segundoApellidoEditText)
+        val phoneEdit         = findViewById<EditText>(R.id.phoneEditText)
+        val emailEdit         = findViewById<EditText>(R.id.emailEditText)
+        val passwordEdit      = findViewById<EditText>(R.id.passwordEditText)
+        val confirmEdit       = findViewById<EditText>(R.id.repeatPasswordEditText)
+        val registerBtn       = findViewById<Button>(R.id.registerButton)
 
         registerBtn.setOnClickListener {
-            val name = nameEdit.text.toString().trim()
-            val phone = phoneEdit.text.toString().trim()
-            val email = emailEdit.text.toString().trim()
-            val pass = passwordEdit.text.toString()
-            val confirm = confirmEdit.text.toString()
+            val nombre         = nombreEdit.text.toString().trim()
+            val apellido       = apellidoEdit.text.toString().trim()
+            val segundoApellido = segundoApellidoEdit.text.toString().trim()
+            val phone          = phoneEdit.text.toString().trim()
+            val email          = emailEdit.text.toString().trim()
+            val pass           = passwordEdit.text.toString()
+            val confirm        = confirmEdit.text.toString()
 
-            if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
+            // Validaciones
+            if (nombre.isEmpty() || apellido.isEmpty() || phone.isEmpty() || email.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(this, "Completa todos los campos obligatorios", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-
             if (pass != confirm) {
                 Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            if (pass.length < 6) {
+                Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            // Convertir ic_logo a ByteArray
+            // Avatar por defecto = logo de la app
             val drawable = ContextCompat.getDrawable(this, R.drawable.ic_logo)
             val bitmap = (drawable as BitmapDrawable).bitmap
             val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream)
             val avatarBytes = stream.toByteArray()
 
-            viewModel.registrarUsuario(name, email, phone, pass, avatarBytes)
+            viewModel.registrarUsuario(
+                nombre         = nombre,
+                apellido       = apellido,
+                segundoApellido = segundoApellido.ifEmpty { " " },
+                email          = email,
+                phone          = phone,
+                pass           = pass,
+                avatarBytes    = avatarBytes
+            )
         }
 
         findViewById<ImageButton>(R.id.backButton2).setOnClickListener { finish() }
+        findViewById<TextView>(R.id.loginLinkTextView).setOnClickListener { finish() }
     }
 
     private fun setupObservers() {
         viewModel.registroEstado.observe(this) { resultado ->
             when (resultado) {
                 is RegistroViewModel.ResultadoRegistro.Cargando -> {
-                    // Aquí puedes mostrar un ProgressBar si tienes uno
+                    Toast.makeText(this, "Registrando...", Toast.LENGTH_SHORT).show()
                 }
                 is RegistroViewModel.ResultadoRegistro.Exito -> {
                     Toast.makeText(this, resultado.mensaje, Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 is RegistroViewModel.ResultadoRegistro.Error -> {
-                    Toast.makeText(this, resultado.error, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error: ${resultado.error}", Toast.LENGTH_LONG).show()
                 }
             }
         }

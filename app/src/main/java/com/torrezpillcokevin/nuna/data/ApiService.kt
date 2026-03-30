@@ -4,6 +4,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
+import okhttp3.ResponseBody
 
 interface ApiService {
 
@@ -20,6 +21,19 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Response<UserResponseGet>
 
+    // ✅ REGISTRO PÚBLICO — POST /api/v1/public/register-user
+    @Multipart
+    @POST("api/v1/public/register-user")
+    suspend fun registrarUsuarioPublico(
+        @Part("name") name: RequestBody,
+        @Part("last_name") last_name: RequestBody,
+        @Part("second_surname") second_surname: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("password") password: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part avatar: MultipartBody.Part
+    ): Response<UserPublicoResponse>
+
     @Multipart
     @POST("api/v1/users")
     suspend fun createUser(
@@ -30,16 +44,17 @@ interface ApiService {
         @Part("email") email: RequestBody,
         @Part("password") password: RequestBody,
         @Part("phone") phone: RequestBody,
-        @Part("user_status") status: RequestBody,
-        @Part("token_firebase") tokenFirebase: RequestBody?,
+        @Part("user_status") user_status: RequestBody,
+        @Part("token_firebase") token_firebase: RequestBody?,
         @Part avatar: MultipartBody.Part
-    ): Response<UserResponseGet>
+    ): Response<ResponseBody>
 
+    // ✅ CREAR DESAPARECIDO PÚBLICO — POST /api/v1/public/missing
     @Multipart
     @POST("api/v1/public/missing")
-    suspend fun registrarDesaparecidoPublico(
+    suspend fun crearMissingPublico(
         @Part("name") name: RequestBody,
-        @Part("last_name") lastName: RequestBody,
+        @Part("last_name") last_name: RequestBody,
         @Part("age") age: RequestBody,
         @Part("gender") gender: RequestBody,
         @Part("description") description: RequestBody,
@@ -49,33 +64,41 @@ interface ApiService {
         @Part("characteristics") characteristics: RequestBody,
         @Part("reporter_name") reporter_name: RequestBody,
         @Part("reporter_phone") reporter_phone: RequestBody,
-        @Part("id_usuario") id_usuario: RequestBody, // <-- Este es el que faltaba
         @Part photo: MultipartBody.Part,
         @Part event_photo: MultipartBody.Part
-    ): Response<MissingResponse>
+    ): Response<MissingPublicoResponse>
 
-    // AGREGAR ESTA FUNCIÓN AL FINAL:
+    @Multipart
+    @POST("api/v1/reports")
+    suspend fun crearReporte(
+        @Header("Authorization") authorization: String,
+        @Part("missing_id") missing_id: RequestBody,
+        @Part("user_id") user_id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("phone") phone: RequestBody,
+        @Part("location") location: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("date") date: RequestBody,
+        @Part report_file: MultipartBody.Part
+    ): Response<ReportResponse>
+
+    // ✅ MURO — GET /api/v1/public/missing
     @GET("api/v1/public/missing")
     suspend fun obtenerDesaparecidos(
-        @Query("pagina") pagina: Int,
-        @Query("por_pagina") porPagina: Int,
-        @Header("Authorization") token: String
+        @Query("page") pagina: Int,
+        @Query("size") porPagina: Int
     ): Response<MissingPaginadoResponse>
 
-
-    @GET("api/v1/faqs")
-    suspend fun getFaqs(
-        @Query("page") page: Int,
-        @Query("size") size: Int,
-        @Header("Authorization") authHeader: String
-    ): Response<FaqListResponse>
-
-
-
+    // ✅ SOPORTE PÚBLICO — POST /api/v1/public/contact-support
+    @POST("api/v1/public/contact-support")
+    suspend fun enviarContactoPublico(
+        @Body request: ContactoSupportRequest
+    ): Response<ContactoSupportResponse>
 
     @POST("api/v1/contacts-support")
     suspend fun postContactoEmergencia(
-        @Header("Authorization") token: String, // Bearer Token
+        @Header("Authorization") token: String,
         @Body request: ContactoSupportRequest
     ): Response<ContactoSupportResponse>
 
@@ -85,34 +108,24 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Response<SupportResponse>
 
-
-    // CORREGIDO: "guides" en minúsculas para evitar el 404
+    @GET("api/v1/faqs")
+    suspend fun getFaqs(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Header("Authorization") authHeader: String
+    ): Response<FaqListResponse>
 
     @GET("api/guides-categories/")
-
     suspend fun getGuideCategories(
-
         @Query("pagina") pagina: Int,
-
         @Query("por_pagina") porPagina: Int,
-
         @Header("Authorization") token: String
-
     ): Response<GuideCategoryResponse>
 
-    // CORREGIDO: "guides" en minúsculas (tenías "Guides")
-
     @GET("api/guides/")
-
     suspend fun getGuides(
-
         @Query("pagina") pagina: Int,
-
         @Query("por_pagina") porPagina: Int,
-
         @Header("Authorization") authToken: String
-
     ): Response<GuideResponse>
-
-
 }

@@ -37,28 +37,17 @@ class ReporteAdapter(
             txtEdad.text = "${reporte.edad} años"
             txtUbicacion.text = reporte.lugar_desaparicion
 
-            // Puedes calcular el tiempo desaparecido si quieres. Aquí va un placeholder:
-            txtTiempoDesaparecido.text = calcularTiempoDesaparecido(reporte.fecha_desaparicion)
+            // ✅ fecha_desaparicion es String? — usamos ?: "" para evitar null
+            txtTiempoDesaparecido.text = calcularTiempoDesaparecido(reporte.fecha_desaparicion ?: "")
 
-            // Cargar imagen desde URL si usas Glide
-            /*
-            Glide.with(itemView.context)
-                .load(reporte.foto_perfil)
-                .placeholder(R.drawable.ic_placeholder)
-                .into(imgPersona)
-            */
-
-            // Si no usas Glide, muestra imagen por defecto o nada
             imgPersona.setImageResource(R.drawable.infantes)
 
-            // Ícono de ubicación
             val locationIcon = ResourcesCompat.getDrawable(
                 itemView.context.resources,
                 android.R.drawable.ic_menu_mylocation,
                 null
             )
             locationIcon?.setBounds(0, 0, 36, 36)
-
             val compoundDrawables = txtUbicacion.compoundDrawables
             txtUbicacion.setCompoundDrawables(
                 locationIcon,
@@ -67,16 +56,15 @@ class ReporteAdapter(
                 compoundDrawables[3]
             )
 
-            itemView.setOnClickListener {
-                onItemClick(reporte)
-            }
+            itemView.setOnClickListener { onItemClick(reporte) }
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
         private fun calcularTiempoDesaparecido(fecha: String): String {
+            if (fecha.isEmpty()) return "Tiempo no disponible"
             return try {
-                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd") // o el formato que uses
-                val fechaDesaparicion = LocalDate.parse(fecha, formatter)
+                val soloFecha = fecha.split("T")[0].split(" ")[0]
+                val fechaDesaparicion = LocalDate.parse(soloFecha, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
                 val dias = ChronoUnit.DAYS.between(fechaDesaparicion, LocalDate.now())
                 "Desaparecido hace $dias día(s)"
             } catch (e: Exception) {

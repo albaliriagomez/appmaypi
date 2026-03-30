@@ -10,13 +10,11 @@
             android:icon="@drawable/home_24px"
             android:title="@string/nav_home"
             android:orderInCategory="1" />
-
         <item
             android:id="@+id/nav_muro"
             android:icon="@drawable/diversity_3_24px"
             android:title="@string/nav_muro"
             android:orderInCategory="2" />
-
         <item
             android:id="@+id/nav_DesaparecidoFragment"
             android:icon="@drawable/familiar_face_and_zone_24px"
@@ -24,7 +22,7 @@
             android:orderInCategory="3" />
     </group>
 
-    <!-- Sección de herramientas de rastreo -->
+    <!-- Sección de herramientas -->
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_contactoEmergencia"
@@ -40,33 +38,58 @@
             android:icon="@drawable/quiz_24px"
             android:title="@string/nav_preguntas_frecuentes"
             android:orderInCategory="6" />
-
         <item
             android:id="@+id/nav_guia"
             android:icon="@drawable/developer_guide_24px"
             android:title="@string/nav_guia"
             android:orderInCategory="7" />
-
         <item
             android:id="@+id/nav_chatbot"
             android:icon="@drawable/mark_unread_chat_alt_24px"
             android:title="@string/nav_chatbot"
             android:orderInCategory="8" />
-
         <item
             android:id="@+id/nav_soporte"
             android:icon="@drawable/support_agent_24px"
             android:title="@string/nav_soporte"
             android:orderInCategory="9" />
+        <item
+            android:id="@+id/nav_evaluacion"
+            android:icon="@drawable/quiz_24px"
+            android:title="Evaluación de Riesgo"
+            android:orderInCategory="10" />
+
+        <!-- ✅ ID CAMBIADO: nav_red_juridica (antes nav_politica duplicado) -->
+        <item
+            android:id="@+id/nav_red_juridica"
+            android:icon="@drawable/developer_guide_24px"
+            android:title="Red Jurídica"
+            android:orderInCategory="11" />
     </group>
 
-    <!-- Sección de cuenta -->
+    <!-- Sección legal -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_terminos"
+            android:icon="@drawable/developer_guide_24px"
+            android:title="Términos y Condiciones"
+            android:orderInCategory="12" />
+
+        <!-- ✅ Este es Política de Privacidad (Fragment) -->
+        <item
+            android:id="@+id/nav_politica"
+            android:icon="@drawable/developer_guide_24px"
+            android:title="Política de Privacidad"
+            android:orderInCategory="13" />
+    </group>
+
+    <!-- Cerrar sesión -->
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_cerrarsesion"
             android:icon="@drawable/logout_24px"
             android:title="@string/nav_cerrar_sesion"
-            android:orderInCategory="10"
+            android:orderInCategory="14"
             android:visible="true" />
     </group>
 

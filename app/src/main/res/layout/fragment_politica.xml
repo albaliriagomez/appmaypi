@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <!-- Encabezado con color -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#1B5E20"
+            android:orientation="vertical"
+            android:paddingTop="32dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔒"
+                android:textSize="36sp"
+                android:paddingBottom="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="POLÍTICA DE PRIVACIDAD"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aplicación MAYPI"
+                android:textSize="13sp"
+                android:textColor="#A5D6A7"
+                android:textAlignment="center"
+                android:paddingTop="4dp"/>
+        </LinearLayout>
+
+        <!-- Introducción -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#E8F5E9"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="En MAYPI, la privacidad y protección de los datos personales de los usuarios es una prioridad. Esta política describe cómo recopilamos, utilizamos, compartimos y protegemos los datos personales cuando acceden y utilizan nuestra aplicación."
+                android:textSize="14sp"
+                android:textColor="#37474F"
+                android:lineSpacingExtra="4dp"/>
+        </LinearLayout>
+
+        <!-- Artículos -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+            <!-- Art 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="1"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Responsable del Tratamiento"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="El responsable del tratamiento de los datos personales es la Universidad Privada Franz Tamayo e instituciones aliadas encargadas del proyecto. Garantizan confidencialidad y uso exclusivo para fines de protección y atención a víctimas, conforme a la legislación vigente en Bolivia."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="2"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Datos Recopilados"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Recopilamos los siguientes datos personales:\n\n• Datos principales: nombre, correo electrónico, fecha de nacimiento, género, dirección y número de teléfono.\n\n• Ubicación en tiempo real: obtenida mediante GPS.\n\n• Contenido multimedia (solo con el botón de pánico activado): audio, video, fotografías, mensajes de voz y texto.\n\n• Información de contactos de confianza: nombre, teléfono y correo electrónico.\n\n• Datos sobre personas desaparecidas: imágenes, datos descriptivos y lugar del último avistamiento."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 3 - Permisos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="3"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Permisos Requeridos"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La aplicación solicita tu consentimiento para acceder a:\n\n• Cámara, micrófono y memoria del dispositivo: necesarios para el funcionamiento del botón de pánico.\n\n• GPS: para identificar tu ubicación en tiempo real y mostrarte los puntos de ayuda y denuncia más cercanos.\n\nEl uso de estos datos requiere tu autorización expresa al instalar y utilizar la aplicación."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 4 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="4"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Finalidad del Tratamiento"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Los datos recopilados se utilizan para:\n\n• Proporcionar información sobre prevención de trata y desaparición de personas.\n\n• Realizar alertas y notificaciones ante situaciones de emergencia.\n\n• Gestionar la seguridad de la aplicación y resolver incidencias técnicas.\n\n• Activar protocolos de ayuda ante situaciones de riesgo.\n\n• Brindar orientación directa a servicios de asistencia: Defensoría del Pueblo, SLIM, Policía Boliviana y ONGs.\n\n• Mejorar continuamente el sistema a través del análisis anónimo de datos."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 5 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="5"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Consentimiento Expreso"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Al acceder a la aplicación y proporcionar sus datos, el usuario otorga consentimiento expreso para su tratamiento conforme a esta política. En todo momento, el usuario podrá revocar su consentimiento y ejercer sus derechos de acceso, rectificación o eliminación de datos."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 6 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="6"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Confidencialidad y Seguridad"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nos comprometemos a mantener la confidencialidad de los datos personales e implementar medidas de seguridad adecuadas contra accesos no autorizados, alteraciones, divulgación o destrucción. Utilizamos técnicas de encriptación de extremo a extremo y otras tecnologías de seguridad."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 7 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="7"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Conservación de los Datos"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Los datos personales se conservarán durante el tiempo necesario para cumplir con los fines establecidos en esta política o hasta que el usuario solicite su eliminación. El acceso está limitado exclusivamente a personal autorizado."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 8 (Terceros) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="8"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Terceros Receptores de Datos"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No compartimos datos personales con terceros, salvo cuando:\n\n• El usuario haya dado su consentimiento expreso.\n• Sea necesario para cumplir con obligaciones legales.\n• Sea necesario para proteger la seguridad de usuarios o terceros.\n• Los datos deban compartirse con autoridades competentes en situaciones de emergencia.\n\nLa información podrá ser compartida con: FELCC, Ministerio Público, Defensoría del Pueblo y Defensora de la Niñez y Adolescencia, solo cuando sea estrictamente necesario."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 9 (Derechos) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="9"
+                        android:textStyle="bold"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Derechos del Usuario"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="El usuario tiene derecho a:\n\n• Acceder a sus propios datos.\n• Rectificar información incorrecta.\n• Eliminar datos que ya no sean necesarios o hayan sido procesados ilegalmente.\n• Oponerse al tratamiento de sus datos.\n• Solicitar información sobre cómo MAYPI gestiona sus datos.\n\nPara ejercer estos derechos, puede contactarse con la Universidad Privada Franz Tamayo y las instituciones aliadas a través de los medios establecidos en esta política."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 10 (Menores) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="10"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Menores de Edad"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="La aplicación MAYPI no está dirigida a menores de edad. Sin embargo, si un menor la utiliza, deberá contar con el consentimiento expreso de sus representantes legales. Se aplicarán medidas adicionales de protección para garantizar la privacidad y seguridad de los menores."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 11 (Actualizaciones) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="11"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Actualizaciones de la Política"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MAYPI se reserva el derecho de modificar esta política en cualquier momento. En caso de cambios sustanciales, los usuarios serán notificados y podrán aceptar o rechazar las mismas. Se recomienda revisar periódicamente esta política."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 12 (Jurisdicción) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="12"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circle_badge_green"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jurisdicción y Ley Aplicable"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1B5E20"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Esta política de privacidad se regula por las leyes del Estado Plurinacional de Bolivia. Cualquier disputa derivada de su interpretación o aplicación será resuelta ante los tribunales competentes de Bolivia."
+                    android:textSize="14sp"
+                    android:textColor="#546E7A"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+            <!-- Art 13 Contacto con fondo especial -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1B5E20"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="13. Contactos"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#FFFFFF"
+                    android:paddingBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ante cualquier queja o duda, puede contactarse a través de los canales oficiales de la institución: correo electrónico, teléfono o apersonarse directamente a nuestras instalaciones."
+                    android:textSize="14sp"
+                    android:textColor="#A5D6A7"
+                    android:lineSpacingExtra="3dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

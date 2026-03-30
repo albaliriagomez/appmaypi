@@ -3,22 +3,20 @@ package com.torrezpillcokevin.nuna
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.navigation.ui.NavigationUI
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.torrezpillcokevin.nuna.databinding.ActivityMain2Binding
@@ -35,9 +33,7 @@ class MainActivity2 : AppCompatActivity() {
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Hacer la barra de estado blanca
         window.statusBarColor = ContextCompat.getColor(this, R.color.white)
-
         setSupportActionBar(binding.appBarMain.toolbar)
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -53,35 +49,53 @@ class MainActivity2 : AppCompatActivity() {
                 R.id.nav_soporte,
                 R.id.nav_contactoEmergencia,
                 R.id.nav_muro,
-                R.id.nav_DesaparecidoFragment
+                R.id.nav_DesaparecidoFragment,
+                R.id.nav_evaluacion,
+                R.id.nav_red_juridica,
+                R.id.nav_politica,
+                R.id.nav_terminos
             ),
             drawerLayout
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        // ⚠️ NO uses setupWithNavController si vas a manejar el listener tú mismo
 
-        // Configura el listener personalizado y conserva la navegación
+        // ✅ Resalta el item activo en el drawer al navegar
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            navView.setCheckedItem(destination.id)
+        }
+
+        // ✅ UN SOLO listener que maneja TODO
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_cerrarsesion -> {
                     cerrarSesion()
+                }
+                R.id.nav_evaluacion -> {
                     drawerLayout.closeDrawer(GravityCompat.START)
-                    true
+                    startActivity(Intent(this, EvaluacionActivity::class.java))
+                }
+                R.id.nav_red_juridica -> {           // ← NUEVO (antes era nav_politica)
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                    startActivity(Intent(this, PoliticaActivity::class.java))
                 }
                 else -> {
-                    val handled = NavigationUI.onNavDestinationSelected(menuItem, navController)
-                    if (handled) {
-                        drawerLayout.closeDrawer(GravityCompat.START)
+                    try {
+                        val handled = NavigationUI.onNavDestinationSelected(menuItem, navController)
+                        if (!handled) navController.navigate(menuItem.itemId)
+                    } catch (e: Exception) {
+                        Log.e("NAV_ERROR", "No se pudo navegar a ${menuItem.itemId}", e)
                     }
-                    handled
+                    drawerLayout.closeDrawer(GravityCompat.START)
                 }
             }
+            true
         }
     }
 
     private fun cerrarSesion() {
         try {
+            // Intento 1: limpiar EncryptedSharedPreferences
             val masterKey = MasterKey.Builder(this)
                 .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
                 .build()
@@ -93,16 +107,25 @@ class MainActivity2 : AppCompatActivity() {
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
-
             sharedPreferences.edit().clear().apply()
 
+        } catch (e: Exception) {
+            Log.e("CERRAR_SESION", "Error limpiando EncryptedSharedPreferences: ${e.message}", e)
+            // Fallback: borrar el archivo de preferencias directamente
+            try {
+                getSharedPreferences("SECURE_APP_PREFS", MODE_PRIVATE)
+                    .edit().clear().apply()
+            } catch (e2: Exception) {
+                Log.e("CERRAR_SESION", "Error en fallback: ${e2.message}", e2)
+            }
+        } finally {
+            // Siempre redirigir al login, sin importar si limpió bien o no
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error al cerrar sesión", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
