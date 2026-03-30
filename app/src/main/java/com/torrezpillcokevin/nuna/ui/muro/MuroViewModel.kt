@@ -1,12 +1,11 @@
 package com.torrezpillcokevin.nuna.ui.muro
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
 import com.torrezpillcokevin.nuna.data.ApiService
 import com.torrezpillcokevin.nuna.data.ReporteDesaparecido
 import kotlinx.coroutines.launch
@@ -23,91 +22,63 @@ class MuroViewModel(
     val status: LiveData<Result<String>> = _status
 
     private var paginaActual = 1
-    private var totalPaginas = 1
+    private var hayMasPaginas = true
     private var cargando = false
+
     var yaSeCargaronInicialmente = false
 
-    fun recargarDesdePrimeraPagina(porPagina: Int = 5) {
+    fun recargarDesdePrimeraPagina(porPagina: Int = 10) {
         paginaActual = 1
-        totalPaginas = 1
+        hayMasPaginas = true
         _desaparecidos.value = emptyList()
-        obtenerDesaparecidos(porPagina)
+        obtenerDesaparecidos(porPagina, isRefresh = true)
     }
-    fun obtenerDesaparecidos(porPagina: Int = 5) {
-        if (cargando || paginaActual > totalPaginas) return
 
-
+    fun obtenerDesaparecidos(porPagina: Int = 10, isRefresh: Boolean = false) {
+        if (cargando || (!isRefresh && !hayMasPaginas)) return
         cargando = true
+
+        val paginaACargar = if (isRefresh) 1 else paginaActual
 
         viewModelScope.launch {
             try {
-                val token = getJwtToken()
-                if (token == null) {
-                    _status.postValue(Result.failure(Exception("Token no encontrado")))
-                    cargando = false
-                    return@launch
-                }
+                Log.d("MuroViewModel", "Cargando página $paginaACargar...")
 
+                // ✅ Sin token — igual que la web Angular que llama listMissing sin auth
                 val response = apiService.obtenerDesaparecidos(
-                    pagina = paginaActual,
-                    porPagina = porPagina,
-                    token = "Bearer $token"
+                    pagina    = paginaACargar,
+                    porPagina = porPagina
                 )
 
                 if (response.isSuccessful) {
                     val body = response.body()
-                    val nuevos = body?.data ?: emptyList()
-                    val anteriores = _desaparecidos.value ?: emptyList()
+                    val nuevosItems = body?.data ?: emptyList()
 
-                    _desaparecidos.postValue(anteriores + nuevos)
+                    Log.d("MuroViewModel", "✅ ${nuevosItems.size} registros en página $paginaACargar")
 
-                    paginaActual = body?.pagina_actual?.plus(1) ?: paginaActual + 1
-                    totalPaginas = body?.total_paginas ?: totalPaginas
+                    val listaActualizada = if (isRefresh) {
+                        nuevosItems
+                    } else {
+                        (_desaparecidos.value ?: emptyList()) + nuevosItems
+                    }
+                    _desaparecidos.postValue(listaActualizada)
 
-                    _status.postValue(Result.success("Página $paginaActual cargada"))
+                    // ✅ Igual que la web: usa links.next para saber si hay más páginas
+                    hayMasPaginas = body?.links?.next != null
+                    paginaActual = paginaACargar + 1
+
+                    Log.d("MuroViewModel", "Total: ${body?.total}, hayMás: $hayMasPaginas")
                 } else {
-                    val error = response.errorBody()?.string()
-                    _status.postValue(Result.failure(Exception("Error al obtener datos: $error")))
+                    val errorMsg = response.errorBody()?.string() ?: "Error ${response.code()}"
+                    Log.e("MuroViewModel", "❌ $errorMsg")
+                    _status.postValue(Result.failure(Exception(errorMsg)))
                 }
-
             } catch (e: Exception) {
+                Log.e("MuroViewModel", "❌ Error: ${e.message}", e)
                 _status.postValue(Result.failure(e))
             } finally {
                 cargando = false
             }
         }
-    }
-
-
-    fun getJwtToken(): String? {
-        val masterKey = MasterKey.Builder(getApplication())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            getApplication(),
-            "SECURE_APP_PREFS",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-
-        return sharedPreferences.getString("JWT_TOKEN", null)
-    }
-
-    fun getUserId(): Int {
-        val masterKey = MasterKey.Builder(getApplication())
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-
-        val sharedPreferences = EncryptedSharedPreferences.create(
-            getApplication(),
-            "SECURE_APP_PREFS",
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-
-        return sharedPreferences.getInt("USER_ID", -1)
     }
 }

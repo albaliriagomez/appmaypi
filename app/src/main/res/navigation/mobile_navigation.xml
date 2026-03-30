@@ -19,8 +19,8 @@
 
     <fragment
         android:id="@+id/nav_guia"
-        android:name="com.torrezpillcokevin.nuna.ui.guia.GuiaFragment"
-        android:label="Guia"
+        android:name="com.torrezpillcokevin.nuna.GuiaFragment"
+        android:label="Guía"
         tools:layout="@layout/fragment_guia" />
 
     <fragment
@@ -36,12 +36,6 @@
         tools:layout="@layout/fragment_preguntas_frecuentes" />
 
     <fragment
-        android:id="@+id/nav_reportar"
-        android:name="com.torrezpillcokevin.nuna.ui.reportar.ReportarFragment"
-        android:label="Reportar"
-        tools:layout="@layout/fragment_reportar" />
-
-    <fragment
         android:id="@+id/nav_contactoEmergencia"
         android:name="com.torrezpillcokevin.nuna.ui.contactosEmergencia.ContactoEmergenciaFragment"
         android:label="ContactoEmergencia"
@@ -51,31 +45,44 @@
         android:id="@+id/nav_muro"
         android:name="com.torrezpillcokevin.nuna.ui.muro.MuroFragment"
         android:label="Muro Desaparecidos"
-        tools:layout="@layout/fragment_muro" />
-
-    <fragment
-        android:id="@+id/navigation_muro"
-        android:name="com.torrezpillcokevin.nuna.ui.muro.MuroFragment"
-        android:label="@string/title_muro"
         tools:layout="@layout/fragment_muro">
         <action
-            android:id="@+id/action_navigation_muro_to_reportarFragment"
-            app:destination="@id/reportarFragment" />
-
-        <action
-            android:id="@+id/action_navigation_muro_to_desaparecidoFragment"
+            android:id="@+id/action_nav_muro_to_nav_DesaparecidoFragment"
             app:destination="@id/nav_DesaparecidoFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/reportarFragment"
-        android:name="com.torrezpillcokevin.nuna.ui.reportar.ReportarFragment"
-        android:label="@layout/fragment_reportar" />
 
     <fragment
         android:id="@+id/nav_DesaparecidoFragment"
         android:name="com.torrezpillcokevin.nuna.ui.reportar_desaparecido.ReportarDesaparecidoFragment"
         android:label="Reportar Desaparecido"
         tools:layout="@layout/fragment_reportar_desaparecido" />
+
+    <!-- ✅ Activity Evaluación — ID único -->
+    <activity
+        android:id="@+id/nav_evaluacion"
+        android:name="com.torrezpillcokevin.nuna.EvaluacionActivity"
+        android:label="Evaluación de Riesgo"
+        tools:layout="@layout/activity_evaluacion" />
+
+    <!-- ✅ Activity Red Jurídica — ID CAMBIADO a nav_red_juridica -->
+    <activity
+        android:id="@+id/nav_red_juridica"
+        android:name="com.torrezpillcokevin.nuna.PoliticaActivity"
+        android:label="Red Jurídica"
+        tools:layout="@layout/activity_politica" />
+
+    <!-- ✅ Fragment Términos y Condiciones -->
+    <fragment
+        android:id="@+id/nav_terminos"
+        android:name="com.torrezpillcokevin.nuna.ui.terminos.TerminosFragment"
+        android:label="Términos y Condiciones"
+        tools:layout="@layout/fragment_terminos" />
+
+    <!-- ✅ Fragment Política de Privacidad — ID único, no duplicado -->
+    <fragment
+        android:id="@+id/nav_politica"
+        android:name="com.torrezpillcokevin.nuna.ui.politica.PoliticaFragment"
+        android:label="Política de Privacidad"
+        tools:layout="@layout/fragment_politica" />
 
 </navigation>

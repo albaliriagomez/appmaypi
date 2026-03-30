@@ -24,7 +24,9 @@ import com.mapbox.geojson.Point
 import com.torrezpillcokevin.nuna.R
 import com.torrezpillcokevin.nuna.data.ReporteDesaparecido
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
-import com.torrezpillcokevin.nuna.ui.reportar.MapBottomSheetFragment
+import com.torrezpillcokevin.nuna.ui.reportar_desaparecido.MapBottomSheetFragment
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.Calendar
 
 class ReportarDesaparecidoFragment : Fragment() {
@@ -47,8 +49,8 @@ class ReportarDesaparecidoFragment : Fragment() {
     private lateinit var fotoPerfilImageView: ImageView
     private lateinit var fotoSucesoImageView: ImageView
 
-    private var fotoPerfilUri: String = ""
-    private var fotoSucesoUri: String = ""
+    private var fotoPerfilUri: Uri? = null
+    private var fotoSucesoUri: Uri? = null
     private lateinit var generoSpinner: Spinner
 
     private var selectedLatitude: Double? = null
@@ -70,6 +72,8 @@ class ReportarDesaparecidoFragment : Fragment() {
 
         val apiService = RetrofitInstance.api
         val factory = ReportarDesaparecidoViewModelFactory(requireActivity().application, apiService)
+        // Dentro de tu ReportarDesaparecidoViewModel (donde preparas el Multipart)
+        val idUsuarioBody = "1".toRequestBody("text/plain".toMediaTypeOrNull()) // ID provisional o rescatado de Prefs
         viewModel = ViewModelProvider(this, factory)[ReportarDesaparecidoViewModel::class.java]
 
         nombreEditText = view.findViewById(R.id.etNomCom)
@@ -138,56 +142,96 @@ class ReportarDesaparecidoFragment : Fragment() {
             seleccionarImagenLauncher.launch("image/*")
         }
 
+        // Observar el resultado
+        viewModel.reporteExitoso.observe(viewLifecycleOwner) { exito ->
+            if (exito) {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set("recargar_muro", true)
+                Toast.makeText(requireContext(), "Reporte enviado con éxito", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            } else {
+                // ESTO TE DIRÁ POR QUÉ NO FUNCIONA
+                Toast.makeText(requireContext(), "Error al enviar. Revisa tu conexión o datos.", Toast.LENGTH_LONG).show()
+            }
+        }
+
 
         enviarButton.setOnClickListener {
-            val userId = viewModel.getUserId()
-            val token = viewModel.getJwtToken()
-
-            Log.d("ReporteDesaparecido", "Iniciando proceso de envío de reporte")
-            Log.d("ReporteDesaparecido", "UserID obtenido: $userId")
-            Log.d("ReporteDesaparecido", "Token obtenido: ${if (token.isNullOrBlank()) "vacío/nulo" else "*****"}")
-
-            if (userId == -1 || token.isNullOrBlank()) {
-                val errorMsg = "Token o ID de usuario no válidos. UserID: $userId, Token vacío: ${token.isNullOrBlank()}"
-                Log.e("ReporteDesaparecido", errorMsg)
-                Toast.makeText(requireContext(), "Token o ID de usuario no válidos", Toast.LENGTH_SHORT).show()
+            // Validar fotos
+            if (fotoPerfilUri == null || fotoSucesoUri == null) {
+                Toast.makeText(requireContext(), "Debes seleccionar ambas fotos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val reporte = ReporteDesaparecido(
-                nombre = nombreEditText.text.toString(),
-                apellido = apellidoEditText.text.toString(),
-                genero = generoSpinner.selectedItem.toString(),
-                descripcion = descripcionEditText.text.toString(),
-                fecha_nacimiento = fechaNacimientoEditText.text.toString(),
-                fecha_desaparicion = fechaDesaparicionEditText.text.toString(),
-                lugar_desaparicion = lugarDesaparicionEditText.text.toString(),
-                estado_investigacion = "Extraviado",
-                foto_perfil = fotoPerfilUri,
-                nombre_reportante = nombreReportanteEditText.text.toString(),
-                telefono_reportante = telefonoReportanteEditText.text.toString(),
-                foto_suceso = fotoSucesoUri,
-                coordenadas = coordenadasEditText.text.toString(),
-                edad = edadEditText.text.toString().toIntOrNull() ?: 0,
-                caracteristicas = caracteristicasEditText.text.toString(),
-                id_usuario = userId
-            )
+            // Validar campos obligatorios
+            val nombre = nombreEditText.text.toString().trim()
+            val apellido = apellidoEditText.text.toString().trim()
+            val edad = edadEditText.text.toString().trim()
+            val genero = generoSpinner.selectedItem.toString()
+            val descripcion = descripcionEditText.text.toString().trim()
+            val fechaNac = fechaNacimientoEditText.text.toString().trim()
+            val fechaDes = fechaDesaparicionEditText.text.toString().trim()
+            val lugar = lugarDesaparicionEditText.text.toString().trim()
+            val caracteristicas = caracteristicasEditText.text.toString().trim()
+            val nombreRep = nombreReportanteEditText.text.toString().trim()
+            val telRep = telefonoReportanteEditText.text.toString().trim()
 
-            Log.i("ReporteDesaparecido", "Reporte creado: ${reporte.toString().replace("\n", " ")}")
-            Log.d("ReporteDesaparecido", "URI Foto Perfil: ${fotoPerfilUri?.toString() ?: "null"}")
-            Log.d("ReporteDesaparecido", "URI Foto Suceso: ${fotoSucesoUri?.toString() ?: "null"}")
-
-            viewModel.reportarDesaparecido(reporte)
-            Log.i("ReporteDesaparecido", "Solicitud de envío enviada al ViewModel")
-            viewModel.reporteExitoso.observe(viewLifecycleOwner) { exito ->
-                if (exito) {
-                    // Navegar al Fragment deseado (ej: HomeFragment)
-                    navController.navigate(R.id.nav_home)
-
-                    // Opcional: Mostrar mensaje de éxito
-                    Toast.makeText(requireContext(), "Reporte enviado con éxito", Toast.LENGTH_SHORT).show()
-                }
+            // Validaciones
+            if (nombre.isEmpty()) {
+                Toast.makeText(requireContext(), "Nombre requerido", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+            if (apellido.isEmpty()) {
+                Toast.makeText(requireContext(), "Apellido requerido", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (edad.isEmpty()) {
+                Toast.makeText(requireContext(), "Edad requerida", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (fechaNac.isEmpty()) {
+                Toast.makeText(requireContext(), "Fecha de nacimiento requerida", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (fechaDes.isEmpty()) {
+                Toast.makeText(requireContext(), "Fecha de desaparición requerida", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (lugar.isEmpty()) {
+                Toast.makeText(requireContext(), "Lugar de desaparición requerido (usa el mapa)", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (nombreRep.isEmpty()) {
+                Toast.makeText(requireContext(), "Nombre del reportante requerido", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (telRep.isEmpty()) {
+                Toast.makeText(requireContext(), "Teléfono del reportante requerido", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Si todo está bien, envía
+            val token = viewModel.getJwtToken()
+            val authHeader = if (token != null) "Bearer $token" else ""
+
+            Log.d("ReporteDesaparecido", "Iniciando envío con validaciones completas")
+
+            viewModel.reportarDesaparecido(
+                requireContext(),
+                authHeader,
+                nombre,
+                apellido,
+                edad,
+                genero,
+                descripcion,
+                fechaNac,
+                fechaDes,
+                lugar,
+                caracteristicas,
+                nombreRep,
+                telRep,
+                fotoPerfilUri!!,
+                fotoSucesoUri!!
+            )
         }
 
         limpiarCampos()
@@ -202,10 +246,10 @@ class ReportarDesaparecidoFragment : Fragment() {
             uri?.let {
                 if (seleccionandoFotoPerfil) {
                     fotoPerfilImageView.setImageURI(it)
-                    fotoPerfilUri = it.toString()
+                    fotoPerfilUri = it // Guardamos la Uri real
                 } else {
                     fotoSucesoImageView.setImageURI(it)
-                    fotoSucesoUri = it.toString()
+                    fotoSucesoUri = it // Guardamos la Uri real
                 }
             }
         }
@@ -259,9 +303,24 @@ class ReportarDesaparecidoFragment : Fragment() {
         edadEditText.text.clear()
         caracteristicasEditText.text.clear()
 
-        fotoPerfilUri = ""
-        fotoSucesoUri = ""
+        fotoPerfilUri = null
+        fotoSucesoUri = null
         fotoPerfilImageView.setImageDrawable(null)
         fotoSucesoImageView.setImageDrawable(null)
+    }
+    private fun uriToBase64(uriString: String): String {
+        if (uriString.isEmpty()) return ""
+        return try {
+            val uri = Uri.parse(uriString)
+            val inputStream = requireContext().contentResolver.openInputStream(uri)
+            val bytes = inputStream?.readBytes()
+            inputStream?.close()
+            if (bytes != null) {
+                android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP)
+            } else ""
+        } catch (e: Exception) {
+            Log.e("Base64Error", "Error al convertir imagen: ${e.message}")
+            ""
+        }
     }
 }

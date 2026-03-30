@@ -29,7 +29,7 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import com.torrezpillcokevin.nuna.R
 import com.torrezpillcokevin.nuna.clases.BackgroundButtonService
-import com.torrezpillcokevin.nuna.data.ContactoRequest
+import com.torrezpillcokevin.nuna.data.ContactoSupportRequest
 import com.torrezpillcokevin.nuna.data.RetrofitInstance
 import com.torrezpillcokevin.nuna.dbSqlite.DatabaseHelper
 import com.torrezpillcokevin.nuna.models.Contact
@@ -276,7 +276,6 @@ class ContactoEmergenciaFragment : Fragment() {
 
         companion object {
             private const val ARG_CONTACT = "contact"
-
             fun newInstance(contact: Contact): AgregarEditarContactoDialog {
                 val fragment = AgregarEditarContactoDialog()
                 val bundle = Bundle()
@@ -293,7 +292,6 @@ class ContactoEmergenciaFragment : Fragment() {
 
             val spinnerLinea = view.findViewById<Spinner>(R.id.spinnerLinea)
             val lineaOptions = listOf("Entel", "Tigo", "Viva")
-
             val adapter = ArrayAdapter(requireContext(), R.layout.spinner_item3, lineaOptions)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerLinea.adapter = adapter
@@ -309,9 +307,7 @@ class ContactoEmergenciaFragment : Fragment() {
                 spinnerLinea.setSelection(if (selectedIndex != -1) selectedIndex else 0)
             }
 
-            view.findViewById<Button>(R.id.buttonCancel).setOnClickListener {
-                dismiss()
-            }
+            view.findViewById<Button>(R.id.buttonCancel).setOnClickListener { dismiss() }
 
             view.findViewById<Button>(R.id.buttonSave).setOnClickListener {
                 val name = nameEditText.text.toString()
@@ -324,7 +320,6 @@ class ContactoEmergenciaFragment : Fragment() {
                 }
 
                 val dbHelper = DatabaseHelper(requireContext())
-
                 val newContact = Contact(
                     id = contactToEdit?.id ?: 0,
                     name = name,
@@ -332,6 +327,7 @@ class ContactoEmergenciaFragment : Fragment() {
                     line = linea
                 )
 
+                // 1. GUARDADO LOCAL (Para SMS y Offline)
                 val result = if (contactToEdit == null) {
                     dbHelper.addContact(newContact)
                 } else {
@@ -339,16 +335,54 @@ class ContactoEmergenciaFragment : Fragment() {
                 }
 
                 if (result != -1L) {
-                    Toast.makeText(requireContext(), "Contacto guardado", Toast.LENGTH_SHORT).show()
+                    // 2. SINCRONIZACIÓN CON BACKEND (Para la Web)
+                    enviarAlBackend(newContact)
+
+                    Toast.makeText(requireContext(), "Guardado correctamente", Toast.LENGTH_SHORT).show()
                     (targetFragment as? ContactoEmergenciaFragment)?.cargarContactos()
                     dismiss()
                 } else {
-                    Toast.makeText(requireContext(), "Error al guardar", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Error al guardar en el teléfono", Toast.LENGTH_SHORT).show()
                 }
             }
 
             builder.setView(view)
             return builder.create()
+        }
+
+        private fun enviarAlBackend(contacto: Contact) {
+            // Obtenemos los datos de sesión (asegúrate de guardarlos en el Login)
+            val sharedPref = requireContext().getSharedPreferences("nuna_prefs", Context.MODE_PRIVATE)
+            val token = sharedPref.getString("auth_token", null)
+            val userId = sharedPref.getInt("user_id", -1)
+            val userEmail = sharedPref.getString("user_email", "user@nuna.com")
+
+            if (token == null || userId == -1) {
+                Log.e("SYNC", "No hay sesión activa para sincronizar")
+                return
+            }
+
+            // Mapeamos los campos al modelo que el Backend de Soporte entiende
+            val request = ContactoSupportRequest(
+                name = contacto.name,
+                email = userEmail ?: "emergencia@nuna.com",
+                title = contacto.line,       // La línea telefónica aparece como "Título" en la Web
+                message = contacto.phone,    // El número de teléfono aparece como "Mensaje" en la Web
+                user_id = userId
+            )
+
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitInstance.api.postContactoEmergencia("Bearer $token", request)
+                    if (response.isSuccessful) {
+                        Log.d("SYNC", "Contacto sincronizado con la Web: ${response.body()?.message}")
+                    } else {
+                        Log.e("SYNC", "Error servidor: ${response.errorBody()?.string()}")
+                    }
+                } catch (e: Exception) {
+                    Log.e("SYNC", "Error de red: ${e.message}. Se guardó solo local.")
+                }
+            }
         }
 
         override fun onStart() {

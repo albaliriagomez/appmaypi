@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_smoke">
+    android:background="#F4F7F6">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,97 +10,170 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- TITULO -->
         <TextView
-            android:id="@+id/tvTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guía de Bienestar en la Búsqueda"
-            android:textSize="22sp"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/charcoal"/>
+            android:textColor="#2c3e50"
+            android:gravity="center"
+            android:layout_marginBottom="4dp"/>
 
-        <!-- ITEM 1 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="&quot;Cuidar tu bienestar también es parte de la búsqueda.&quot;"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="#7f8c8d"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
         <LinearLayout
-            android:id="@+id/item1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="12dp"
-            android:layout_marginTop="12dp">
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:id="@+id/header1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="👤 Cuidar tu bienestar emocional"
+                android:padding="16dp"
+                android:text="👤 1. Cuidar tu bienestar emocional"
                 android:textStyle="bold"
-                android:textColor="@color/olive"/>
+                android:textColor="#27ae60"
+                android:background="?attr/selectableItemBackground"/>
 
             <LinearLayout
                 android:id="@+id/content1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"
-                android:layout_marginTop="8dp">
+                android:padding="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Dormir lo necesario, alimentarse bien, hidratarse y hacer pausas."
-                    android:textColor="@color/text_primary"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Es normal sentir confusión o agotamiento emocional."
+                    android:text="&quot;El agotamiento disminuye la capacidad de pensar, recordar y decidir.&quot;"
                     android:textStyle="italic"
-                    android:layout_marginTop="6dp"/>
-            </LinearLayout>
+                    android:layout_marginBottom="8dp"/>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cuidados básicos indispensables:\n✓ Dormir lo necesario\n✓ Alimentación regular\n✓ Hidratarse\n✓ Hacer pausas breves\n\nEntiende tu mente: Es normal olvidar datos o tomar decisiones impulsivas bajo crisis. No es falta de capacidad, es el impacto emocional."
+                    android:textColor="#2c3e50"
+                    android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- ITEM 2 -->
         <LinearLayout
-            android:id="@+id/item2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
-            android:padding="12dp"
-            android:layout_marginTop="12dp">
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:layout_marginBottom="12dp">
 
             <TextView
                 android:id="@+id/header2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="🤝 Cómo apoyar a la familia"
+                android:padding="16dp"
+                android:text="🤝 2. Cómo apoyar a la familia"
                 android:textStyle="bold"
-                android:textColor="@color/steel_blue"/>
+                android:textColor="#8e44ad"
+                android:background="?attr/selectableItemBackground"/>
 
             <LinearLayout
                 android:id="@+id/content2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:padding="16dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="✔ Escuchar sin juzgar\n✔ Acompañar emocionalmente"
-                    android:textColor="@color/olive"/>
+                    android:text="✔️ QUÉ HACER:\n✓ Escuchar sin juzgar\n✓ Acompañar emocionalmente\n✓ Brindar ayuda concreta (comida, llamadas)\n\n❌ QUÉ EVITAR:\n✕ Frases como 'todo estará bien'\n✕ Pedir detalles innecesarios\n✕ Difundir rumores"
+                    android:textColor="#2c3e50"
+                    android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/header3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="👧 3. Acompañamiento a Niños y Adolescentes"
+                android:textStyle="bold"
+                android:textColor="#8e44ad"
+                android:background="?attr/selectableItemBackground"/>
+
+            <LinearLayout
+                android:id="@+id/content3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="✘ Evitar frases vacías o rumores"
-                    android:textColor="@color/red"
-                    android:layout_marginTop="6dp"/>
+                    android:text="Cómo hablar con ellos:\n✓ Utilizar lenguaje claro y sencillo\n✓ No mentir\n✓ Validar sus emociones\n✓ Ejemplo: 'No sabemos dónde está, pero estamos haciendo todo lo posible...'\n\nReacciones normales: Miedo, problemas de sueño, irritabilidad, retraimiento."
+                    android:textColor="#2c3e50"
+                    android:lineSpacingExtra="4dp"/>
             </LinearLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:elevation="2dp">
+
+            <TextView
+                android:id="@+id/header4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="🧠 4. Cuándo buscar Apoyo Psicológico"
+                android:textStyle="bold"
+                android:textColor="#3498db"
+                android:background="?attr/selectableItemBackground"/>
+
+            <LinearLayout
+                android:id="@+id/content4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Buscar apoyo significa que cuidas tu bienestar para afrontar mejor la búsqueda.\n\nSEÑALES DE ALERTA:\n✕ No puedes dormir por varios días\n✕ Sientes que no puedes continuar o estás sobrepasado/a\n✕ Pensamientos repetitivos incontrolables\n✕ Desesperanza o agotamiento extremo"
+                    android:textColor="#e67e22"
+                    android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
